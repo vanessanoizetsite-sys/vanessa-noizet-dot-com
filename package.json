@@ -16,6 +16,7 @@
 		"@tailwindcss/vite": "^4.1.17",
 		"astro": "^5.16.0",
 		"astro-typesafe-routes": "^5.0.0",
+		"open-color": "^1.9.1",
 		"tailwindcss": "^4.1.17",
 		"typescript": "^5.9.3"
 	},
