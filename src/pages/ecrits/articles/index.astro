@@ -2,12 +2,13 @@
 import MainLayout from '#layouts/main-layout.astro'
 import Link from 'astro-typesafe-routes/link'
 import { getCollection } from 'astro:content'
-const articles = await getCollection('articles')
+const items = await getCollection('articles')
 ---
 
 <MainLayout>
+	<h1>Articles</h1>
 	{
-		articles.map((el) => (
+		items.map((el) => (
 			<Link to="/ecrits/articles/[slug]" params={{ slug: el.id }}>
 				{el.data.title}
 			</Link>

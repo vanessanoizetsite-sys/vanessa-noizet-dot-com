@@ -1,9 +1,9 @@
 ---
+import Navigation from '#features/navigation/components/navigation.astro'
 import MainLayout from '#layouts/main-layout.astro'
 import Link from 'astro-typesafe-routes/link'
 ---
 
 <MainLayout>
-	<h1 class="text-xl font-bold">Hello</h1>
-	<Link to="/ecrits/articles">Articles</Link>
+	<Navigation />
 </MainLayout>

@@ -1,5 +1,6 @@
 ---
 import '../style.css'
+import { ClientRouter } from 'astro:transitions'
 ---
 
 <html lang="fr">
@@ -9,8 +10,9 @@ import '../style.css'
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Vanessa Noizet</title>
+		<ClientRouter />
 	</head>
-	<body>
+	<body class="text-fl-0 text-body font-serif">
 		<slot />
 	</body>
 </html>
