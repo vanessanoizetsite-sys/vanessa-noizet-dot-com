@@ -1,0 +1,35 @@
+---
+import { navigationConfig } from '../config/navigation-config'
+import Dropdown from '#components/dropdown.astro'
+import Button from '#components/button.astro'
+---
+
+<nav class="m-8">
+	<ul class="flex items-center gap-1">
+		{
+			navigationConfig.map((el) =>
+				!!el.children ? (
+					<li>
+						<Dropdown title={el.label}>
+							<ul class="">
+								{el.children.map((children) => (
+									<li>
+										<a href={children.url} class="hover:bg-surface-accent-1 block px-4 py-2">
+											{children.label}
+										</a>
+									</li>
+								))}
+							</ul>
+						</Dropdown>
+					</li>
+				) : (
+					<li>
+						<Button as="a" href={el.url}>
+							{el.label}
+						</Button>
+					</li>
+				)
+			)
+		}
+	</ul>
+</nav>
