@@ -1,5 +1,5 @@
 ---
-title: 'Example Ouvrage Title'
+title: 'Example Publication Title'
 date: 2024-05-12
 ---
 

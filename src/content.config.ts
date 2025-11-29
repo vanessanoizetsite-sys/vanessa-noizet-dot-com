@@ -23,6 +23,13 @@ export const collections = {
 			date: z.date(),
 		}),
 	}),
+	livredor: defineCollection({
+		loader: glob({ pattern: '**/*.md', base: 'content/livredor' }),
+		schema: z.object({
+			title: z.string(),
+			date: z.date(),
+		}),
+	}),
 	colloques: defineCollection({
 		loader: glob({ pattern: '**/*.md', base: 'content/colloques' }),
 		schema: z.object({
@@ -30,8 +37,15 @@ export const collections = {
 			date: z.date(),
 		}),
 	}),
-	ouvrages: defineCollection({
-		loader: glob({ pattern: '**/*.md', base: 'content/ouvrages' }),
+	publications: defineCollection({
+		loader: glob({ pattern: '**/*.md', base: 'content/publications' }),
+		schema: z.object({
+			title: z.string(),
+			date: z.date(),
+		}),
+	}),
+	memoires: defineCollection({
+		loader: glob({ pattern: '**/*.md', base: 'content/memoires' }),
 		schema: z.object({
 			title: z.string(),
 			date: z.date(),
