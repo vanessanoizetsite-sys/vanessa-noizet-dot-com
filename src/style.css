@@ -1,16 +1,17 @@
 @import 'open-color/open-color.css';
 @import 'tailwindcss';
 
+/* @link https://utopia.fyi/type/calculator?c=360,14,1.2,1240,16,1.25,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+
 :root {
-	/* @link https://utopia.fyi/type/calculator?c=360,18,1.2,1240,20,1.25,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
-	--text-fl--2: clamp(0.7813rem, 0.7736rem + 0.0341vw, 0.8rem);
-	--text-fl--1: clamp(0.9375rem, 0.9119rem + 0.1136vw, 1rem);
-	--text-fl-0: clamp(1.125rem, 1.0739rem + 0.2273vw, 1.25rem);
-	--text-fl-1: clamp(1.35rem, 1.2631rem + 0.3864vw, 1.5625rem);
-	--text-fl-2: clamp(1.62rem, 1.4837rem + 0.6057vw, 1.9531rem);
-	--text-fl-3: clamp(1.944rem, 1.7405rem + 0.9044vw, 2.4414rem);
-	--text-fl-4: clamp(2.3328rem, 2.0387rem + 1.3072vw, 3.0518rem);
-	--text-fl-5: clamp(2.7994rem, 2.384rem + 1.8461vw, 3.8147rem);
+	--text-fl--2: clamp(0.6076rem, 0.5944rem + 0.0588vw, 0.64rem);
+	--text-fl--1: clamp(0.7292rem, 0.7002rem + 0.1288vw, 0.8rem);
+	--text-fl-0: clamp(0.875rem, 0.8239rem + 0.2273vw, 1rem);
+	--text-fl-1: clamp(1.05rem, 0.9682rem + 0.3636vw, 1.25rem);
+	--text-fl-2: clamp(1.26rem, 1.1363rem + 0.55vw, 1.5625rem);
+	--text-fl-3: clamp(1.512rem, 1.3315rem + 0.802vw, 1.9531rem);
+	--text-fl-4: clamp(1.8144rem, 1.5579rem + 1.14vw, 2.4414rem);
+	--text-fl-5: clamp(2.1773rem, 1.8195rem + 1.59vw, 3.0518rem);
 }
 
 @theme {
@@ -45,10 +46,22 @@
 	--color-muted: var(--oc-gray-6);
 	--color-disabled: var(--oc-gray-5);
 
-	--color-surface: var(--oc-gray-0);
-	--color-surface-secondary: var(--oc-gray-1);
-	--color-surface-hover: var(--oc-gray-3);
+	--color-surface-1: white;
+	--color-surface-2: var(--oc-gray-0);
+	--color-surface-3: var(--oc-gray-1);
+
+	--color-surface-accent-1: var(--oc-orange-0);
+	--color-surface-accent-2: var(--oc-orange-1);
 
 	--color-separator: var(--oc-gray-3);
-	--color-border: var(--oc-gray-4);
+	--color-border: var(--oc-gray-7);
+	--color-border-accent: var(--oc-orange-2);
+
+	--color-ring: var(--oc-blue-7);
+}
+
+@layer base {
+	button {
+		cursor: pointer;
+	}
 }
