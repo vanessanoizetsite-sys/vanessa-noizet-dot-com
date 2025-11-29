@@ -1,0 +1,24 @@
+---
+import { cn } from '#utils/cn.ts'
+import type { HTMLTag, Polymorphic } from 'astro/types'
+
+export type Props<T extends HTMLTag = 'button'> = Polymorphic<{ as: T }>
+
+const { class: className, as: Tag = 'button', ...props } = Astro.props
+
+const buttonClasses = cn(
+	'text-base',
+	'inline-flex px-2.5 py-1 shrink-0 items-center justify-center gap-2',
+	'rounded-md whitespace-nowrap',
+	'transition-all outline-none',
+	'hover:bg-surface-accent-1',
+	'focus-visible:ring-ring/50 focus-visible:ring-[3px]',
+	'disabled:pointer-events-none disabled:text-disabled',
+	'[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*="size-"])]:size-4',
+	className
+)
+---
+
+<Tag class={buttonClasses} {...props}>
+	<slot />
+</Tag>

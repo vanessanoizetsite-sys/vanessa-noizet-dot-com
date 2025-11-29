@@ -1,0 +1,77 @@
+---
+import { ChevronDownIcon } from '@lucide/astro'
+import Button from './button.astro'
+
+export type Props = {
+	title: string
+}
+---
+
+<c-dropdown class="relative">
+	<Button class="group">
+		<span>{Astro.props.title}</span>
+		<ChevronDownIcon class="transition-transform group-aria-expanded:translate-y-0.5" />
+	</Button>
+	<div
+		data-dropdown-content
+		class="border-border bg-surface-1 absolute top-full z-10 mt-2 hidden w-40 translate-y-1 overflow-hidden rounded-md border opacity-0 transition-all transition-discrete duration-500 data-[open]:block data-[open]:opacity-100 data-[open]:starting:translate-y-0.5 data-[open]:starting:opacity-0"
+	>
+		<slot />
+	</div>
+</c-dropdown>
+
+<script>
+	customElements.define(
+		'c-dropdown',
+		class Dropdown extends HTMLElement {
+			#isOpen = false
+			#button: HTMLButtonElement | null = null
+			#content: HTMLElement | null = null
+
+			constructor() {
+				super()
+			}
+
+			connectedCallback() {
+				this.#button = this.querySelector('button')
+				this.#content = this.querySelector('[data-dropdown-content]')
+
+				if (!this.#button || !this.#content) return
+
+				this.#button.setAttribute('aria-expanded', 'false')
+				this.#button.setAttribute('aria-haspopup', 'true')
+
+				this.#button.addEventListener('click', () => this.#toggle())
+
+				document.addEventListener('click', (e) => {
+					if (this.#isOpen && !this.contains(e.target as Node)) {
+						this.#close()
+					}
+				})
+
+				document.addEventListener('keydown', (e) => {
+					if (this.#isOpen && e.key === 'Escape') {
+						this.#close()
+						this.#button?.focus()
+					}
+				})
+			}
+
+			#toggle() {
+				this.#isOpen ? this.#close() : this.#open()
+			}
+
+			#open() {
+				this.#isOpen = true
+				this.#button?.setAttribute('aria-expanded', 'true')
+				this.#content?.setAttribute('data-open', '')
+			}
+
+			#close() {
+				this.#isOpen = false
+				this.#button?.setAttribute('aria-expanded', 'false')
+				this.#content?.removeAttribute('data-open')
+			}
+		}
+	)
+</script>
