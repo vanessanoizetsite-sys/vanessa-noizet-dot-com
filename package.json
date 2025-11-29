@@ -13,10 +13,14 @@
 		"#*": "./src/*"
 	},
 	"dependencies": {
+		"@lucide/astro": "^0.554.0",
 		"@tailwindcss/vite": "^4.1.17",
 		"astro": "^5.16.0",
 		"astro-typesafe-routes": "^5.0.0",
+		"class-variance-authority": "^0.7.1",
+		"clsx": "^2.1.1",
 		"open-color": "^1.9.1",
+		"tailwind-merge": "^3.4.0",
 		"tailwindcss": "^4.1.17",
 		"typescript": "^5.9.3"
 	},
