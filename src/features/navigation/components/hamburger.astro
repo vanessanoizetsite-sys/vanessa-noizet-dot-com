@@ -1,0 +1,120 @@
+---
+import Button from '#components/button.astro'
+const navId = crypto.randomUUID()
+---
+
+<c-hamburger class="group">
+	<Button
+		class="relative z-20"
+		data-hamburger-button
+		aria-label="Menu de navigation"
+		aria-expanded="false"
+		aria-controls={navId}
+	>
+		<svg
+			viewBox="0 0 100 100"
+			xmlns="http://www.w3.org/2000/svg"
+			stroke="currentColor"
+			class="size-8"
+			aria-hidden="true"
+		>
+			<g class="transition-transform group-data-[open]:-translate-y-5">
+				<path
+					d="M0 30 h 50"
+					stroke-width="4"
+					class="origin-left transition-transform group-data-[open]:rotate-45"></path>
+				<path
+					d="M50 30 h 50"
+					stroke-width="4"
+					class="origin-right transition-transform group-data-[open]:-rotate-45"></path>
+			</g>
+
+			<path
+				d="M0 50 h 50"
+				stroke-width="4"
+				class="opacity-100 transition-all duration-300 group-data-[open]:-translate-x-12 group-data-[open]:opacity-0"
+			></path>
+			<path
+				d="M50 50 h 50"
+				stroke-width="4"
+				class="opacity-100 transition-all duration-300 group-data-[open]:translate-x-12 group-data-[open]:opacity-0"
+			></path>
+
+			<g class="transition-transform group-data-[open]:translate-y-5">
+				<path
+					d="M0 70 h 50"
+					stroke-width="4"
+					class="origin-left transition-transform group-data-[open]:-rotate-45"></path>
+				<path
+					d="M50 70 h 50"
+					stroke-width="4"
+					class="origin-right transition-transform group-data-[open]:rotate-45"></path>
+			</g>
+		</svg>
+	</Button>
+	<div
+		id={navId}
+		role="dialog"
+		aria-modal="true"
+		class="bg-surface-accent-1 fixed inset-0 z-10 hidden opacity-0 transition-all transition-discrete duration-500 group-data-[open]:block group-data-[open]:opacity-100 group-data-[open]:starting:opacity-0"
+	>
+		<slot />
+	</div>
+
+	<script>
+		import { createFocusTrap, type FocusTrap } from 'focus-trap'
+		customElements.define(
+			'c-hamburger',
+			class Hamburger extends HTMLElement {
+				#button: HTMLElement | null = null
+				#isOpen = false
+				#focusTrap: FocusTrap | null = null
+
+				constructor() {
+					super()
+					this.#isOpen = false
+				}
+
+				connectedCallback() {
+					this.#button = this.querySelector('button[data-hamburger-button]')
+					this.#button?.addEventListener('click', this.#handleClick)
+					this.#focusTrap = createFocusTrap(this, {
+						escapeDeactivates: false,
+						clickOutsideDeactivates: false,
+					})
+				}
+
+				disconnectedCallback() {
+					this.#button?.removeEventListener('click', this.#handleClick)
+				}
+
+				#handleClick = () => {
+					if (this.#isOpen) this.#close()
+					else this.#open()
+				}
+
+				#open() {
+					this.#isOpen = true
+					this.toggleAttribute('data-open', this.#isOpen)
+					this.#button?.setAttribute('aria-expanded', 'true')
+					this.#focusTrap?.activate()
+					document.body.addEventListener('keydown', this.#handleKeydown)
+					document.body.classList.toggle('overflow-hidden', true)
+				}
+
+				#close() {
+					this.#isOpen = false
+					this.toggleAttribute('data-open', this.#isOpen)
+					this.#button?.setAttribute('aria-expanded', 'false')
+					this.#focusTrap?.deactivate()
+					document.body.removeEventListener('keydown', this.#handleKeydown)
+					document.body.classList.toggle('overflow-hidden', false)
+				}
+
+				#handleKeydown = (e: KeyboardEvent) => {
+					if (e.code === 'Escape') this.#close()
+				}
+			}
+		)
+	</script>
+</c-hamburger>

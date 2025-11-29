@@ -19,9 +19,11 @@
 		"astro-typesafe-routes": "^5.0.0",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
+		"focus-trap": "^7.6.6",
 		"open-color": "^1.9.1",
 		"tailwind-merge": "^3.4.0",
 		"tailwindcss": "^4.1.17",
+		"tailwindcss-animated": "^2.0.0",
 		"typescript": "^5.9.3"
 	},
 	"devDependencies": {

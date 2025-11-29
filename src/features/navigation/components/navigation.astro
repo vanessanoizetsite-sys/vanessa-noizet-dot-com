@@ -2,9 +2,10 @@
 import { navigationConfig } from '../config/navigation-config'
 import Dropdown from '#components/dropdown.astro'
 import Button from '#components/button.astro'
+import Hamburger from './hamburger.astro'
 ---
 
-<nav class="m-8">
+<nav class="m-8 flex">
 	<ul class="flex items-center gap-1">
 		{
 			navigationConfig.map((el) =>
@@ -32,4 +33,48 @@ import Button from '#components/button.astro'
 			)
 		}
 	</ul>
+	<div class="ml-auto">
+		<Hamburger>
+			<ul class="flex h-full flex-col justify-center divide-y divide-black px-6 py-8">
+				{
+					navigationConfig.map((el, index1) =>
+						!!el.children ? (
+							<li class="flex flex-col gap-x-8 py-3 md:flex-row">
+								<a
+									href="#"
+									class="animate-fade-up text-heading-2"
+									style={`animation-delay:${index1 * 100}ms`}
+								>
+									{el.label}
+								</a>
+								<ul class="flex grow items-center gap-4">
+									{el.children.map((item, index2) => (
+										<li>
+											<a
+												href={item.url}
+												class="animate-fade-up text-heading-4 block"
+												style={`animation-delay:${index1 * 100 + 200 + index2 * 100}ms`}
+											>
+												{item.label}
+											</a>
+										</li>
+									))}
+								</ul>
+							</li>
+						) : (
+							<li class="py-3">
+								<a
+									href={el.url}
+									class="animate-fade-up text-heading-2 inline-block"
+									style={`animation-delay:${index1 * 100}ms`}
+								>
+									{el.label}
+								</a>
+							</li>
+						)
+					)
+				}
+			</ul>
+		</Hamburger>
+	</div>
 </nav>
