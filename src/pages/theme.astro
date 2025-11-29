@@ -1,0 +1,102 @@
+---
+import MainLayout from '#layouts/main-layout.astro'
+import Link from 'astro-typesafe-routes/link'
+---
+
+<MainLayout>
+	<div class="space-y-12 p-8">
+		<section class="space-y-6">
+			<h2 class="text-heading-3 text-default font-bold">Typography Scale</h2>
+			<div class="space-y-4">
+				<div>
+					<h1 class="text-heading-1 text-default font-bold">Heading 1</h1>
+					<code class="text-caption text-muted">text-heading-1</code>
+				</div>
+				<div>
+					<h2 class="text-heading-2 text-default font-bold">Heading 2</h2>
+					<code class="text-caption text-muted">text-heading-2</code>
+				</div>
+				<div>
+					<h3 class="text-heading-3 text-default font-bold">Heading 3</h3>
+					<code class="text-caption text-muted">text-heading-3</code>
+				</div>
+				<div>
+					<h4 class="text-heading-4 text-default font-bold">Heading 4</h4>
+					<code class="text-caption text-muted">text-heading-4</code>
+				</div>
+				<div>
+					<h5 class="text-heading-5 text-default font-bold">Heading 5</h5>
+					<code class="text-caption text-muted">text-heading-5</code>
+				</div>
+				<div>
+					<h6 class="text-heading-6 text-default font-bold">Heading 6</h6>
+					<code class="text-caption text-muted">text-heading-6</code>
+				</div>
+			</div>
+		</section>
+
+		<section class="space-y-4">
+			<h2 class="text-heading-3 text-default font-bold">Body Text</h2>
+			<div class="space-y-3">
+				<p class="text-body text-default">
+					This is body text using <code>text-body</code>. Lorem ipsum dolor sit amet, consectetur
+					adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+				</p>
+				<p class="text-small text-default">
+					This is small text using <code>text-small</code>. Perfect for additional information or
+					metadata.
+				</p>
+				<p class="text-caption text-default">
+					This is caption text using <code>text-caption</code>. Useful for image captions,
+					footnotes, or legal text.
+				</p>
+			</div>
+		</section>
+
+		<section class="space-y-4">
+			<h2 class="text-heading-3 text-default font-bold">Text Colors</h2>
+			<div class="space-y-2">
+				<p class="text-body text-default">Default text color (Gray 8)</p>
+				<p class="text-body text-muted">Muted text color (Gray 6)</p>
+				<p class="text-body text-disabled">Disabled text color (Gray 5)</p>
+			</div>
+		</section>
+
+		<section class="space-y-4">
+			<h2 class="text-heading-3 text-default font-bold">Interactive Elements</h2>
+			<div class="flex gap-4">
+				<Link to="/ecrits/articles" class="text-body text-default hover:text-muted underline">
+					Articles
+				</Link>
+				<button
+					class="text-body border-border bg-surface-secondary hover:bg-surface-hover rounded border px-4 py-2"
+				>
+					Button
+				</button>
+			</div>
+		</section>
+
+		<section class="space-y-4">
+			<h2 class="text-heading-3 text-default font-bold">Surfaces</h2>
+			<div class="space-y-2">
+				<div class="bg-surface p-4">
+					<code>bg-surface</code> - Main background (Gray 0)
+				</div>
+				<div class="bg-surface-secondary p-4">
+					<code>bg-surface-secondary</code> - Secondary background (Gray 1)
+				</div>
+				<div class="bg-surface-hover p-4">
+					<code>bg-surface-hover</code> - Hover/Active state (Gray 3)
+				</div>
+			</div>
+		</section>
+
+		<section class="space-y-4">
+			<h2 class="text-heading-3 text-default font-bold">Borders</h2>
+			<hr class="border-separator" />
+			<div class="border-border border p-4">
+				Box with <code>border-border</code> (Gray 4)
+			</div>
+		</section>
+	</div>
+</MainLayout>

@@ -1,0 +1,27 @@
+---
+import MainLayout from '#layouts/main-layout.astro'
+import { getCollection } from 'astro:content'
+import { render } from 'astro:content'
+
+const entries = await getCollection('livredor')
+const renderedEntries = await Promise.all(
+	entries.map(async (entry) => ({
+		...entry,
+		Content: (await render(entry)).Content,
+	})),
+)
+---
+
+<MainLayout>
+	<h1 class="text-heading-1 font-bold text-default">Livre d'or</h1>
+	<div class="space-y-6">
+		{
+			renderedEntries.map((entry) => (
+				<article class="border-border border-t pt-4">
+					<h2 class="text-heading-4 font-bold text-default">{entry.data.title}</h2>
+					<entry.Content />
+				</article>
+			))
+		}
+	</div>
+</MainLayout>

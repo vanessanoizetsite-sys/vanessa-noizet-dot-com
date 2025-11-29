@@ -1,0 +1,21 @@
+---
+import MainLayout from '#layouts/main-layout.astro'
+import Link from 'astro-typesafe-routes/link'
+import { getCollection } from 'astro:content'
+const memoires = await getCollection('memoires')
+---
+
+<MainLayout>
+	<h1 class="text-heading-1 font-bold text-default">Mémoires</h1>
+	<ul class="space-y-2">
+		{
+			memoires.map((el) => (
+				<li>
+					<Link to="/recherche/memoires/[slug]" params={{ slug: el.id }} class="text-body text-default underline hover:text-muted">
+						{el.data.title}
+					</Link>
+				</li>
+			))
+		}
+	</ul>
+</MainLayout>

@@ -1,0 +1,16 @@
+---
+import MainLayout from '#layouts/main-layout.astro'
+import { getStaticPathsFromCollection } from '#utils/get-static-paths-from-collection.ts'
+import { render } from 'astro:content'
+
+export const getStaticPaths = getStaticPathsFromCollection('memoires')
+const post = Astro.props
+const { Content } = await render(post)
+---
+
+<MainLayout>
+	<article>
+		<h1 class="text-heading-1 font-bold text-default">{post.data.title}</h1>
+		<Content />
+	</article>
+</MainLayout>
