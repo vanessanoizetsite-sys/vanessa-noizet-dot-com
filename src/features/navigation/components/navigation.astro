@@ -3,6 +3,7 @@ import { navigationConfig } from '../config/navigation-config'
 import Dropdown from '#components/dropdown.astro'
 import Button from '#components/button.astro'
 import Hamburger from './hamburger.astro'
+import SplitText from '#components/split-text.astro'
 ---
 
 <nav class="m-8 flex">
@@ -40,20 +41,27 @@ import Hamburger from './hamburger.astro'
 					navigationConfig.map((el, index1) =>
 						!!el.children ? (
 							<li class="flex flex-col gap-x-8 py-3 md:flex-row">
-								<a
-									href="#"
-									class="animate-fade-up text-heading-2"
-									style={`animation-delay:${index1 * 100}ms`}
-								>
-									{el.label}
-								</a>
+								<span>
+									<SplitText
+										text={el.label}
+										lettersItem={{
+											class:
+												'animate-ease-out animate-duration-300 animate-fade-up text-heading-2 inline-block',
+											style: {
+												animationDelay: `calc(${index1 * 100}ms + var(--letter-index) * 30ms)`,
+											},
+										}}
+									/>
+								</span>
 								<ul class="flex grow items-center gap-4">
 									{el.children.map((item, index2) => (
 										<li>
 											<a
 												href={item.url}
-												class="animate-fade-up text-heading-4 block"
-												style={`animation-delay:${index1 * 100 + 200 + index2 * 100}ms`}
+												class="animate-ease-out animate-fade-right text-heading-4 inline-block"
+												style={{
+													animationDelay: `calc(${index1 * 100}ms + ${index2 * 100}ms + 300ms)`,
+												}}
 											>
 												{item.label}
 											</a>
@@ -63,12 +71,17 @@ import Hamburger from './hamburger.astro'
 							</li>
 						) : (
 							<li class="py-3">
-								<a
-									href={el.url}
-									class="animate-fade-up text-heading-2 inline-block"
-									style={`animation-delay:${index1 * 100}ms`}
-								>
-									{el.label}
+								<a href={el.url}>
+									<SplitText
+										text={el.label}
+										lettersItem={{
+											class:
+												'animate-ease-out animate-duration-300 animate-fade-up text-heading-2 inline-block',
+											style: {
+												animationDelay: `calc(${index1 * 100}ms + var(--letter-index) * 30ms)`,
+											},
+										}}
+									/>
 								</a>
 							</li>
 						)

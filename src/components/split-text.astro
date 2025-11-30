@@ -1,0 +1,45 @@
+---
+import { cn } from '#utils/cn.ts'
+import type { HTMLAttributes } from 'astro/types'
+
+type Props = {
+	text: string
+	lettersItem?: HTMLAttributes<'span'>
+	wordsItem?: HTMLAttributes<'span'>
+}
+
+const { text, lettersItem, wordsItem } = Astro.props
+
+const { class: lettersClass, style: lettersStyle, ...lettersProps } = lettersItem ?? {}
+const { class: wordsClass, style: wordsStyle, ...wordsProps } = wordsItem ?? {}
+const words = text.split(' ')
+let letterIndex = 0
+---
+
+<span class="sr-only">{text}</span>
+{
+	words.map((word, wordIndex) => (
+		<span
+			class={cn('inline-block', wordsClass)}
+			style={{ ...(wordsStyle ?? {}), '--word-index': wordIndex }}
+			aria-hidden="true"
+			{...wordsProps}
+		>
+			{word.split('').map((letter) => (
+				<span
+					class={cn('inline-block', lettersClass)}
+					style={{ ...(lettersStyle ?? {}), '--letter-index': letterIndex++ }}
+					aria-hidden="true"
+					{...lettersProps}
+				>
+					{letter}
+				</span>
+			))}
+			{wordIndex < words.length - 1 && (
+				<span aria-hidden="true" style={{ '--letter-index': letterIndex++ }}>
+					&nbsp;
+				</span>
+			)}
+		</span>
+	))
+}
