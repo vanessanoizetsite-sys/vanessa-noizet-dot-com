@@ -1,9 +1,14 @@
 ---
 import Button from '#components/button.astro'
+import { cn } from '#utils/cn.ts'
 const navId = crypto.randomUUID()
+
+type Props = {
+	class?: string
+}
 ---
 
-<c-hamburger class="group/hamburger">
+<c-hamburger class={cn('group/hamburger', Astro.props.class)}>
 	<Button
 		class="relative z-20"
 		data-hamburger-button
@@ -52,14 +57,14 @@ const navId = crypto.randomUUID()
 			</g>
 		</svg>
 	</Button>
-	<div
+	<nav
 		id={navId}
 		role="dialog"
 		aria-modal="true"
 		class="bg-surface-accent-1 fixed inset-0 z-10 hidden opacity-0 transition-all transition-discrete duration-500 group-data-[open]/hamburger:block group-data-[open]/hamburger:opacity-100 group-data-[open]/hamburger:starting:opacity-0"
 	>
 		<slot />
-	</div>
+	</nav>
 
 	<script>
 		import { createFocusTrap, type FocusTrap } from 'focus-trap'

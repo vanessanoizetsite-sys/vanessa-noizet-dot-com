@@ -1,0 +1,64 @@
+---
+import { navigationConfig } from '../config/navigation-config'
+import Hamburger from './hamburger.astro'
+import SplitText from '#components/split-text.astro'
+
+type Props = {
+	class?: string
+}
+---
+
+<Hamburger class={Astro.props.class}>
+	<ul class="flex h-full flex-col justify-center divide-y divide-black px-6 py-8">
+		{
+			navigationConfig.map((el, index1) =>
+				!!el.children ? (
+					<li class="flex flex-col gap-x-8 py-3 md:flex-row">
+						<span>
+							<SplitText
+								text={el.label}
+								lettersItem={{
+									class:
+										'animate-ease-out animate-duration-300 animate-fade-up text-heading-2 inline-block',
+									style: {
+										animationDelay: `calc(${index1 * 100}ms + var(--letter-index) * 30ms)`,
+									},
+								}}
+							/>
+						</span>
+						<ul class="flex grow items-center gap-4">
+							{el.children.map((item, index2) => (
+								<li>
+									<a
+										href={item.url}
+										class="animate-ease-out animate-fade-right text-heading-4 inline-block"
+										style={{
+											animationDelay: `calc(${index1 * 100}ms + ${index2 * 100}ms + 300ms)`,
+										}}
+									>
+										{item.label}
+									</a>
+								</li>
+							))}
+						</ul>
+					</li>
+				) : (
+					<li class="py-3">
+						<a href={el.url}>
+							<SplitText
+								text={el.label}
+								lettersItem={{
+									class:
+										'animate-ease-out animate-duration-300 animate-fade-up text-heading-2 inline-block',
+									style: {
+										animationDelay: `calc(${index1 * 100}ms + var(--letter-index) * 30ms)`,
+									},
+								}}
+							/>
+						</a>
+					</li>
+				)
+			)
+		}
+	</ul>
+</Hamburger>
