@@ -3,6 +3,7 @@ import '../style.css'
 import DesktopNav from '#features/navigation/components/desktop-nav.astro'
 import MobileNav from '#features/navigation/components/mobile-nav.astro'
 import { ClientRouter } from 'astro:transitions'
+import TransitionProgress from '#components/transition-progress.astro'
 ---
 
 <html lang="fr">
@@ -14,11 +15,15 @@ import { ClientRouter } from 'astro:transitions'
 		<title>Vanessa Noizet</title>
 		<ClientRouter />
 	</head>
-	<header class="md:bg-surface-1 md:sticky md:top-0">
-		<DesktopNav class="hidden md:block" />
-		<MobileNav class="fixed top-6 right-6 md:hidden" />
-	</header>
 	<body class="text-fl-0 text-body font-serif">
-		<slot />
+		<TransitionProgress />
+		<header class="md:bg-surface-1 md:sticky md:top-0">
+			<DesktopNav class="hidden md:block" />
+			<MobileNav class="fixed top-3 right-6 md:hidden" />
+		</header>
+
+		<main>
+			<slot />
+		</main>
 	</body>
 </html>

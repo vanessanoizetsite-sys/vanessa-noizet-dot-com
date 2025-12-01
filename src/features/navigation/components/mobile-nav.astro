@@ -13,13 +13,12 @@ type Props = {
 		{
 			navigationConfig.map((el, index1) =>
 				!!el.children ? (
-					<li class="flex flex-col gap-x-8 py-3 md:flex-row">
-						<span>
+					<li class="flex flex-col gap-x-8 py-3 sm:flex-row">
+						<span class="text-heading-2 font-light italic">
 							<SplitText
 								text={el.label}
 								lettersItem={{
-									class:
-										'animate-ease-out animate-duration-300 animate-fade-up text-heading-2 inline-block',
+									class: 'animate-ease-out animate-duration-300 animate-fade-up ',
 									style: {
 										animationDelay: `calc(${index1 * 100}ms + var(--letter-index) * 30ms)`,
 									},
@@ -44,12 +43,11 @@ type Props = {
 					</li>
 				) : (
 					<li class="py-3">
-						<a href={el.url}>
+						<a href={el.url} class="text-heading-2">
 							<SplitText
 								text={el.label}
 								lettersItem={{
-									class:
-										'animate-ease-out animate-duration-300 animate-fade-up text-heading-2 inline-block',
+									class: 'animate-ease-out animate-duration-300 animate-fade-up ',
 									style: {
 										animationDelay: `calc(${index1 * 100}ms + var(--letter-index) * 30ms)`,
 									},

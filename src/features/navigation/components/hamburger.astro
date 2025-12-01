@@ -8,7 +8,11 @@ type Props = {
 }
 ---
 
-<c-hamburger class={cn('group/hamburger', Astro.props.class)}>
+<c-hamburger
+	class={cn('group/hamburger z-20', Astro.props.class)}
+	transition:persist
+	transition:name="hamburger"
+>
 	<Button
 		class="relative z-20"
 		data-hamburger-button
@@ -82,7 +86,11 @@ type Props = {
 
 				connectedCallback() {
 					this.#button = this.querySelector('button[data-hamburger-button]')
+
 					this.#button?.addEventListener('click', this.#handleClick)
+
+					document.addEventListener('astro:page-load', this.#close)
+
 					this.#focusTrap = createFocusTrap(this, {
 						escapeDeactivates: false,
 						clickOutsideDeactivates: false,
@@ -91,6 +99,7 @@ type Props = {
 
 				disconnectedCallback() {
 					this.#button?.removeEventListener('click', this.#handleClick)
+					document.removeEventListener('astro:page-load', this.#close)
 				}
 
 				#handleClick = () => {
@@ -98,7 +107,7 @@ type Props = {
 					else this.#open()
 				}
 
-				#open() {
+				#open = () => {
 					this.#isOpen = true
 					this.toggleAttribute('data-open', this.#isOpen)
 					this.#button?.setAttribute('aria-expanded', 'true')
@@ -107,7 +116,7 @@ type Props = {
 					document.body.classList.toggle('overflow-hidden', true)
 				}
 
-				#close() {
+				#close = () => {
 					this.#isOpen = false
 					this.toggleAttribute('data-open', this.#isOpen)
 					this.#button?.setAttribute('aria-expanded', 'false')

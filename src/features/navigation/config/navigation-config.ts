@@ -12,13 +12,6 @@ type NavLink =
 
 export const navigationConfig = [
 	{
-		label: 'À propos',
-		children: [
-			{ label: 'Biographie', url: '/a-propos/biographie' },
-			{ label: 'Cv', url: '/a-propos/cv' },
-		],
-	},
-	{
 		label: 'Écrits',
 		children: [
 			{ label: 'Articles', url: '/ecrits/articles' },
@@ -27,20 +20,27 @@ export const navigationConfig = [
 		],
 	},
 	{
-		label: 'Expositions',
-		url: '/expositions',
-	},
-	{
-		label: 'Hommages',
-		url: '/hommages',
-	},
-	{
 		label: 'Recherche',
 		children: [
 			{ label: 'Colloques', url: '/recherche/colloques' },
 			{ label: 'Mémoires', url: '/recherche/memoires' },
 			{ label: 'Projet de thèse', url: '/recherche/projet-de-these' },
 		],
+	},
+	{
+		label: 'Expositions',
+		url: '/expositions',
+	},
+	{
+		label: 'À propos',
+		children: [
+			{ label: 'Biographie', url: '/a-propos/biographie' },
+			{ label: 'Cv', url: '/a-propos/cv' },
+		],
+	},
+	{
+		label: 'Hommages',
+		url: '/hommages',
 	},
 	{
 		label: "Livre d'or",
