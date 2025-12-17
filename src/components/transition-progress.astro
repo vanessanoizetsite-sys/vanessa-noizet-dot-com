@@ -1,7 +1,7 @@
 <c-transition-progress
 	transition:persist
 	transition-name="transition-progress"
-	class="fixed top-0 left-0 z-50 hidden h-[2px] w-full origin-left bg-blue-400 transition-transform duration-300 data-[loading]:block"
+	class="pointer-events-none fixed top-0 left-0 z-50 hidden h-[2px] w-full origin-left bg-blue-400 transition-transform duration-300 data-[loading]:block"
 ></c-transition-progress>
 
 <script>
@@ -9,8 +9,15 @@
 		'c-transition-progress',
 		class PageTransitionIndicator extends HTMLElement {
 			#rafId: number | null = null
+			#timeoutId: number | null = null
 			#currentProgress = 0
 			#lastUpdate = 0
+			#delayBeforeStart = 300
+			#maxProgress = 90
+			#completeProgress = 100
+			#animationInterval = 200
+			#progressIncrement = 10
+			#transitionDuration = 300
 
 			connectedCallback() {
 				document.addEventListener('astro:before-preparation', this.#handleStart)
@@ -22,64 +29,65 @@
 				document.removeEventListener('astro:before-preparation', this.#handleStart)
 				document.removeEventListener('astro:after-swap', this.#handleComplete)
 				document.removeEventListener('astro:page-load-error', this.#handleError)
-				this.#cancelAnimation()
+				this.#cleanup()
 			}
 
 			#handleStart = () => {
 				this.#progress = 0
-				this.#lastUpdate = performance.now()
-				this.#startProgress()
 				this.toggleAttribute('data-loading', true)
+				this.#timeoutId = window.setTimeout(this.#startProgress, this.#delayBeforeStart)
 			}
 
 			#handleComplete = () => {
-				this.#cancelAnimation()
-				this.#progress = 100
-				setTimeout(() => {
+				this.#cleanup()
+				this.#progress = this.#completeProgress
+				this.#timeoutId = window.setTimeout(() => {
 					this.#progress = 0
 					this.toggleAttribute('data-loading', false)
-				}, 300)
+				}, this.#transitionDuration)
 			}
 
 			#handleError = () => {
-				this.#cancelAnimation()
+				this.#cleanup()
 				this.#progress = 0
 				this.toggleAttribute('data-loading', false)
 			}
 
-			#startProgress() {
-				const animate = (timestamp: number) => {
-					const elapsed = timestamp - this.#lastUpdate
+			#startProgress = () => {
+				this.#lastUpdate = performance.now()
+				this.#animate(performance.now())
+			}
 
-					if (elapsed >= 200) {
-						if (this.#progress < 90) {
-							this.#progress += Math.random() * 10
-							if (this.#progress > 90) this.#progress = 90
-						}
-						this.#lastUpdate = timestamp
-					}
+			#animate = (timestamp: number) => {
+				if (this.#progress >= this.#maxProgress) return
+				this.#rafId = requestAnimationFrame(this.#animate)
 
-					if (this.#progress < 90) {
-						this.#rafId = requestAnimationFrame(animate)
-					}
-				}
+				if (timestamp - this.#lastUpdate < this.#animationInterval) return
 
-				this.#rafId = requestAnimationFrame(animate)
+				this.#progress = Math.min(
+					this.#maxProgress,
+					this.#progress + Math.random() * this.#progressIncrement
+				)
+				this.#lastUpdate = timestamp
 			}
 
 			set #progress(value: number) {
 				this.#currentProgress = value
-				this.style.setProperty('transform', `scaleX(${value / 100})`)
+				this.style.setProperty('transform', `scaleX(${value / this.#completeProgress})`)
 			}
 
 			get #progress() {
 				return this.#currentProgress
 			}
 
-			#cancelAnimation() {
+			#cleanup() {
 				if (this.#rafId) {
 					cancelAnimationFrame(this.#rafId)
 					this.#rafId = null
+				}
+				if (this.#timeoutId) {
+					clearTimeout(this.#timeoutId)
+					this.#timeoutId = null
 				}
 			}
 		}

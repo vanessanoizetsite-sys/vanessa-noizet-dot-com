@@ -29,7 +29,6 @@ export type Props = {
 
 			constructor() {
 				super()
-				this.#isOpen = false
 			}
 
 			connectedCallback() {
@@ -37,12 +36,14 @@ export type Props = {
 				this.#button?.addEventListener('click', this.#handleClick)
 				document.addEventListener('click', this.#handleClickOutside)
 				document.addEventListener('keydown', this.#handleKeydown)
+				document.addEventListener('astro:before-preparation', this.#close)
 			}
 
 			disconnectedCallback() {
 				this.#button?.removeEventListener('click', this.#handleClick)
 				document.removeEventListener('click', this.#handleClickOutside)
 				document.removeEventListener('keydown', this.#handleKeydown)
+				document.removeEventListener('astro:before-preparation', this.#close)
 			}
 
 			#handleClick = () => {
@@ -63,13 +64,13 @@ export type Props = {
 				}
 			}
 
-			#open() {
+			#open = () => {
 				this.#isOpen = true
 				this.toggleAttribute('data-open', this.#isOpen)
 				this.#button?.setAttribute('aria-expanded', 'true')
 			}
 
-			#close() {
+			#close = () => {
 				this.#isOpen = false
 				this.toggleAttribute('data-open', this.#isOpen)
 				this.#button?.setAttribute('aria-expanded', 'false')

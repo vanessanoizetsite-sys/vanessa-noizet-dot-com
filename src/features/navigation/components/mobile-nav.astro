@@ -9,12 +9,12 @@ type Props = {
 ---
 
 <Hamburger class={Astro.props.class}>
-	<ul class="flex h-full flex-col justify-center divide-y divide-black px-6 py-8">
+	<ul class="md:justify-left flex h-full flex-col justify-center divide-y divide-black px-6 py-8">
 		{
 			navigationConfig.map((el, index1) =>
 				!!el.children ? (
-					<li class="flex flex-col gap-x-8 py-3 sm:flex-row">
-						<span class="text-heading-2 font-light italic">
+					<li class="flex min-h-20 flex-col items-center gap-x-8 gap-y-1 py-3 sm:min-h-24 md:flex-row">
+						<span class="text-heading-4 sm:text-heading-2 text-default/90 font-light italic">
 							<SplitText
 								text={el.label}
 								lettersItem={{
@@ -30,7 +30,7 @@ type Props = {
 								<li>
 									<a
 										href={item.url}
-										class="animate-ease-out animate-fade-right text-heading-4 inline-block"
+										class="animate-ease-out animate-fade-right sm:text-heading-4 inline-block"
 										style={{
 											animationDelay: `calc(${index1 * 100}ms + ${index2 * 100}ms + 300ms)`,
 										}}
@@ -42,8 +42,8 @@ type Props = {
 						</ul>
 					</li>
 				) : (
-					<li class="py-3">
-						<a href={el.url} class="text-heading-2">
+					<li class="md:justify-left flex min-h-20 items-center justify-center py-3 sm:min-h-24">
+						<a href={el.url} class="text-heading-4 sm:text-heading-2 inline-block">
 							<SplitText
 								text={el.label}
 								lettersItem={{
