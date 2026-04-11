@@ -12,51 +12,57 @@ export const getStaticPaths = getStaticPathsFromCollection('articles')
 const post = Astro.props
 const { Content } = await render(post)
 
+const wrapperClass = css({
+	maxWidth: '65ch',
+	marginInline: 'auto',
+})
+
 const titleClass = css({
-	textStyle: 'heading-1',
+	textStyle: 'heading-2',
 	fontWeight: 'bold',
 	color: 'default',
 	textWrap: 'balance',
 })
 
+const metaClass = css({
+	display: 'flex',
+	alignItems: 'center',
+	gap: '4',
+	mt: '3',
+	pb: '6',
+	mb: '6',
+	borderBottomWidth: '1px',
+	borderColor: 'separator',
+})
+
 const dateClass = css({
 	textStyle: 'caption',
 	color: 'muted',
-	display: 'block',
 	textTransform: 'uppercase',
 	letterSpacing: 'wide',
-	mt: '2',
-	mb: '8',
-})
-
-const buttonClass = css({
-	borderWidth: '1px',
-	borderColor: 'border',
-	mb: '6',
-})
-
-const contentClass = css({
-	maxWidth: '65ch',
-	marginInline: 'auto',
 })
 ---
 
 <MainLayout>
 	<article class={css({ py: '8', md: { py: '12' } })}>
 		<div class={container()}>
-			<h1 class={titleClass}>{post.data.title}</h1>
-			<time class={dateClass}>
-				{post.data.date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long' })}
-			</time>
-			{
-				post.data.pdf && (
-					<Button as="a" href={post.data.pdf} target="_blank" class={buttonClass}>
-						<DownloadIcon size={16} />
-						Télécharger le PDF
-					</Button>
-				)
-			}
-			<div class={contentClass}>
+			<div class={wrapperClass}>
+				<header>
+					<h1 class={titleClass}>{post.data.title}</h1>
+					<div class={metaClass}>
+						<time class={dateClass}>
+							{post.data.date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long' })}
+						</time>
+						{
+							post.data.pdf && (
+								<Button as="a" href={post.data.pdf} target="_blank">
+									<DownloadIcon size={16} />
+									Télécharger le PDF
+								</Button>
+							)
+						}
+					</div>
+				</header>
 				<Prose>
 					<Content />
 				</Prose>

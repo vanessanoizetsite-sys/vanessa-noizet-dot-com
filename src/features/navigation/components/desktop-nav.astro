@@ -9,7 +9,12 @@ type Props = {
 }
 ---
 
-<nav class={cx(css({ bg: 'surface.1', position: 'relative', zIndex: 10, py: '4', pt: '6', pb: '4' }), Astro.props.class)}>
+<nav
+	class={cx(
+		css({ bg: 'surface.1', position: 'relative', zIndex: 10, py: '4', pt: '6', pb: '4' }),
+		Astro.props.class
+	)}
+>
 	<ul class={css({ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1' })}>
 		{
 			navigationConfig.map((el) =>

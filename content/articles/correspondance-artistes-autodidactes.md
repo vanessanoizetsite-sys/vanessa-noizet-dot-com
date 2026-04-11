@@ -1,5 +1,5 @@
 ---
-title: "La correspondance comme espace de création chez les artistes autodidactes"
+title: 'La correspondance comme espace de création chez les artistes autodidactes'
 date: 2019-03-22
 pdf: /pdfs/chaissac-jakovsky.pdf
 ---
