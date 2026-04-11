@@ -7,6 +7,7 @@ export const collections = {
 		schema: z.object({
 			title: z.string(),
 			date: z.date(),
+			pdf: z.string().optional(),
 		}),
 	}),
 	expositions: defineCollection({

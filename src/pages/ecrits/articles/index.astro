@@ -2,16 +2,32 @@
 import MainLayout from '#layouts/main-layout.astro'
 import Link from 'astro-typesafe-routes/link'
 import { getCollection } from 'astro:content'
+import { css } from 'styled-system/css'
+
 const items = await getCollection('articles')
+items.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+
+const h1Class = css({ textStyle: 'heading-1', fontWeight: 'bold', color: 'default' })
+const listClass = css({ '& > * + *': { mt: '2' } })
+const linkClass = css({
+	textStyle: 'body',
+	color: 'default',
+	textDecoration: 'underline',
+	_hover: { color: 'muted' },
+})
 ---
 
 <MainLayout>
-	<h1>Articles</h1>
-	{
-		items.map((el) => (
-			<Link to="/ecrits/articles/[slug]" params={{ slug: el.id }}>
-				{el.data.title}
-			</Link>
-		))
-	}
+	<h1 class={h1Class}>Articles</h1>
+	<ul class={listClass}>
+		{
+			items.map((el) => (
+				<li>
+					<Link to="/ecrits/articles/[slug]" params={{ slug: el.id }} class={linkClass}>
+						{el.data.title}
+					</Link>
+				</li>
+			))
+		}
+	</ul>
 </MainLayout>
