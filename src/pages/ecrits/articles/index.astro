@@ -3,31 +3,73 @@ import MainLayout from '#layouts/main-layout.astro'
 import Link from 'astro-typesafe-routes/link'
 import { getCollection } from 'astro:content'
 import { css } from 'styled-system/css'
+import { container } from 'styled-system/patterns'
 
 const items = await getCollection('articles')
 items.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
 
-const h1Class = css({ textStyle: 'heading-1', fontWeight: 'bold', color: 'default' })
-const listClass = css({ '& > * + *': { mt: '2' } })
+const h1Class = css({ textStyle: 'heading-1', fontWeight: 'bold', color: 'default', mb: '8' })
+const listClass = css({ '& > * + *': { mt: '0' } })
+const itemClass = css({
+	py: '6',
+	borderBottomWidth: '1px',
+	borderColor: 'separator',
+	_last: { borderBottom: 'none' },
+})
+const dateClass = css({
+	textStyle: 'caption',
+	color: 'muted',
+	display: 'block',
+	textTransform: 'uppercase',
+	letterSpacing: 'wide',
+	mb: '1',
+})
 const linkClass = css({
-	textStyle: 'body',
+	textStyle: 'heading-5',
+	fontWeight: 'bold',
 	color: 'default',
-	textDecoration: 'underline',
-	_hover: { color: 'muted' },
+	textDecoration: 'none',
+	_hover: { textDecoration: 'underline', textUnderlineOffset: '0.2ex' },
+})
+const excerptClass = css({
+	textStyle: 'small',
+	color: 'muted',
+	mt: '2',
+	maxWidth: '65ch',
+	lineHeight: '1.6',
 })
 ---
 
 <MainLayout>
-	<h1 class={h1Class}>Articles</h1>
-	<ul class={listClass}>
-		{
-			items.map((el) => (
-				<li>
-					<Link to="/ecrits/articles/[slug]" params={{ slug: el.id }} class={linkClass}>
-						{el.data.title}
-					</Link>
-				</li>
-			))
-		}
-	</ul>
+	<div class={css({ py: '8', md: { py: '12' } })}>
+		<div class={container()}>
+			<h1 class={h1Class}>Articles</h1>
+			<ul class={listClass}>
+				{
+					items.map((el) => (
+						<li class={itemClass}>
+							<time class={dateClass}>
+								{el.data.date.toLocaleDateString('fr-FR', {
+									year: 'numeric',
+									month: 'long',
+								})}
+							</time>
+							<Link to="/ecrits/articles/[slug]" params={{ slug: el.id }} class={linkClass}>
+								{el.data.title}
+							</Link>
+							{el.body && (
+								<p class={excerptClass}>
+									{el.body
+										.replace(/[*_#\n]/g, ' ')
+										.trim()
+										.slice(0, 200)}
+									…
+								</p>
+							)}
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</div>
 </MainLayout>

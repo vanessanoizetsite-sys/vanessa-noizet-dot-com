@@ -1,37 +1,66 @@
 ---
 import MainLayout from '#layouts/main-layout.astro'
+import Prose from '#components/prose.astro'
+import Button from '#components/button.astro'
 import { getStaticPathsFromCollection } from '#utils/get-static-paths-from-collection.ts'
 import { render } from 'astro:content'
 import { css } from 'styled-system/css'
+import { container } from 'styled-system/patterns'
+import { DownloadIcon } from '@lucide/astro'
 
 export const getStaticPaths = getStaticPathsFromCollection('articles')
 const post = Astro.props
 const { Content } = await render(post)
+
+const titleClass = css({
+	textStyle: 'heading-1',
+	fontWeight: 'bold',
+	color: 'default',
+	textWrap: 'balance',
+})
+
+const dateClass = css({
+	textStyle: 'caption',
+	color: 'muted',
+	display: 'block',
+	textTransform: 'uppercase',
+	letterSpacing: 'wide',
+	mt: '2',
+	mb: '8',
+})
+
+const buttonClass = css({
+	borderWidth: '1px',
+	borderColor: 'border',
+	mb: '6',
+})
+
+const contentClass = css({
+	maxWidth: '65ch',
+	marginInline: 'auto',
+})
 ---
 
 <MainLayout>
-	<article>
-		<h1 class={css({ textStyle: 'heading-1', fontWeight: 'bold', color: 'default' })}>
-			{post.data.title}
-		</h1>
-		<Content />
-		{
-			post.data.pdf && (
-				<a
-					href={post.data.pdf}
-					target="_blank"
-					class={css({
-						display: 'inline-block',
-						mt: '4',
-						textStyle: 'body',
-						color: 'default',
-						textDecoration: 'underline',
-						_hover: { color: 'muted' },
-					})}
-				>
-					Télécharger le PDF
-				</a>
-			)
-		}
+	<article class={css({ py: '8', md: { py: '12' } })}>
+		<div class={container()}>
+			<h1 class={titleClass}>{post.data.title}</h1>
+			<time class={dateClass}>
+				{post.data.date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long' })}
+			</time>
+			{
+				post.data.pdf && (
+					<Button as="a" href={post.data.pdf} target="_blank" class={buttonClass}>
+						<DownloadIcon size={16} />
+						Télécharger le PDF
+					</Button>
+				)
+			}
+			<div class={contentClass}>
+				<Prose>
+					<Content />
+				</Prose>
+			</div>
+		</div>
 	</article>
 </MainLayout>
