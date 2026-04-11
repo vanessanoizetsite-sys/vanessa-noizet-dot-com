@@ -1,8 +1,11 @@
 ---
 import MainLayout from '#layouts/main-layout.astro'
+import { css } from 'styled-system/css'
 ---
 
 <MainLayout>
-	<h1 class="text-heading-1 font-bold text-default">Projet de thèse</h1>
-	<p class="text-body text-default">Contenu à venir...</p>
+	<h1 class={css({ textStyle: 'heading-1', fontWeight: 'bold', color: 'default' })}>
+		Projet de thèse
+	</h1>
+	<p class={css({ textStyle: 'body', color: 'default' })}>Contenu à venir...</p>
 </MainLayout>

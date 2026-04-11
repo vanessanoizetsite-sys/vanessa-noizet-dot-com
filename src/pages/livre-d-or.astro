@@ -2,23 +2,28 @@
 import MainLayout from '#layouts/main-layout.astro'
 import { getCollection } from 'astro:content'
 import { render } from 'astro:content'
+import { css } from 'styled-system/css'
 
 const entries = await getCollection('livredor')
 const renderedEntries = await Promise.all(
 	entries.map(async (entry) => ({
 		...entry,
 		Content: (await render(entry)).Content,
-	})),
+	}))
 )
+
+const h1Class = css({ textStyle: 'heading-1', fontWeight: 'bold', color: 'default' })
 ---
 
 <MainLayout>
-	<h1 class="text-heading-1 font-bold text-default">Livre d'or</h1>
-	<div class="space-y-6">
+	<h1 class={h1Class}>Livre d'or</h1>
+	<div class={css({ '& > * + *': { mt: '6' } })}>
 		{
 			renderedEntries.map((entry) => (
-				<article class="border-border border-t pt-4">
-					<h2 class="text-heading-4 font-bold text-default">{entry.data.title}</h2>
+				<article class={css({ borderTopWidth: '1px', borderColor: 'border', pt: '4' })}>
+					<h2 class={css({ textStyle: 'heading-4', fontWeight: 'bold', color: 'default' })}>
+						{entry.data.title}
+					</h2>
 					<entry.Content />
 				</article>
 			))

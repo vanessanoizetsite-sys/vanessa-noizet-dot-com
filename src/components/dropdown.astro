@@ -1,20 +1,55 @@
 ---
 import { ChevronDownIcon } from '@lucide/astro'
 import Button from './button.astro'
+import { css } from 'styled-system/css'
 
 export type Props = {
 	title: string
 }
 ---
 
-<c-dropdown class="group relative">
+<c-dropdown class={css({ position: 'relative' })}>
 	<Button data-dropdown-button aria-expanded="false" aria-haspopup="true">
 		<span>{Astro.props.title}</span>
-		<ChevronDownIcon class="transition-transform group-data-[open]:translate-y-0.5" />
+		<ChevronDownIcon
+			class={css({
+				transition: 'transform 0.3s',
+				'[data-open] &': {
+					transform: 'translateY(2px)',
+				},
+			})}
+		/>
 	</Button>
 	<div
 		data-dropdown-content
-		class="border-border bg-surface-1 absolute top-full z-10 mt-2 hidden w-40 translate-y-1 overflow-hidden rounded-md border opacity-0 transition-all transition-discrete duration-500 group-data-[open]:block group-data-[open]:opacity-100 group-data-[open]:starting:translate-y-0.5 group-data-[open]:starting:opacity-0"
+		class={css({
+			position: 'absolute',
+			top: '100%',
+			zIndex: 10,
+			mt: '2',
+			w: '40',
+			overflow: 'hidden',
+			borderRadius: 'md',
+			borderWidth: '1px',
+			borderColor: 'border',
+			bg: 'surface.1',
+			display: 'none',
+			opacity: 0,
+			transform: 'translateY(0.25rem)',
+			transition: 'all 0.5s',
+			transitionBehavior: 'allow-discrete',
+			'[data-open] &': {
+				display: 'block',
+				opacity: 1,
+				transform: 'translateY(0)',
+			},
+			'@starting-style': {
+				'[data-open] &': {
+					opacity: 0,
+					transform: 'translateY(2px)',
+				},
+			},
+		})}
 	>
 		<slot />
 	</div>

@@ -1,8 +1,29 @@
+---
+import { css } from 'styled-system/css'
+
+const progressClass = css({
+	pointerEvents: 'none',
+	position: 'fixed',
+	top: '0',
+	left: '0',
+	zIndex: 50,
+	display: 'none',
+	height: '2px',
+	width: '100%',
+	transformOrigin: 'left',
+	transition: 'transform',
+	transitionDuration: '300ms',
+	bg: '#4dabf7',
+	'&[data-loading]': {
+		display: 'block',
+	},
+})
+---
+
 <c-transition-progress
 	transition:persist
 	transition-name="transition-progress"
-	class="pointer-events-none fixed top-0 left-0 z-50 hidden h-[2px] w-full origin-left bg-blue-400 transition-transform duration-300 data-[loading]:block"
-></c-transition-progress>
+	class={progressClass}></c-transition-progress>
 
 <script>
 	customElements.define(

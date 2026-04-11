@@ -1,6 +1,6 @@
+@layer reset, base, tokens, recipes, utilities;
+
 @import 'open-color/open-color.css';
-@import 'tailwindcss';
-@import 'tailwindcss-animated';
 
 /* @link https://utopia.fyi/type/calculator?c=360,14,1.2,1240,16,1.25,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
 
@@ -15,54 +15,10 @@
 	--text-fl-5: clamp(2.1773rem, 1.8195rem + 1.59vw, 3.0518rem);
 }
 
-@theme {
-	--text-body: var(--text-fl-0);
-	--text-body--line-height: 1.5;
-
-	--text-heading-1: var(--text-fl-5);
-	--text-heading-1--line-height: 1.1;
-
-	--text-heading-2: var(--text-fl-4);
-	--text-heading-2--line-height: 1.2;
-
-	--text-heading-3: var(--text-fl-3);
-	--text-heading-3--line-height: 1.2;
-
-	--text-heading-4: var(--text-fl-2);
-	--text-heading-4--line-height: 1.3;
-
-	--text-heading-5: var(--text-fl-1);
-	--text-heading-5--line-height: 1.4;
-
-	--text-heading-6: var(--text-fl-0);
-	--text-heading-6--line-height: 1.4;
-
-	--text-small: var(--text-fl--1);
-	--text-small--line-height: 1.5;
-
-	--text-caption: var(--text-fl--2);
-	--text-caption--line-height: 1.5;
-
-	--color-default: var(--oc-gray-8);
-	--color-muted: var(--oc-gray-6);
-	--color-disabled: var(--oc-gray-5);
-
-	--color-surface-1: white;
-	--color-surface-2: var(--oc-gray-0);
-	--color-surface-3: var(--oc-gray-1);
-
-	--color-surface-accent-1: var(--oc-orange-0);
-	--color-surface-accent-2: var(--oc-orange-1);
-
-	--color-separator: var(--oc-gray-3);
-	--color-border: var(--oc-gray-7);
-	--color-border-accent: var(--oc-orange-2);
-
-	--color-ring: var(--oc-blue-7);
+button {
+	cursor: pointer;
 }
 
-@layer base {
-	button {
-		cursor: pointer;
-	}
+.overflow-hidden {
+	overflow: hidden;
 }

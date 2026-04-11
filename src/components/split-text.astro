@@ -1,5 +1,5 @@
 ---
-import { cn } from '#utils/cn.ts'
+import { css, cx } from 'styled-system/css'
 import type { HTMLAttributes } from 'astro/types'
 
 type Props = {
@@ -14,20 +14,22 @@ const { class: lettersClass, style: lettersStyle, ...lettersProps } = lettersIte
 const { class: wordsClass, style: wordsStyle, ...wordsProps } = wordsItem ?? {}
 const words = text.split(' ')
 let letterIndex = 0
+
+const inlineBlock = css({ display: 'inline-block' })
 ---
 
-<span class="sr-only">{text}</span>
+<span class={css({ srOnly: true })}>{text}</span>
 {
 	words.map((word, wordIndex) => (
 		<span
-			class={cn('inline-block', wordsClass)}
+			class={cx(inlineBlock, wordsClass)}
 			style={{ ...(wordsStyle ?? {}), '--word-index': wordIndex }}
 			aria-hidden="true"
 			{...wordsProps}
 		>
 			{word.split('').map((letter) => (
 				<span
-					class={cn('inline-block', lettersClass)}
+					class={cx(inlineBlock, lettersClass)}
 					style={{ ...(lettersStyle ?? {}), '--letter-index': letterIndex++ }}
 					aria-hidden="true"
 					{...lettersProps}

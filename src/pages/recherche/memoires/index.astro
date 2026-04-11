@@ -2,16 +2,26 @@
 import MainLayout from '#layouts/main-layout.astro'
 import Link from 'astro-typesafe-routes/link'
 import { getCollection } from 'astro:content'
+import { css } from 'styled-system/css'
 const memoires = await getCollection('memoires')
+
+const h1Class = css({ textStyle: 'heading-1', fontWeight: 'bold', color: 'default' })
+const listClass = css({ '& > * + *': { mt: '2' } })
+const linkClass = css({
+	textStyle: 'body',
+	color: 'default',
+	textDecoration: 'underline',
+	_hover: { color: 'muted' },
+})
 ---
 
 <MainLayout>
-	<h1 class="text-heading-1 font-bold text-default">Mémoires</h1>
-	<ul class="space-y-2">
+	<h1 class={h1Class}>Mémoires</h1>
+	<ul class={listClass}>
 		{
 			memoires.map((el) => (
 				<li>
-					<Link to="/recherche/memoires/[slug]" params={{ slug: el.id }} class="text-body text-default underline hover:text-muted">
+					<Link to="/recherche/memoires/[slug]" params={{ slug: el.id }} class={linkClass}>
 						{el.data.title}
 					</Link>
 				</li>

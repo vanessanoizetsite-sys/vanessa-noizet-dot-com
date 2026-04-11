@@ -3,6 +3,7 @@
 	"type": "module",
 	"version": "0.0.1",
 	"scripts": {
+		"prepare": "panda codegen",
 		"dev": "astro dev",
 		"build": "astro check && astro build",
 		"preview": "astro preview",
@@ -14,23 +15,17 @@
 	},
 	"dependencies": {
 		"@lucide/astro": "^0.554.0",
-		"@tailwindcss/vite": "^4.1.17",
 		"astro": "^5.16.0",
 		"astro-typesafe-routes": "^5.0.0",
-		"class-variance-authority": "^0.7.1",
-		"clsx": "^2.1.1",
 		"focus-trap": "^7.6.6",
 		"open-color": "^1.9.1",
-		"tailwind-merge": "^3.4.0",
-		"tailwindcss": "^4.1.17",
-		"tailwindcss-animated": "^2.0.0",
 		"typescript": "^5.9.3"
 	},
 	"devDependencies": {
 		"@astrojs/check": "^0.9.5",
+		"@pandacss/dev": "^1.9.1",
 		"@types/nprogress": "^0.2.3",
 		"prettier": "^3.6.2",
-		"prettier-plugin-astro": "^0.14.1",
-		"prettier-plugin-tailwindcss": "^0.7.1"
+		"prettier-plugin-astro": "^0.14.1"
 	}
 }

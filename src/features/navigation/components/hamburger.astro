@@ -1,20 +1,94 @@
 ---
 import Button from '#components/button.astro'
-import { cn } from '#utils/cn.ts'
+import { css, cx } from 'styled-system/css'
 const navId = crypto.randomUUID()
 
 type Props = {
 	class?: string
 }
+
+const topGroupClass = css({
+	translate: '0 0',
+	transition: 'translate 0.3s',
+	'[data-open] &': { translate: '0 -1.25rem' },
+})
+
+const botGroupClass = css({
+	translate: '0 0',
+	transition: 'translate 0.3s',
+	'[data-open] &': { translate: '0 1.25rem' },
+})
+
+const topLeftClass = css({
+	transformOrigin: 'left',
+	rotate: '0deg',
+	transition: 'rotate 0.3s',
+	'[data-open] &': { rotate: '45deg' },
+})
+
+const topRightClass = css({
+	transformOrigin: 'right',
+	rotate: '0deg',
+	transition: 'rotate 0.3s',
+	'[data-open] &': { rotate: '-45deg' },
+})
+
+const botLeftClass = css({
+	transformOrigin: 'left',
+	rotate: '0deg',
+	transition: 'rotate 0.3s',
+	'[data-open] &': { rotate: '-45deg' },
+})
+
+const botRightClass = css({
+	transformOrigin: 'right',
+	rotate: '0deg',
+	transition: 'rotate 0.3s',
+	'[data-open] &': { rotate: '45deg' },
+})
+
+const midLeftClass = css({
+	opacity: 1,
+	translate: '0 0',
+	transition: 'all 0.3s',
+	'[data-open] &': { translate: '-3rem 0', opacity: 0 },
+})
+
+const midRightClass = css({
+	opacity: 1,
+	translate: '0 0',
+	transition: 'all 0.3s',
+	'[data-open] &': { translate: '3rem 0', opacity: 0 },
+})
+
+const navClass = css({
+	position: 'fixed',
+	inset: 0,
+	zIndex: 10,
+	display: 'none',
+	opacity: 0,
+	bg: 'surfaceAccent.1',
+	transition: 'all 0.5s',
+	transitionBehavior: 'allow-discrete',
+	'[data-open] &': {
+		display: 'block',
+		opacity: 1,
+	},
+	'@starting-style': {
+		'[data-open] &': {
+			opacity: 0,
+		},
+	},
+})
 ---
 
 <c-hamburger
-	class={cn('group/hamburger z-20', Astro.props.class)}
+	class={cx(css({ zIndex: 20 }), Astro.props.class)}
 	transition:persist
 	transition:name="hamburger"
 >
 	<Button
-		class="relative z-20"
+		class={css({ position: 'relative', zIndex: 20 })}
 		data-hamburger-button
 		aria-label="Menu de navigation"
 		aria-expanded="false"
@@ -24,49 +98,24 @@ type Props = {
 			viewBox="0 0 100 100"
 			xmlns="http://www.w3.org/2000/svg"
 			stroke="currentColor"
-			class="size-8"
+			class={css({ width: '8', height: '8' })}
 			aria-hidden="true"
 		>
-			<g class="transition-transform group-data-[open]/hamburger:-translate-y-5">
-				<path
-					d="M0 30 h 50"
-					stroke-width="4"
-					class="origin-left transition-transform group-data-[open]/hamburger:rotate-45"></path>
-				<path
-					d="M50 30 h 50"
-					stroke-width="4"
-					class="origin-right transition-transform group-data-[open]/hamburger:-rotate-45"></path>
+			<g class={topGroupClass}>
+				<path d="M0 30 h 50" stroke-width="4" class={topLeftClass}></path>
+				<path d="M50 30 h 50" stroke-width="4" class={topRightClass}></path>
 			</g>
 
-			<path
-				d="M0 50 h 50"
-				stroke-width="4"
-				class="opacity-100 transition-all duration-300 group-data-[open]/hamburger:-translate-x-12 group-data-[open]/hamburger:opacity-0"
-			></path>
-			<path
-				d="M50 50 h 50"
-				stroke-width="4"
-				class="opacity-100 transition-all duration-300 group-data-[open]/hamburger:translate-x-12 group-data-[open]/hamburger:opacity-0"
-			></path>
+			<path d="M0 50 h 50" stroke-width="4" class={midLeftClass}></path>
+			<path d="M50 50 h 50" stroke-width="4" class={midRightClass}></path>
 
-			<g class="transition-transform group-data-[open]/hamburger:translate-y-5">
-				<path
-					d="M0 70 h 50"
-					stroke-width="4"
-					class="origin-left transition-transform group-data-[open]/hamburger:-rotate-45"></path>
-				<path
-					d="M50 70 h 50"
-					stroke-width="4"
-					class="origin-right transition-transform group-data-[open]/hamburger:rotate-45"></path>
+			<g class={botGroupClass}>
+				<path d="M0 70 h 50" stroke-width="4" class={botLeftClass}></path>
+				<path d="M50 70 h 50" stroke-width="4" class={botRightClass}></path>
 			</g>
 		</svg>
 	</Button>
-	<nav
-		id={navId}
-		role="dialog"
-		aria-modal="true"
-		class="bg-surface-accent-1 fixed inset-0 z-10 hidden opacity-0 transition-all transition-discrete duration-500 group-data-[open]/hamburger:block group-data-[open]/hamburger:opacity-100 group-data-[open]/hamburger:starting:opacity-0"
-	>
+	<nav id={navId} role="dialog" aria-modal="true" class={navClass}>
 		<slot />
 	</nav>
 

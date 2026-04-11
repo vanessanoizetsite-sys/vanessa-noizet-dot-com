@@ -1,9 +1,10 @@
 ---
 import MainLayout from '#layouts/main-layout.astro'
+import { css } from 'styled-system/css'
 ---
 
 <MainLayout>
-	<main class="mx-auto max-w-prose space-y-4 px-8">
+	<main class={css({ mx: 'auto', maxW: 'prose', px: '8', '& > * + *': { mt: '4' } })}>
 		<p>
 			Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda quasi sapiente quas
 			asperiores ullam quis, dicta ratione corrupti illo ab ipsam quo ad eos alias omnis

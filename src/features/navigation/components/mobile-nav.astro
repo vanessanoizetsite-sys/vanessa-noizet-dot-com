@@ -2,35 +2,86 @@
 import { navigationConfig } from '../config/navigation-config'
 import Hamburger from './hamburger.astro'
 import SplitText from '#components/split-text.astro'
+import { css } from 'styled-system/css'
 
 type Props = {
 	class?: string
 }
+
+const listClass = css({
+	display: 'flex',
+	h: 'full',
+	flexDir: 'column',
+	justifyContent: 'center',
+	px: '6',
+	py: '8',
+	md: { justifyContent: 'flex-start' },
+	'& > * + *': {
+		borderTopWidth: '1px',
+		borderColor: 'black',
+	},
+})
+
+const itemClass = css({
+	display: 'flex',
+	flexDir: 'column',
+	alignItems: 'center',
+	gap: '1',
+	py: '3',
+	minH: '20',
+	sm: { minH: '24' },
+	md: { flexDir: 'row', gap: '8' },
+})
+
+const titleClass = css({
+	textStyle: 'heading-4',
+	color: 'default/90',
+	fontWeight: 'light',
+	fontStyle: 'italic',
+	sm: { textStyle: 'heading-2' },
+})
+
+const childLinkClass = css({
+	display: 'inline-block',
+	animation: 'fadeRight 0.3s ease-out both',
+	sm: { textStyle: 'heading-4' },
+})
+
+const fadeUpClass = css({
+	animation: 'fadeUp 0.3s ease-out both',
+})
 ---
 
 <Hamburger class={Astro.props.class}>
-	<ul class="md:justify-left flex h-full flex-col justify-center divide-y divide-black px-6 py-8">
+	<ul class={listClass}>
 		{
 			navigationConfig.map((el, index1) =>
 				!!el.children ? (
-					<li class="flex min-h-20 flex-col items-center gap-x-8 gap-y-1 py-3 sm:min-h-24 md:flex-row">
-						<span class="text-heading-4 sm:text-heading-2 text-default/90 font-light italic">
+					<li class={itemClass}>
+						<span class={titleClass}>
 							<SplitText
 								text={el.label}
 								lettersItem={{
-									class: 'animate-ease-out animate-duration-300 animate-fade-up ',
+									class: fadeUpClass,
 									style: {
 										animationDelay: `calc(${index1 * 100}ms + var(--letter-index) * 30ms)`,
 									},
 								}}
 							/>
 						</span>
-						<ul class="flex grow items-center gap-4">
+						<ul
+							class={css({
+								display: 'flex',
+								flexGrow: 1,
+								alignItems: 'center',
+								gap: '4',
+							})}
+						>
 							{el.children.map((item, index2) => (
 								<li>
 									<a
 										href={item.url}
-										class="animate-ease-out animate-fade-right sm:text-heading-4 inline-block"
+										class={childLinkClass}
 										style={{
 											animationDelay: `calc(${index1 * 100}ms + ${index2 * 100}ms + 300ms)`,
 										}}
@@ -42,12 +93,29 @@ type Props = {
 						</ul>
 					</li>
 				) : (
-					<li class="md:justify-left flex min-h-20 items-center justify-center py-3 sm:min-h-24">
-						<a href={el.url} class="text-heading-4 sm:text-heading-2 inline-block">
+					<li
+						class={css({
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							py: '3',
+							minH: '20',
+							sm: { minH: '24' },
+							md: { justifyContent: 'flex-start' },
+						})}
+					>
+						<a
+							href={el.url}
+							class={css({
+								textStyle: 'heading-4',
+								display: 'inline-block',
+								sm: { textStyle: 'heading-2' },
+							})}
+						>
 							<SplitText
 								text={el.label}
 								lettersItem={{
-									class: 'animate-ease-out animate-duration-300 animate-fade-up ',
+									class: fadeUpClass,
 									style: {
 										animationDelay: `calc(${index1 * 100}ms + var(--letter-index) * 30ms)`,
 									},
