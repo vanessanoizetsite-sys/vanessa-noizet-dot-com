@@ -138,7 +138,7 @@ const navClass = css({
 
 					this.#button?.addEventListener('click', this.#handleClick)
 
-					document.addEventListener('astro:page-load', this.#close)
+					document.addEventListener('astro:before-preparation', this.#close)
 
 					this.#focusTrap = createFocusTrap(this, {
 						escapeDeactivates: false,
@@ -148,7 +148,7 @@ const navClass = css({
 
 				disconnectedCallback() {
 					this.#button?.removeEventListener('click', this.#handleClick)
-					document.removeEventListener('astro:page-load', this.#close)
+					document.removeEventListener('astro:before-preparation', this.#close)
 				}
 
 				#handleClick = () => {
