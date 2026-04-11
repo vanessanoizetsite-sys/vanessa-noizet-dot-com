@@ -12,6 +12,7 @@ export type Props = {
 	<Button data-dropdown-button aria-expanded="false" aria-haspopup="true">
 		<span>{Astro.props.title}</span>
 		<ChevronDownIcon
+			size={16}
 			class={css({
 				transition: 'transform 0.3s',
 				'[data-open] &': {
