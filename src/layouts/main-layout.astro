@@ -18,7 +18,7 @@ import { css } from 'styled-system/css'
 	</head>
 	<body class={css({ textStyle: 'body', fontFamily: 'serif' })}>
 		<TransitionProgress />
-		<header class={css({ md: { bg: 'surface.1', position: 'sticky', top: '0' } })}>
+		<header class={css({ md: { bg: 'surface.1', position: 'sticky', top: '0', zIndex: 10 } })}>
 			<DesktopNav class={css({ display: 'none', md: { display: 'block' } })} />
 			<MobileNav
 				class={css({ position: 'fixed', top: '3', right: '6', md: { display: 'none' } })}

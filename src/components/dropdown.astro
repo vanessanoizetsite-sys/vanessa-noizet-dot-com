@@ -8,7 +8,7 @@ export type Props = {
 }
 ---
 
-<c-dropdown class={css({ position: 'relative' })}>
+<c-dropdown class={css({ position: 'relative', zIndex: 10 })}>
 	<Button data-dropdown-button aria-expanded="false" aria-haspopup="true">
 		<span>{Astro.props.title}</span>
 		<ChevronDownIcon
