@@ -85,6 +85,14 @@ export default defineConfig({
 						lineHeight: '1.5',
 					},
 				},
+				label: {
+					value: {
+						fontSize: 'var(--text-fl--2)',
+						lineHeight: '1.5',
+						textTransform: 'uppercase',
+						letterSpacing: '0.3em',
+					},
+				},
 			},
 			keyframes: {
 				fadeUp: {

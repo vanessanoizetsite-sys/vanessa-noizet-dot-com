@@ -33,19 +33,50 @@ const proseClass = cx(
 		'& h6': { textStyle: 'heading-6' },
 
 		'& blockquote': {
-			borderInlineStart: '0.3em solid',
-			borderColor: 'separator',
-			paddingInlineStart: '1em',
+			borderInlineStart: '1px solid',
+			borderColor: 'border',
+			paddingInlineStart: '1.5em',
+			marginInline: '0',
 			fontStyle: 'italic',
-			textStyle: 'heading-5',
+			color: 'default',
+			textStyle: 'heading-6',
 		},
 
 		'& :is(ul, ol)': {
-			paddingInlineStart: '1em',
+			paddingInlineStart: '0',
+			listStyle: 'none',
+		},
+
+		'& :is(ul, ol) > li': {
+			position: 'relative',
+			paddingInlineStart: '2em',
+		},
+
+		'& ul > li::before': {
+			content: '"—"',
+			position: 'absolute',
+			insetInlineStart: '0',
+			color: 'muted',
+		},
+
+		'& ol': {
+			counterReset: 'prose-list',
+		},
+
+		'& ol > li': {
+			counterIncrement: 'prose-list',
+		},
+
+		'& ol > li::before': {
+			content: 'counter(prose-list) "."',
+			position: 'absolute',
+			insetInlineStart: '0',
+			color: 'muted',
+			fontVariantNumeric: 'oldstyle-nums',
 		},
 
 		'& li + li': {
-			marginBlockStart: '0.3em',
+			marginBlockStart: '0.4em',
 		},
 
 		'& a': {
