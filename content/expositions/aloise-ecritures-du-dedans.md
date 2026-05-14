@@ -9,22 +9,32 @@ link:
   url: 'https://www.artbrut.ch/'
   label: "Collection de l'Art Brut"
 cover:
-  src: 'https://picsum.photos/seed/aloise-cover/1700/1200'
+  src: '/placeholders/landscape.jpg'
   alt: 'Polyptyque coloré, fond bleu intense'
 images:
-  - src: 'https://picsum.photos/seed/aloise-1/1300/1800'
+  - src: '/placeholders/portrait-tall.jpg'
+    width: 1000
+    height: 1600
     alt: 'Figure féminine au regard de cobalt'
     caption: '*Cléopâtre au bain*, vers 1947. Crayons de couleur, papier monté sur toile.'
-  - src: 'https://picsum.photos/seed/aloise-2/1700/1100'
+  - src: '/placeholders/landscape.jpg'
+    width: 1400
+    height: 1000
     alt: 'Détail, écriture serrée en marge'
     caption: 'Détail des marges écrites, geste continu.'
-  - src: 'https://picsum.photos/seed/aloise-3/1400/1700'
+  - src: '/placeholders/portrait.jpg'
+    width: 1000
+    height: 1400
     alt: "Dessin sur papier d'emballage cousu"
     caption: "Dessin sur papier d'emballage cousu au fil rouge, 1951."
-  - src: 'https://picsum.photos/seed/aloise-4/1600/1100'
+  - src: '/placeholders/landscape.jpg'
+    width: 1400
+    height: 1000
     alt: 'Vitrine de carnets manuscrits'
     caption: 'Carnets manuscrits, archives de la Waldau.'
-  - src: 'https://picsum.photos/seed/aloise-5/1500/1800'
+  - src: '/placeholders/portrait.jpg'
+    width: 1000
+    height: 1400
     alt: 'Grande figure féminine en robe rouge'
     caption: 'Sans titre, vers 1953. Crayons de couleur sur papier kraft.'
 ---

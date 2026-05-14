@@ -1,0 +1,62 @@
+---
+import MainLayout from '#layouts/main-layout.astro'
+import Gallery, { type GalleryImage } from '#components/gallery.astro'
+import { getCollection } from 'astro:content'
+import { getImage } from 'astro:assets'
+import { css } from 'styled-system/css'
+import { container } from 'styled-system/patterns'
+
+const entries = (await getCollection('dessins')).sort((a, b) => {
+	const ao = a.data.order ?? 0
+	const bo = b.data.order ?? 0
+	if (ao !== bo) return ao - bo
+	return a.id.localeCompare(b.id)
+})
+
+const images: GalleryImage[] = await Promise.all(
+	entries.map(async (e) => {
+		const optimized = await getImage({
+			src: e.data.image,
+			format: 'webp',
+			width: Math.min(e.data.image.width, 1600),
+		})
+		return {
+			src: optimized.src,
+			alt: e.data.caption ?? `Dessin ${e.id}`,
+			caption: e.data.caption,
+			width: e.data.image.width,
+			height: e.data.image.height,
+		}
+	})
+)
+
+const sectionClass = css({ py: '10', md: { py: '14' } })
+
+const headerClass = css({
+	textAlign: 'center',
+	mb: '12',
+	md: { mb: '16' },
+})
+
+const h1Class = css({
+	textStyle: 'heading-1',
+	fontWeight: 'normal',
+	fontStyle: 'italic',
+	color: 'default',
+	letterSpacing: '-0.01em',
+	lineHeight: '1',
+})
+
+---
+
+<MainLayout>
+	<section class={sectionClass}>
+		<div class={container()}>
+			<header class={headerClass}>
+				<h1 class={h1Class}>Dessins</h1>
+			</header>
+
+			<Gallery images={images} variant="rows" rowSize={2} />
+		</div>
+	</section>
+</MainLayout>

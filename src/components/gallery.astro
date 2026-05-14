@@ -5,14 +5,25 @@ export interface GalleryImage {
 	src: string
 	alt: string
 	caption?: string
+	width?: number
+	height?: number
 }
 
 interface Props {
 	images: GalleryImage[]
 	heading?: string
+	variant?: 'mosaic' | 'masonry' | 'rows'
+	rowSize?: number
 }
 
-const { images, heading = 'Galerie' } = Astro.props
+const { images, heading, variant = 'mosaic', rowSize = 2 } = Astro.props
+
+const rows: GalleryImage[][] = []
+if (variant === 'rows') {
+	for (let i = 0; i < images.length; i += rowSize) {
+		rows.push(images.slice(i, i + rowSize))
+	}
+}
 
 const spanPattern = [4, 2, 3, 3, 2, 4, 3, 3, 6, 2, 4]
 
@@ -38,12 +49,27 @@ const gridClass = css({
 	md: { gap: '6' },
 })
 
+const masonryClass = css({
+	columnCount: 1,
+	columnGap: '1rem',
+	sm: { columnCount: 2 },
+	md: { columnCount: 3, columnGap: '1.5rem' },
+})
+
 const figureClass = css({
 	margin: 0,
 	gridColumn: 'span 6',
 	'&[data-span="3"]': { md: { gridColumn: 'span 3' } },
 	'&[data-span="4"]': { md: { gridColumn: 'span 4' } },
 	'&[data-span="2"]': { md: { gridColumn: 'span 2' } },
+})
+
+const masonryFigureClass = css({
+	margin: 0,
+	mb: '4',
+	md: { mb: '6' },
+	breakInside: 'avoid',
+	display: 'block',
 })
 
 const itemClass = css({
@@ -63,6 +89,75 @@ const itemClass = css({
 		transition: 'transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1)',
 	},
 	_hover: { '& img': { transform: 'scale(1.04)' } },
+	_focusVisible: {
+		outline: '2px solid token(colors.ring)',
+		outlineOffset: '4px',
+	},
+})
+
+const rowsWrapClass = css({
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '4',
+	md: { gap: '6' },
+})
+
+const rowClass = css({
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '4',
+	md: { flexDirection: 'row', gap: '6', alignItems: 'stretch' },
+})
+
+const rowFigureClass = css({
+	margin: 0,
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '2',
+	flexBasis: 'auto',
+	md: { flexBasis: '0', flexGrow: 'var(--ratio)' },
+})
+
+const rowItemClass = css({
+	display: 'block',
+	width: '100%',
+	border: 0,
+	padding: 0,
+	background: 'none',
+	cursor: 'zoom-in',
+	overflow: 'hidden',
+	bg: 'surface.1',
+	aspectRatio: 'var(--ratio)',
+	'& img': {
+		display: 'block',
+		width: '100%',
+		height: '100%',
+		objectFit: 'cover',
+		transition: 'opacity 300ms ease',
+	},
+	_hover: { '& img': { opacity: 0.85 } },
+	_focusVisible: {
+		outline: '2px solid token(colors.ring)',
+		outlineOffset: '4px',
+	},
+})
+
+const masonryItemClass = css({
+	display: 'block',
+	width: '100%',
+	border: 0,
+	padding: 0,
+	background: 'none',
+	cursor: 'zoom-in',
+	overflow: 'hidden',
+	bg: 'surface.1',
+	'& img': {
+		display: 'block',
+		width: '100%',
+		height: 'auto',
+		transition: 'opacity 300ms ease',
+	},
+	_hover: { '& img': { opacity: 0.85 } },
 	_focusVisible: {
 		outline: '2px solid token(colors.ring)',
 		outlineOffset: '4px',
@@ -166,25 +261,76 @@ const counterClass = css({
 	images.length > 0 && (
 		<c-gallery>
 			<section>
-				<h2 class={headingClass}>
-					<span>{heading}</span>
-				</h2>
-				<div class={gridClass}>
-					{images.map((img, i) => (
-						<figure class={figureClass} data-span={String(spanPattern[i % spanPattern.length])}>
-							<button
-								type="button"
-								class={itemClass}
-								data-gallery-item
-								data-index={String(i)}
-								aria-label={`Agrandir ${img.alt}`}
-							>
-								<img src={img.src} alt={img.alt} loading="lazy" />
-							</button>
-							{img.caption && <figcaption class={figcaptionClass}>{img.caption}</figcaption>}
-						</figure>
-					))}
-				</div>
+				{heading && (
+					<h2 class={headingClass}>
+						<span>{heading}</span>
+					</h2>
+				)}
+				{variant === 'rows' ? (
+					<div class={rowsWrapClass}>
+						{rows.map((row, rIdx) => (
+							<div class={rowClass}>
+								{row.map((img, cIdx) => {
+									const i = rIdx * rowSize + cIdx
+									const ratio =
+										img.width && img.height ? img.width / img.height : 1
+									return (
+										<figure
+											class={rowFigureClass}
+											style={`--ratio: ${ratio};`}
+										>
+											<button
+												type="button"
+												class={rowItemClass}
+												style={`--ratio: ${ratio};`}
+												data-gallery-item
+												data-index={String(i)}
+												aria-label={`Agrandir ${img.alt}`}
+											>
+												<img src={img.src} alt={img.alt} loading="lazy" />
+											</button>
+											{img.caption && <figcaption class={figcaptionClass}>{img.caption}</figcaption>}
+										</figure>
+									)
+								})}
+							</div>
+						))}
+					</div>
+				) : variant === 'masonry' ? (
+					<div class={masonryClass}>
+						{images.map((img, i) => (
+							<figure class={masonryFigureClass}>
+								<button
+									type="button"
+									class={masonryItemClass}
+									data-gallery-item
+									data-index={String(i)}
+									aria-label={`Agrandir ${img.alt}`}
+								>
+									<img src={img.src} alt={img.alt} loading="lazy" />
+								</button>
+								{img.caption && <figcaption class={figcaptionClass}>{img.caption}</figcaption>}
+							</figure>
+						))}
+					</div>
+				) : (
+					<div class={gridClass}>
+						{images.map((img, i) => (
+							<figure class={figureClass} data-span={String(spanPattern[i % spanPattern.length])}>
+								<button
+									type="button"
+									class={itemClass}
+									data-gallery-item
+									data-index={String(i)}
+									aria-label={`Agrandir ${img.alt}`}
+								>
+									<img src={img.src} alt={img.alt} loading="lazy" />
+								</button>
+								{img.caption && <figcaption class={figcaptionClass}>{img.caption}</figcaption>}
+							</figure>
+						))}
+					</div>
+				)}
 			</section>
 
 			<div

@@ -10,22 +10,32 @@ link:
   url: 'https://folkartmuseum.org/'
   label: 'American Folk Art Museum'
 cover:
-  src: 'https://picsum.photos/seed/darger-cover/1800/1100'
+  src: '/placeholders/landscape-wide.jpg'
   alt: 'Long panneau aquarellé représentant des fillettes en file'
 images:
-  - src: 'https://picsum.photos/seed/darger-1/1700/1100'
+  - src: '/placeholders/landscape.jpg'
+    width: 1400
+    height: 1000
     alt: 'Panneau horizontal, palette pastel et nuages'
     caption: '*At Jennie Richee*, vers 1950. Aquarelle, crayon, collage sur papier journal.'
-  - src: 'https://picsum.photos/seed/darger-2/1300/1700'
+  - src: '/placeholders/portrait.jpg'
+    width: 1000
+    height: 1400
     alt: "Vitrine, manuscrit dactylographié à reliure faite main"
     caption: '*The Story of the Vivian Girls* (extrait), manuscrit dactylographié, env. 15 000 pages.'
-  - src: 'https://picsum.photos/seed/darger-3/1700/1200'
+  - src: '/placeholders/landscape.jpg'
+    width: 1400
+    height: 1000
     alt: 'Détail, calque de figures décalquées'
     caption: 'Détail des décalques, méthode de répétition.'
-  - src: 'https://picsum.photos/seed/darger-4/1500/1800'
+  - src: '/placeholders/portrait.jpg'
+    width: 1000
+    height: 1400
     alt: 'Atelier reconstitué, table de travail et coupures de presse'
     caption: 'Reconstitution partielle de la chambre de la Webster Avenue.'
-  - src: 'https://picsum.photos/seed/darger-5/1800/1100'
+  - src: '/placeholders/landscape-wide.jpg'
+    width: 1600
+    height: 1000
     alt: 'Salle de présentation des grands panneaux'
     caption: 'Salle des grands panneaux, accrochage sans cadre.'
 ---

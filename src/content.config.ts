@@ -45,6 +45,8 @@ export const collections = {
 						src: z.string(),
 						alt: z.string(),
 						caption: z.string().optional(),
+						width: z.number().optional(),
+						height: z.number().optional(),
 					})
 				)
 				.optional(),
@@ -126,6 +128,15 @@ export const collections = {
 			enseignements: z.array(z.object({ years: z.string(), body: z.string() })),
 			bourses: z.array(z.object({ years: z.string(), body: z.string() })),
 		}),
+	}),
+	dessins: defineCollection({
+		loader: glob({ pattern: '**/*.md', base: 'content/dessins' }),
+		schema: ({ image }) =>
+			z.object({
+				image: image(),
+				caption: z.string().optional(),
+				order: z.number().optional(),
+			}),
 	}),
 	cv: defineCollection({
 		loader: glob({ pattern: '**/*.md', base: 'content/cv' }),

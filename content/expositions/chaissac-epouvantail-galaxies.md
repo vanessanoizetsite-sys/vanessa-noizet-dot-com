@@ -10,25 +10,37 @@ link:
   url: 'https://museedartsdenantes.nantesmetropole.fr/'
   label: 'Site du musée'
 cover:
-  src: 'https://picsum.photos/seed/chaissac-cover/1600/1100'
+  src: '/placeholders/landscape.jpg'
   alt: "Vue d'ensemble de la salle principale, peintures de Chaissac sur cimaise crème"
 images:
-  - src: 'https://picsum.photos/seed/chaissac-1/1400/1800'
+  - src: '/placeholders/portrait.jpg'
+    width: 1000
+    height: 1400
     alt: 'Totem peint sur bois, années 1960'
     caption: 'Sans titre, vers 1962. Bois peint, collection particulière.'
-  - src: 'https://picsum.photos/seed/chaissac-2/1800/1200'
+  - src: '/placeholders/landscape.jpg'
+    width: 1400
+    height: 1000
     alt: 'Cimaise de lettres manuscrites encadrées'
     caption: "Lettres à Jean Dubuffet, 1947 à 1951. Manuscrits, papier d'écolier."
-  - src: 'https://picsum.photos/seed/chaissac-3/1400/1750'
+  - src: '/placeholders/portrait.jpg'
+    width: 1000
+    height: 1400
     alt: 'Masque polychrome, gouache sur papier kraft'
     caption: 'Visage à la pipe, 1958. Gouache sur papier kraft.'
-  - src: 'https://picsum.photos/seed/chaissac-4/1600/1100'
+  - src: '/placeholders/landscape.jpg'
+    width: 1400
+    height: 1000
     alt: 'Vue salle, accrochage en damier'
     caption: 'Accrochage en damier, salle II. Scénographie de Clara Vidal.'
-  - src: 'https://picsum.photos/seed/chaissac-5/1200/1500'
+  - src: '/placeholders/portrait.jpg'
+    width: 1000
+    height: 1400
     alt: 'Détail, peinture sur porte de grange'
     caption: 'Porte peinte, ferme de Sainte-Florence, 1965. Détail.'
-  - src: 'https://picsum.photos/seed/chaissac-6/1500/1000'
+  - src: '/placeholders/landscape.jpg'
+    width: 1400
+    height: 1000
     alt: "Vitrine d'objets et carnets"
     caption: "Carnets de croquis et boîtes de gouache, fonds d'atelier."
 ---

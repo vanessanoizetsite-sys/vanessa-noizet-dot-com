@@ -9,19 +9,27 @@ link:
   url: 'https://www.musee-lam.fr/'
   label: 'Site du LaM'
 cover:
-  src: 'https://picsum.photos/seed/lam-cover/1700/1100'
+  src: '/placeholders/landscape.jpg'
   alt: 'Vue panoramique de la galerie, accrochage clair'
 images:
-  - src: 'https://picsum.photos/seed/lam-1/1500/1800'
+  - src: '/placeholders/portrait.jpg'
+    width: 1000
+    height: 1400
     alt: "Dessin à l'encre, marges manuscrites denses"
     caption: 'Adolf Wölfli, *Saint Adolf Diamant Roussel*, 1916. Encre et crayons.'
-  - src: 'https://picsum.photos/seed/lam-2/1600/1100'
+  - src: '/placeholders/landscape.jpg'
+    width: 1400
+    height: 1000
     alt: 'Vue de salle, accrochage sur trois niveaux'
     caption: 'Salle Aracine, accrochage en frise basse, médiane et haute.'
-  - src: 'https://picsum.photos/seed/lam-3/1300/1700'
+  - src: '/placeholders/portrait.jpg'
+    width: 1000
+    height: 1400
     alt: 'Sculpture en bois flotté assemblé'
     caption: 'Auguste Forestier, *Le Vapeur*, vers 1940. Bois trouvé, clous, peinture.'
-  - src: 'https://picsum.photos/seed/lam-4/1800/1200'
+  - src: '/placeholders/landscape.jpg'
+    width: 1400
+    height: 1000
     alt: "Carte d'archive avec épingles colorées"
     caption: "Carte de provenance des œuvres, salle d'introduction."
 ---
