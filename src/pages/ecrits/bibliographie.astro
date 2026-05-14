@@ -4,6 +4,25 @@ import { getCollection, render } from 'astro:content'
 import { css } from 'styled-system/css'
 import { container } from 'styled-system/patterns'
 
+type Category =
+	| 'these'
+	| 'memoire'
+	| 'article'
+	| 'catalogue'
+	| 'court-texte'
+	| 'compte-rendu'
+	| 'conference'
+
+const sections: { key: Category; heading: string }[] = [
+	{ key: 'these', heading: 'Recherches universitaires' },
+	{ key: 'memoire', heading: 'Mémoires de recherche' },
+	{ key: 'article', heading: 'Articles' },
+	{ key: 'catalogue', heading: "Catalogues d'exposition" },
+	{ key: 'court-texte', heading: 'Courts textes sur des artistes et expositions' },
+	{ key: 'compte-rendu', heading: 'Notes et comptes rendus' },
+	{ key: 'conference', heading: 'Conférences et interventions' },
+]
+
 const entries = await getCollection('bibliographie')
 entries.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
 
@@ -14,8 +33,7 @@ const rendered = await Promise.all(
 	})
 )
 
-const catalogues = rendered.filter(({ entry }) => entry.data.category === 'catalogue')
-const courtsTextes = rendered.filter(({ entry }) => entry.data.category === 'court-texte')
+const byCategory = (cat: Category) => rendered.filter(({ entry }) => entry.data.category === cat)
 
 const sectionClass = css({ py: '10', md: { py: '14' } })
 
@@ -119,45 +137,28 @@ const bodyClass = css({
 
 			<div class={wrapClass}>
 				{
-					catalogues.length > 0 && (
-						<section class={sectionGroupClass}>
-							<h2 class={h2Class}>Catalogues d'exposition</h2>
-							<ul class={listClass}>
-								{catalogues.map(({ entry, Content }) => (
-									<li class={itemClass}>
-										<span class={yearClass}>{entry.data.year}</span>
-										<div class={contentColClass}>
-											<h3 class={titleClass}>{entry.data.title}</h3>
-											<div class={bodyClass}>
-												<Content />
+					sections.map(({ key, heading }) => {
+						const items = byCategory(key)
+						if (items.length === 0) return null
+						return (
+							<section class={sectionGroupClass}>
+								<h2 class={h2Class}>{heading}</h2>
+								<ul class={listClass}>
+									{items.map(({ entry, Content }) => (
+										<li class={itemClass}>
+											<span class={yearClass}>{entry.data.year}</span>
+											<div class={contentColClass}>
+												<h3 class={titleClass}>{entry.data.title}</h3>
+												<div class={bodyClass}>
+													<Content />
+												</div>
 											</div>
-										</div>
-									</li>
-								))}
-							</ul>
-						</section>
-					)
-				}
-
-				{
-					courtsTextes.length > 0 && (
-						<section class={sectionGroupClass}>
-							<h2 class={h2Class}>Courts textes sur des artistes et expositions</h2>
-							<ul class={listClass}>
-								{courtsTextes.map(({ entry, Content }) => (
-									<li class={itemClass}>
-										<span class={yearClass}>{entry.data.year}</span>
-										<div class={contentColClass}>
-											<h3 class={titleClass}>{entry.data.title}</h3>
-											<div class={bodyClass}>
-												<Content />
-											</div>
-										</div>
-									</li>
-								))}
-							</ul>
-						</section>
-					)
+										</li>
+									))}
+								</ul>
+							</section>
+						)
+					})
 				}
 			</div>
 		</div>

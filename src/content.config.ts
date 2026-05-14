@@ -92,7 +92,15 @@ export const collections = {
 			title: z.string(),
 			year: z.string(),
 			date: z.date(),
-			category: z.enum(['catalogue', 'court-texte']),
+			category: z.enum([
+				'these',
+				'memoire',
+				'article',
+				'catalogue',
+				'court-texte',
+				'compte-rendu',
+				'conference',
+			]),
 		}),
 	}),
 }
