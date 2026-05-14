@@ -1,60 +1,143 @@
 ---
 import MainLayout from '#layouts/main-layout.astro'
+import { Image } from 'astro:assets'
+import { getEntry, render } from 'astro:content'
 import { css } from 'styled-system/css'
-import { container } from 'styled-system/patterns'
+
+const entry = await getEntry('home', 'index')
+if (!entry) throw new Error('Missing content/home/index.md')
+const { image: portrait, imageAlt, intro } = entry.data
+const { Content } = await render(entry)
+
+const sectionClass = css({
+	position: 'relative',
+	maxWidth: '7xl',
+	mx: 'auto',
+	px: '5',
+	py: { base: '6', md: '20' },
+	md: { px: '10' },
+})
+
+const gridClass = css({
+	display: 'grid',
+	gridTemplateColumns: '1fr',
+	gap: { base: '8', md: '16' },
+	alignItems: 'start',
+	md: { gridTemplateColumns: '5fr 6fr', gap: '20' },
+	lg: { gridTemplateColumns: '1fr 1fr', gap: '24' },
+})
+
+const figureClass = css({
+	position: 'relative',
+	m: 0,
+	mx: 'auto',
+	maxWidth: { base: '22rem', md: 'none' },
+	width: 'full',
+	pr: { base: '2', md: '0' },
+	pb: { base: '2', md: '0' },
+	animation: 'fadeUp 0.9s ease-out both',
+	md: { position: 'sticky', top: '32' },
+})
+
+const imageFrameClass = css({
+	position: 'relative',
+	aspectRatio: '4 / 5',
+	overflow: 'hidden',
+	bg: 'surface.2',
+	_before: {
+		content: '""',
+		position: 'absolute',
+		inset: '0',
+		border: '1px solid',
+		borderColor: 'separator',
+		zIndex: 2,
+		pointerEvents: 'none',
+	},
+	_after: {
+		content: '""',
+		position: 'absolute',
+		inset: '0',
+		translate: '6px 6px',
+		border: '1px solid',
+		borderColor: 'borderAccent',
+		zIndex: -1,
+		md: { translate: '12px 12px' },
+	},
+})
+
+const imageClass = css({
+	width: 'full',
+	height: 'full',
+	objectFit: 'cover',
+	objectPosition: 'center top',
+	display: 'block',
+	transition: 'transform 0.8s ease',
+	_hover: { transform: 'scale(1.02)' },
+})
+
+const textColClass = css({
+	display: 'flex',
+	flexDir: 'column',
+	gap: { base: '5', md: '6' },
+})
+
+const introClass = css({
+	textStyle: 'heading-4',
+	fontStyle: 'italic',
+	fontWeight: 'light',
+	lineHeight: '1.4',
+	color: 'default',
+	letterSpacing: '0.01em',
+	animation: 'fadeUp 0.8s ease-out both',
+	animationDelay: '0.2s',
+	md: { textStyle: 'heading-3', lineHeight: '1.35' },
+})
+
+const bodyClass = css({
+	display: 'flex',
+	flexDir: 'column',
+	gap: '4',
+	color: 'default/90',
+	animation: 'fadeUp 0.8s ease-out both',
+	animationDelay: '0.35s',
+	'& p:first-of-type::first-letter': {
+		float: 'left',
+		textStyle: 'heading-2',
+		fontStyle: 'italic',
+		fontWeight: 'normal',
+		lineHeight: '0.9',
+		pr: '2',
+		pt: '1',
+		color: 'default',
+		md: { textStyle: 'heading-1', pr: '3' },
+	},
+})
+
 ---
 
 <MainLayout>
-	<main class={container()}>
-		<p>
-			Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda quasi sapiente quas
-			asperiores ullam quis, dicta ratione corrupti illo ab ipsam quo ad eos alias omnis
-			praesentium, provident minima blanditiis!
-		</p>
-		<p>
-			Itaque, culpa assumenda! Nulla incidunt non, harum ut voluptas quae doloremque sint aut hic
-			cumque eius recusandae accusantium id quia sapiente, iure esse reprehenderit aliquam. Ea
-			voluptatibus voluptatum maiores dolorum.
-		</p>
-		<p>
-			Aspernatur necessitatibus explicabo asperiores suscipit excepturi amet, eum atque quos, ipsum
-			dolorum, quis corporis? Dicta quia, voluptatibus repellendus quae fuga eligendi ipsa adipisci
-			reiciendis ex nemo quisquam sapiente dolores facere!
-		</p>
-		<p>
-			Incidunt, fugit iusto numquam suscipit accusantium nemo labore odit ducimus voluptatum dicta
-			assumenda amet fugiat nobis voluptatem ipsum veritatis aut ab quaerat pariatur odio eum error
-			asperiores. Tenetur, aspernatur culpa?
-		</p>
-		<p>
-			Aut beatae ad, accusamus nulla amet necessitatibus earum cupiditate nemo obcaecati ullam,
-			temporibus architecto sint sunt, minima iure minus enim quas dolore atque pariatur sit a
-			maiores perspiciatis consectetur. Nemo.
-		</p>
-		<p>
-			Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda quasi sapiente quas
-			asperiores ullam quis, dicta ratione corrupti illo ab ipsam quo ad eos alias omnis
-			praesentium, provident minima blanditiis!
-		</p>
-		<p>
-			Itaque, culpa assumenda! Nulla incidunt non, harum ut voluptas quae doloremque sint aut hic
-			cumque eius recusandae accusantium id quia sapiente, iure esse reprehenderit aliquam. Ea
-			voluptatibus voluptatum maiores dolorum.
-		</p>
-		<p>
-			Aspernatur necessitatibus explicabo asperiores suscipit excepturi amet, eum atque quos, ipsum
-			dolorum, quis corporis? Dicta quia, voluptatibus repellendus quae fuga eligendi ipsa adipisci
-			reiciendis ex nemo quisquam sapiente dolores facere!
-		</p>
-		<p>
-			Incidunt, fugit iusto numquam suscipit accusantium nemo labore odit ducimus voluptatum dicta
-			assumenda amet fugiat nobis voluptatem ipsum veritatis aut ab quaerat pariatur odio eum error
-			asperiores. Tenetur, aspernatur culpa?
-		</p>
-		<p>
-			Aut beatae ad, accusamus nulla amet necessitatibus earum cupiditate nemo obcaecati ullam,
-			temporibus architecto sint sunt, minima iure minus enim quas dolore atque pariatur sit a
-			maiores perspiciatis consectetur. Nemo.
-		</p>
-	</main>
+	<section class={sectionClass}>
+		<div class={gridClass}>
+			<figure class={figureClass}>
+				<div class={imageFrameClass}>
+					<Image
+						src={portrait}
+						alt={imageAlt}
+						class={imageClass}
+						widths={[400, 600, 900, 1200]}
+						sizes="(min-width: 1024px) 36rem, (min-width: 768px) 42vw, 100vw"
+						loading="eager"
+					/>
+				</div>
+			</figure>
+
+			<div class={textColClass}>
+				<p class={introClass}>{intro}</p>
+
+				<div class={bodyClass}>
+					<Content />
+				</div>
+			</div>
+		</div>
+	</section>
 </MainLayout>

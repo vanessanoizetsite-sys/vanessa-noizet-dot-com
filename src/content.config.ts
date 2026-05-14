@@ -2,6 +2,15 @@ import { glob } from 'astro/loaders'
 import { z, defineCollection } from 'astro:content'
 
 export const collections = {
+	home: defineCollection({
+		loader: glob({ pattern: '**/*.md', base: 'content/home' }),
+		schema: ({ image }) =>
+			z.object({
+				image: image(),
+				imageAlt: z.string(),
+				intro: z.string(),
+			}),
+	}),
 	articles: defineCollection({
 		loader: glob({ pattern: '**/*.md', base: 'content/articles' }),
 		schema: z.object({
