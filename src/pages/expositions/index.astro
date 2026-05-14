@@ -5,22 +5,10 @@ import Link from 'astro-typesafe-routes/link'
 import { getCollection } from 'astro:content'
 import { css } from 'styled-system/css'
 import { container } from 'styled-system/patterns'
+import { formatDateRange } from '#utils/format-date-range.ts'
 
 const items = await getCollection('expositions')
 items.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-
-const monthFr = (d: Date) =>
-	d.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })
-
-const formatRange = (start: Date, end?: Date) => {
-	if (!end) return monthFr(start)
-	const sameYear = start.getFullYear() === end.getFullYear()
-	if (sameYear) {
-		const startM = start.toLocaleDateString('fr-FR', { month: 'long' })
-		return `${startM} – ${monthFr(end)}`
-	}
-	return `${monthFr(start)} – ${monthFr(end)}`
-}
 
 const sectionClass = css({
 	py: '10',
@@ -40,15 +28,6 @@ const h1Class = css({
 	color: 'default',
 	letterSpacing: '-0.01em',
 	lineHeight: '1',
-})
-
-const introClass = css({
-	textStyle: 'body',
-	color: 'muted',
-	maxWidth: '52ch',
-	marginInline: 'auto',
-	mt: '5',
-	fontStyle: 'italic',
 })
 
 const listClass = css({
@@ -162,10 +141,6 @@ const readClass = css({
 		<div class={container()}>
 			<header class={headerClass}>
 				<h1 class={h1Class}>Expositions</h1>
-				<p class={introClass}>
-					Commissariat, conseil scientifique et collaborations curatoriales, du Palais Idéal aux
-					grandes collections d'art brut.
-				</p>
 			</header>
 
 			<ul class={listClass}>
@@ -179,7 +154,7 @@ const readClass = css({
 								<div class={metaClass} data-meta>
 									<div class={eyebrowClass}>
 										<time datetime={el.data.date.toISOString().slice(0, 10)}>
-											{formatRange(el.data.date, el.data.dateEnd)}
+											{formatDateRange(el.data.date, el.data.dateEnd)}
 										</time>
 										{el.data.city && (
 											<>
