@@ -1,17 +1,194 @@
 ---
 import MainLayout from '#layouts/main-layout.astro'
-import Link from 'astro-typesafe-routes/link'
-import { getCollection } from 'astro:content'
+import Button from '#components/button.astro'
+import { getCollection, render } from 'astro:content'
+import { css } from 'styled-system/css'
+import { container } from 'styled-system/patterns'
+import { ExternalLinkIcon } from '@lucide/astro'
+
 const items = await getCollection('publications')
+items.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+
+const rendered = await Promise.all(
+	items.map(async (entry) => {
+		const { Content } = await render(entry)
+		return { entry, Content }
+	})
+)
+
+const sectionClass = css({ py: '10', md: { py: '14' } })
+
+const headerClass = css({
+	textAlign: 'center',
+	mb: '12',
+	md: { mb: '16' },
+})
+
+const h1Class = css({
+	textStyle: 'heading-1',
+	fontWeight: 'normal',
+	fontStyle: 'italic',
+	color: 'default',
+	letterSpacing: '-0.01em',
+	lineHeight: '1',
+})
+
+const wrapClass = css({
+	maxWidth: '60rem',
+	marginInline: 'auto',
+})
+
+const listClass = css({
+	listStyle: 'none',
+	display: 'flex',
+	flexDirection: 'column',
+})
+
+const itemClass = css({
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '4',
+	py: '10',
+	borderBottomWidth: '1px',
+	borderColor: 'separator',
+	'&:last-child': { borderBottomWidth: 0 },
+	md: { py: '12' },
+})
+
+const eyebrowClass = css({
+	textStyle: 'label',
+	color: 'muted',
+	display: 'flex',
+	alignItems: 'baseline',
+	gap: '3',
+	flexWrap: 'wrap',
+})
+
+const eyebrowDotClass = css({
+	display: 'inline-block',
+	width: '4px',
+	height: '4px',
+	bg: 'borderAccent',
+	borderRadius: 'full',
+	transform: 'translateY(-2px)',
+})
+
+const titleClass = css({
+	textStyle: 'heading-2',
+	fontWeight: 'normal',
+	fontStyle: 'italic',
+	color: 'default',
+	textWrap: 'balance',
+	lineHeight: '1.1',
+	letterSpacing: '-0.005em',
+})
+
+const subtitleClass = css({
+	textStyle: 'heading-5',
+	fontWeight: 'normal',
+	color: 'muted',
+	fontStyle: 'italic',
+	textWrap: 'balance',
+})
+
+const dlClass = css({
+	display: 'grid',
+	gridTemplateColumns: 'auto 1fr',
+	columnGap: '6',
+	rowGap: '2',
+	borderTopWidth: '1px',
+	borderBottomWidth: '1px',
+	borderColor: 'separator',
+	py: '4',
+	mt: '2',
+	maxWidth: '40rem',
+})
+
+const dtClass = css({
+	textStyle: 'label',
+	color: 'muted',
+	alignSelf: 'baseline',
+})
+
+const ddClass = css({
+	textStyle: 'small',
+	color: 'default',
+	margin: 0,
+})
+
+const bodyClass = css({
+	textStyle: 'body',
+	color: 'default',
+	lineHeight: '1.65',
+	maxWidth: '60ch',
+	'& p': { margin: 0 },
+	'& p + p': { mt: '3' },
+	'& em': { fontStyle: 'italic' },
+})
+
+const linkWrapClass = css({
+	mt: '2',
+})
 ---
 
 <MainLayout>
-	<h1>Publications</h1>
-	{
-		items.map((el) => (
-			<Link to="/ecrits/publications/[slug]" params={{ slug: el.id }}>
-				{el.data.title}
-			</Link>
-		))
-	}
+	<section class={sectionClass}>
+		<div class={container()}>
+			<header class={headerClass}>
+				<h1 class={h1Class}>Publications</h1>
+			</header>
+
+			<div class={wrapClass}>
+				<ul class={listClass}>
+					{
+						rendered.map(({ entry, Content }) => (
+							<li class={itemClass}>
+								<div class={eyebrowClass}>
+									<span>{entry.data.year}</span>
+									{entry.data.role && (
+										<>
+											<span class={eyebrowDotClass} aria-hidden="true" />
+											<span>{entry.data.role}</span>
+										</>
+									)}
+								</div>
+								<h2 class={titleClass}>{entry.data.title}</h2>
+								{entry.data.subtitle && <p class={subtitleClass}>{entry.data.subtitle}</p>}
+
+								<dl class={dlClass}>
+									<dt class={dtClass}>Éditeur</dt>
+									<dd class={ddClass}>{entry.data.publisher}</dd>
+									{entry.data.pages && (
+										<>
+											<dt class={dtClass}>Pages</dt>
+											<dd class={ddClass}>{entry.data.pages}</dd>
+										</>
+									)}
+									{entry.data.isbn && (
+										<>
+											<dt class={dtClass}>ISBN</dt>
+											<dd class={ddClass}>{entry.data.isbn}</dd>
+										</>
+									)}
+								</dl>
+
+								<div class={bodyClass}>
+									<Content />
+								</div>
+
+								{entry.data.link && (
+									<div class={linkWrapClass}>
+										<Button as="a" href={entry.data.link.url} target="_blank" rel="noopener">
+											<ExternalLinkIcon size={16} />
+											{entry.data.link.label}
+										</Button>
+									</div>
+								)}
+							</li>
+						))
+					}
+				</ul>
+			</div>
+		</div>
+	</section>
 </MainLayout>

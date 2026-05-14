@@ -76,7 +76,19 @@ export const collections = {
 		loader: glob({ pattern: '**/*.md', base: 'content/publications' }),
 		schema: z.object({
 			title: z.string(),
+			subtitle: z.string().optional(),
 			date: z.date(),
+			year: z.string(),
+			publisher: z.string(),
+			role: z.string().optional(),
+			pages: z.string().optional(),
+			isbn: z.string().optional(),
+			link: z
+				.object({
+					url: z.string(),
+					label: z.string(),
+				})
+				.optional(),
 		}),
 	}),
 	memoires: defineCollection({
