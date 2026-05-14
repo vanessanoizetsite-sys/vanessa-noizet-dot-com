@@ -15,6 +15,36 @@ type Props = {
 		Astro.props.class
 	)}
 >
+	<a
+		href="/"
+		class={css({
+			display: 'block',
+			width: 'fit-content',
+			mx: 'auto',
+			textAlign: 'center',
+			textStyle: 'heading-3',
+			fontStyle: 'italic',
+			fontWeight: 'light',
+			color: 'default',
+			letterSpacing: '0.04em',
+			pb: '4',
+			position: 'relative',
+			_after: {
+				content: '""',
+				position: 'absolute',
+				left: '50%',
+				bottom: '2',
+				width: '0',
+				height: '1px',
+				bg: 'currentColor',
+				translate: '-50% 0',
+				transition: 'width 0.3s ease',
+			},
+			_hover: { _after: { width: '60%' } },
+		})}
+	>
+		Vanessa Noizet
+	</a>
 	<ul class={css({ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1' })}>
 		{
 			navigationConfig.map((el) =>

@@ -19,9 +19,26 @@ import { css } from 'styled-system/css'
 	<body class={css({ textStyle: 'body', fontFamily: 'serif' })}>
 		<TransitionProgress />
 		<header class={css({ md: { bg: 'surface.1', position: 'sticky', top: '0', zIndex: 10 } })}>
+			<a
+				href="/"
+				class={css({
+					display: 'block',
+					textAlign: 'center',
+					textStyle: 'heading-4',
+					fontStyle: 'italic',
+					fontWeight: 'light',
+					color: 'default',
+					letterSpacing: '0.04em',
+					px: '16',
+					py: '4',
+					md: { display: 'none' },
+				})}
+			>
+				Vanessa Noizet
+			</a>
 			<DesktopNav class={css({ display: 'none', md: { display: 'block' } })} />
 			<MobileNav
-				class={css({ position: 'fixed', top: '3', right: '6', md: { display: 'none' } })}
+				class={css({ position: 'fixed', top: '3', right: '4', md: { display: 'none' } })}
 			/>
 		</header>
 

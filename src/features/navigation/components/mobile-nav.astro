@@ -8,9 +8,15 @@ type Props = {
 	class?: string
 }
 
-const listClass = css({
+const wrapperClass = css({
 	display: 'flex',
 	h: 'full',
+	flexDir: 'column',
+})
+
+const listClass = css({
+	display: 'flex',
+	flexGrow: 1,
 	flexDir: 'column',
 	justifyContent: 'center',
 	px: '6',
@@ -50,10 +56,35 @@ const childLinkClass = css({
 const fadeUpClass = css({
 	animation: 'fadeUp 0.3s ease-out both',
 })
+
+const mastheadClass = css({
+	display: 'block',
+	textAlign: 'center',
+	textStyle: 'heading-3',
+	fontStyle: 'italic',
+	fontWeight: 'light',
+	color: 'default',
+	letterSpacing: '0.04em',
+	pt: '8',
+	pb: '4',
+	sm: { textStyle: 'heading-2', pt: '10' },
+})
 ---
 
 <Hamburger class={Astro.props.class}>
-	<ul class={listClass}>
+	<div class={wrapperClass}>
+		<a href="/" class={mastheadClass}>
+			<SplitText
+				text="Vanessa Noizet"
+				lettersItem={{
+					class: fadeUpClass,
+					style: {
+						animationDelay: 'calc(var(--letter-index) * 30ms)',
+					},
+				}}
+			/>
+		</a>
+		<ul class={listClass}>
 		{
 			navigationConfig.map((el, index1) =>
 				!!el.children ? (
@@ -126,5 +157,6 @@ const fadeUpClass = css({
 				)
 			)
 		}
-	</ul>
+		</ul>
+	</div>
 </Hamburger>
