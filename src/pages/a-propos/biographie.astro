@@ -1,9 +1,224 @@
 ---
 import MainLayout from '#layouts/main-layout.astro'
+import Prose from '#components/prose.astro'
+import ArrowLabel from '#components/arrow-label.astro'
+import Link from 'astro-typesafe-routes/link'
+import { getEntry, render } from 'astro:content'
 import { css } from 'styled-system/css'
+import { container } from 'styled-system/patterns'
+
+const bio = await getEntry('biographie', 'index')
+if (!bio) throw new Error('biographie/index.md introuvable')
+const { Content } = await render(bio)
+
+const renderInline = (s: string) =>
+	s
+		.replace(/\*([^*]+)\*/g, '<em>$1</em>')
+		.replace(/\n/g, ' ')
+		.trim()
+
+const sectionClass = css({ py: '10', md: { py: '14' } })
+
+const headerClass = css({
+	textAlign: 'center',
+	mb: '12',
+	md: { mb: '16' },
+})
+
+const h1Class = css({
+	textStyle: 'heading-1',
+	fontWeight: 'normal',
+	fontStyle: 'italic',
+	color: 'default',
+	letterSpacing: '-0.01em',
+	lineHeight: '1',
+})
+
+const datesClass = css({
+	textStyle: 'label',
+	color: 'muted',
+	display: 'block',
+	mt: '4',
+	fontVariantNumeric: 'oldstyle-nums',
+})
+
+const wrapClass = css({
+	maxWidth: '68rem',
+	marginInline: 'auto',
+})
+
+const leadClass = css({
+	textStyle: 'heading-5',
+	fontWeight: 'normal',
+	fontStyle: 'italic',
+	color: 'default',
+	maxWidth: '60ch',
+	marginInline: 'auto',
+	textAlign: 'center',
+	lineHeight: '1.5',
+	mb: '14',
+	md: { mb: '20' },
+	'& em': { fontStyle: 'normal' },
+})
+
+const sectionGroupClass = css({
+	'& + &': {
+		mt: '14',
+		md: { mt: '20' },
+	},
+})
+
+const h2Class = css({
+	textStyle: 'heading-3',
+	fontWeight: 'normal',
+	fontStyle: 'italic',
+	color: 'default',
+	mb: '8',
+	pb: '4',
+	borderBottomWidth: '1px',
+	borderColor: 'separator',
+})
+
+const proseWrapClass = css({
+	'& h2': {
+		textStyle: 'heading-3',
+		fontWeight: 'normal',
+		fontStyle: 'italic',
+		color: 'default',
+		mb: '8',
+		pb: '4',
+		borderBottomWidth: '1px',
+		borderColor: 'separator',
+	},
+	'& > section + section': { mt: '14', md: { mt: '20' } },
+})
+
+const proseInnerClass = css({
+	maxWidth: '64ch',
+	marginInline: 'auto',
+})
+
+const listClass = css({
+	listStyle: 'none',
+	display: 'flex',
+	flexDirection: 'column',
+})
+
+const itemClass = css({
+	display: 'grid',
+	gridTemplateColumns: '1fr',
+	gap: '1',
+	py: '5',
+	borderBottomWidth: '1px',
+	borderColor: 'separator',
+	'&:last-child': { borderBottomWidth: 0 },
+	md: {
+		gridTemplateColumns: '10rem 1fr',
+		gap: '8',
+		py: '6',
+		alignItems: 'baseline',
+	},
+})
+
+const itemYearClass = css({
+	textStyle: 'label',
+	color: 'muted',
+	fontVariantNumeric: 'oldstyle-nums',
+})
+
+const itemBodyClass = css({
+	textStyle: 'body',
+	color: 'default',
+	lineHeight: '1.6',
+	maxWidth: '60ch',
+	'& em': { fontStyle: 'italic' },
+})
+
+const yearRange = `${bio.data.birthDate.getFullYear()} – ${bio.data.deathDate.getFullYear()}`
 ---
 
 <MainLayout>
-	<h1 class={css({ textStyle: 'heading-1', fontWeight: 'bold', color: 'default' })}>Biographie</h1>
-	<p class={css({ textStyle: 'body', color: 'default' })}>Contenu à venir...</p>
+	<section class={sectionClass}>
+		<div class={container()}>
+			<header class={headerClass}>
+				<h1 class={h1Class}>Biographie</h1>
+				<span class={datesClass}>{yearRange}</span>
+			</header>
+
+			<div class={wrapClass}>
+				<p class={leadClass} set:html={renderInline(bio.data.lead)} />
+
+				<div class={proseWrapClass}>
+					<div class={proseInnerClass}>
+						<Prose>
+							<Content />
+						</Prose>
+					</div>
+				</div>
+
+				<section class={sectionGroupClass}>
+					<h2 class={h2Class}>Enseignements</h2>
+					<ul class={listClass}>
+						{
+							bio.data.enseignements.map((e) => (
+								<li class={itemClass}>
+									<span class={itemYearClass}>{e.years}</span>
+									<p class={itemBodyClass} set:html={renderInline(e.body)} />
+								</li>
+							))
+						}
+					</ul>
+				</section>
+
+				<section class={sectionGroupClass}>
+					<h2 class={h2Class}>Bourses</h2>
+					<ul class={listClass}>
+						{
+							bio.data.bourses.map((e) => (
+								<li class={itemClass}>
+									<span class={itemYearClass}>{e.years}</span>
+									<p class={itemBodyClass} set:html={renderInline(e.body)} />
+								</li>
+							))
+						}
+					</ul>
+				</section>
+
+				<section class={sectionGroupClass}>
+					<h2 class={h2Class}>Publications</h2>
+					<div
+						class={css({
+							maxWidth: '64ch',
+							marginInline: 'auto',
+							display: 'flex',
+							flexDirection: 'column',
+							gap: '5',
+							alignItems: 'flex-start',
+						})}
+					>
+						<p
+							class={css({
+								textStyle: 'body',
+								color: 'default',
+								lineHeight: '1.7',
+							})}
+						>
+							Contributions à des catalogues d'exposition, essais et courts textes. Liste complète
+							consultable sur la page dédiée.
+						</p>
+						<Link
+							to="/ecrits/bibliographie"
+							class={css({
+								color: 'default',
+								textDecoration: 'none',
+								_hover: { '& [data-arrow]': { transform: 'translateX(3px)' } },
+							})}
+						>
+							<ArrowLabel>Voir la bibliographie</ArrowLabel>
+						</Link>
+					</div>
+				</section>
+			</div>
+		</div>
+	</section>
 </MainLayout>

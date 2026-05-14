@@ -103,4 +103,28 @@ export const collections = {
 			]),
 		}),
 	}),
+	biographie: defineCollection({
+		loader: glob({ pattern: '**/*.md', base: 'content/biographie' }),
+		schema: z.object({
+			birthDate: z.date(),
+			birthPlace: z.string(),
+			deathDate: z.date(),
+			deathPlace: z.string(),
+			lead: z.string(),
+			enseignements: z.array(z.object({ years: z.string(), body: z.string() })),
+			bourses: z.array(z.object({ years: z.string(), body: z.string() })),
+		}),
+	}),
+	cv: defineCollection({
+		loader: glob({ pattern: '**/*.md', base: 'content/cv' }),
+		schema: z.object({
+			pdf: z.string().optional(),
+			sections: z.array(
+				z.object({
+					heading: z.string(),
+					entries: z.array(z.object({ years: z.string(), body: z.string() })),
+				})
+			),
+		}),
+	}),
 }

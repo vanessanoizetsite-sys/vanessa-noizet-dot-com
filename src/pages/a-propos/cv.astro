@@ -1,9 +1,139 @@
 ---
 import MainLayout from '#layouts/main-layout.astro'
+import Button from '#components/button.astro'
+import { getEntry } from 'astro:content'
 import { css } from 'styled-system/css'
+import { container } from 'styled-system/patterns'
+import { DownloadIcon } from '@lucide/astro'
+
+const cv = await getEntry('cv', 'index')
+if (!cv) throw new Error('cv/index.md introuvable')
+
+const sectionClass = css({ py: '10', md: { py: '14' } })
+
+const headerClass = css({
+	textAlign: 'center',
+	mb: '10',
+	md: { mb: '14' },
+})
+
+const h1Class = css({
+	textStyle: 'heading-1',
+	fontWeight: 'normal',
+	fontStyle: 'italic',
+	color: 'default',
+	letterSpacing: '-0.01em',
+	lineHeight: '1',
+})
+
+const datesClass = css({
+	textStyle: 'label',
+	color: 'muted',
+	display: 'block',
+	mt: '4',
+	fontVariantNumeric: 'oldstyle-nums',
+})
+
+const downloadWrapClass = css({
+	display: 'flex',
+	justifyContent: 'center',
+	mt: '8',
+})
+
+const wrapClass = css({
+	maxWidth: '68rem',
+	marginInline: 'auto',
+})
+
+const sectionGroupClass = css({
+	'& + &': {
+		mt: '14',
+		md: { mt: '20' },
+	},
+})
+
+const h2Class = css({
+	textStyle: 'heading-3',
+	fontWeight: 'normal',
+	fontStyle: 'italic',
+	color: 'default',
+	mb: '8',
+	pb: '4',
+	borderBottomWidth: '1px',
+	borderColor: 'separator',
+})
+
+const listClass = css({
+	listStyle: 'none',
+	display: 'flex',
+	flexDirection: 'column',
+})
+
+const itemClass = css({
+	display: 'grid',
+	gridTemplateColumns: '1fr',
+	gap: '1',
+	py: '5',
+	borderBottomWidth: '1px',
+	borderColor: 'separator',
+	'&:last-child': { borderBottomWidth: 0 },
+	md: {
+		gridTemplateColumns: '10rem 1fr',
+		gap: '8',
+		py: '6',
+		alignItems: 'baseline',
+	},
+})
+
+const yearClass = css({
+	textStyle: 'label',
+	color: 'muted',
+	fontVariantNumeric: 'oldstyle-nums',
+})
+
+const bodyClass = css({
+	textStyle: 'body',
+	color: 'default',
+	lineHeight: '1.6',
+	maxWidth: '60ch',
+})
 ---
 
 <MainLayout>
-	<h1 class={css({ textStyle: 'heading-1', fontWeight: 'bold', color: 'default' })}>CV</h1>
-	<p class={css({ textStyle: 'body', color: 'default' })}>Contenu à venir...</p>
+	<section class={sectionClass}>
+		<div class={container()}>
+			<header class={headerClass}>
+				<h1 class={h1Class}>Curriculum vitæ</h1>
+				<span class={datesClass}>Vanessa Noizet, 1986 à 2021</span>
+				{
+					cv.data.pdf && (
+						<div class={downloadWrapClass}>
+							<Button as="a" href={cv.data.pdf} target="_blank">
+								<DownloadIcon size={16} />
+								Télécharger le CV (PDF)
+							</Button>
+						</div>
+					)
+				}
+			</header>
+
+			<div class={wrapClass}>
+				{
+					cv.data.sections.map(({ heading, entries }) => (
+						<section class={sectionGroupClass}>
+							<h2 class={h2Class}>{heading}</h2>
+							<ul class={listClass}>
+								{entries.map((e) => (
+									<li class={itemClass}>
+										<span class={yearClass}>{e.years}</span>
+										<p class={bodyClass}>{e.body}</p>
+									</li>
+								))}
+							</ul>
+						</section>
+					))
+				}
+			</div>
+		</div>
+	</section>
 </MainLayout>
