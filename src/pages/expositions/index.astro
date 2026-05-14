@@ -1,31 +1,205 @@
 ---
 import MainLayout from '#layouts/main-layout.astro'
+import ArrowLabel from '#components/arrow-label.astro'
 import Link from 'astro-typesafe-routes/link'
 import { getCollection } from 'astro:content'
 import { css } from 'styled-system/css'
-const expositions = await getCollection('expositions')
+import { container } from 'styled-system/patterns'
 
-const h1Class = css({ textStyle: 'heading-1', fontWeight: 'bold', color: 'default' })
-const listClass = css({ '& > * + *': { mt: '2' } })
-const linkClass = css({
+const items = await getCollection('expositions')
+items.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+
+const monthFr = (d: Date) =>
+	d.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })
+
+const formatRange = (start: Date, end?: Date) => {
+	if (!end) return monthFr(start)
+	const sameYear = start.getFullYear() === end.getFullYear()
+	if (sameYear) {
+		const startM = start.toLocaleDateString('fr-FR', { month: 'long' })
+		return `${startM} – ${monthFr(end)}`
+	}
+	return `${monthFr(start)} – ${monthFr(end)}`
+}
+
+const sectionClass = css({
+	py: '10',
+	md: { py: '14' },
+})
+
+const headerClass = css({
+	textAlign: 'center',
+	mb: '10',
+	md: { mb: '16' },
+})
+
+const h1Class = css({
+	textStyle: 'heading-1',
+	fontWeight: 'normal',
+	fontStyle: 'italic',
+	color: 'default',
+	letterSpacing: '-0.01em',
+	lineHeight: '1',
+})
+
+const introClass = css({
+	textStyle: 'body',
+	color: 'muted',
+	maxWidth: '52ch',
+	marginInline: 'auto',
+	mt: '5',
+	fontStyle: 'italic',
+})
+
+const listClass = css({
+	listStyle: 'none',
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '12',
+	md: { gap: '20' },
+})
+
+const itemClass = css({
+	'& a': {
+		display: 'grid',
+		gridTemplateColumns: '1fr',
+		gap: '5',
+		alignItems: 'center',
+		color: 'default',
+		textDecoration: 'none',
+		md: {
+			gridTemplateColumns: 'minmax(0, 7fr) minmax(0, 5fr)',
+			gap: '12',
+		},
+		_hover: {
+			'& [data-cover] img': { transform: 'scale(1.03)' },
+			'& [data-title]': {
+				textDecoration: 'underline',
+				textDecorationThickness: '1px',
+				textUnderlineOffset: '0.35em',
+			},
+			'& [data-arrow]': { transform: 'translateX(3px)' },
+		},
+		_focusVisible: {
+			outline: '2px solid token(colors.ring)',
+			outlineOffset: '6px',
+		},
+	},
+	'&:nth-child(even) a': {
+		md: { gridTemplateColumns: 'minmax(0, 5fr) minmax(0, 7fr)' },
+		'& [data-cover]': { md: { order: 2 } },
+		'& [data-meta]': { md: { order: 1, pl: '0', pr: '6' } },
+	},
+})
+
+const coverClass = css({
+	position: 'relative',
+	overflow: 'hidden',
+	bg: 'surface.2',
+	aspectRatio: '4 / 3',
+	'& img': {
+		width: 'full',
+		height: 'full',
+		objectFit: 'cover',
+		display: 'block',
+		transition: 'transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1)',
+	},
+})
+
+const metaClass = css({
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '3',
+	md: { pl: '6' },
+})
+
+const eyebrowClass = css({
+	textStyle: 'label',
+	color: 'muted',
+	display: 'flex',
+	alignItems: 'baseline',
+	gap: '3',
+	flexWrap: 'wrap',
+})
+
+const eyebrowDotClass = css({
+	display: 'inline-block',
+	width: '4px',
+	height: '4px',
+	bg: 'borderAccent',
+	borderRadius: 'full',
+	transform: 'translateY(-2px)',
+})
+
+const titleClass = css({
+	textStyle: 'heading-2',
+	fontWeight: 'normal',
+	fontStyle: 'italic',
+	color: 'default',
+	letterSpacing: '-0.005em',
+	textWrap: 'balance',
+	lineHeight: '1.1',
+})
+
+const venueClass = css({
 	textStyle: 'body',
 	color: 'default',
-	textDecoration: 'underline',
-	_hover: { color: 'muted' },
+})
+
+const roleClass = css({
+	textStyle: 'small',
+	color: 'muted',
+	fontStyle: 'italic',
+})
+
+const readClass = css({
+	mt: '2',
 })
 ---
 
 <MainLayout>
-	<h1 class={h1Class}>Expositions</h1>
-	<ul class={listClass}>
-		{
-			expositions.map((el) => (
-				<li>
-					<Link to="/expositions/[slug]" params={{ slug: el.id }} class={linkClass}>
-						{el.data.title}
-					</Link>
-				</li>
-			))
-		}
-	</ul>
+	<section class={sectionClass}>
+		<div class={container()}>
+			<header class={headerClass}>
+				<h1 class={h1Class}>Expositions</h1>
+				<p class={introClass}>
+					Commissariat, conseil scientifique et collaborations curatoriales, du Palais Idéal aux
+					grandes collections d'art brut.
+				</p>
+			</header>
+
+			<ul class={listClass}>
+				{
+					items.map((el) => (
+						<li class={itemClass}>
+							<Link to="/expositions/[slug]" params={{ slug: el.id }}>
+								<div class={coverClass} data-cover>
+									<img src={el.data.cover.src} alt={el.data.cover.alt} loading="lazy" />
+								</div>
+								<div class={metaClass} data-meta>
+									<div class={eyebrowClass}>
+										<time datetime={el.data.date.toISOString().slice(0, 10)}>
+											{formatRange(el.data.date, el.data.dateEnd)}
+										</time>
+										{el.data.city && (
+											<>
+												<span class={eyebrowDotClass} aria-hidden="true" />
+												<span>{el.data.city}</span>
+											</>
+										)}
+									</div>
+									<h2 class={titleClass} data-title>
+										{el.data.title}
+									</h2>
+									<p class={venueClass}>{el.data.venue}</p>
+									{el.data.role && <p class={roleClass}>{el.data.role}</p>}
+									<ArrowLabel class={readClass}>Voir l'exposition</ArrowLabel>
+								</div>
+							</Link>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
 </MainLayout>

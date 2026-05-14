@@ -24,6 +24,30 @@ export const collections = {
 		schema: z.object({
 			title: z.string(),
 			date: z.date(),
+			dateEnd: z.date().optional(),
+			venue: z.string(),
+			city: z.string().optional(),
+			role: z.string().optional(),
+			pdf: z.string().optional(),
+			link: z
+				.object({
+					url: z.string(),
+					label: z.string(),
+				})
+				.optional(),
+			cover: z.object({
+				src: z.string(),
+				alt: z.string(),
+			}),
+			images: z
+				.array(
+					z.object({
+						src: z.string(),
+						alt: z.string(),
+						caption: z.string().optional(),
+					})
+				)
+				.optional(),
 		}),
 	}),
 	hommages: defineCollection({
