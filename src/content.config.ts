@@ -86,4 +86,13 @@ export const collections = {
 			date: z.date(),
 		}),
 	}),
+	bibliographie: defineCollection({
+		loader: glob({ pattern: '**/*.md', base: 'content/bibliographie' }),
+		schema: z.object({
+			title: z.string(),
+			year: z.string(),
+			date: z.date(),
+			category: z.enum(['catalogue', 'court-texte']),
+		}),
+	}),
 }
