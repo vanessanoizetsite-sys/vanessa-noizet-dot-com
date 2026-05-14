@@ -1,31 +1,160 @@
 ---
 import MainLayout from '#layouts/main-layout.astro'
+import ArrowLabel from '#components/arrow-label.astro'
 import Link from 'astro-typesafe-routes/link'
 import { getCollection } from 'astro:content'
 import { css } from 'styled-system/css'
-const hommages = await getCollection('hommages')
+import { container } from 'styled-system/patterns'
 
-const h1Class = css({ textStyle: 'heading-1', fontWeight: 'bold', color: 'default' })
-const listClass = css({ '& > * + *': { mt: '2' } })
-const linkClass = css({
-	textStyle: 'body',
+const items = await getCollection('hommages')
+items.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+
+const stripMarkdown = (s: string) =>
+	s
+		.replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+		.replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+		.replace(/[#*_>`~]/g, ' ')
+		.replace(/\s+/g, ' ')
+		.trim()
+
+const sectionClass = css({
+	py: '10',
+	md: { py: '12' },
+})
+
+const headerClass = css({
+	textAlign: 'center',
+	mb: '8',
+	md: { mb: '10' },
+})
+
+const h1Class = css({
+	textStyle: 'heading-1',
+	fontWeight: 'normal',
+	fontStyle: 'italic',
 	color: 'default',
-	textDecoration: 'underline',
-	_hover: { color: 'muted' },
+	letterSpacing: '-0.01em',
+	lineHeight: '1',
+})
+
+const listWrapClass = css({
+	maxWidth: '56rem',
+	marginInline: 'auto',
+})
+
+const listClass = css({
+	listStyle: 'none',
+	borderTopWidth: '1px',
+	borderColor: 'separator',
+})
+
+const itemClass = css({
+	display: 'flex',
+	borderBottomWidth: '1px',
+	borderColor: 'separator',
+})
+
+const cardClass = css({
+	display: 'grid',
+	gridTemplateColumns: '1fr',
+	gap: '3',
+	rowGap: '2',
+	alignItems: 'baseline',
+	p: '6',
+	md: {
+		gridTemplateColumns: '6rem 1fr auto',
+		columnGap: '8',
+		p: '8',
+	},
+	width: 'full',
+	color: 'default',
+	textDecoration: 'none',
+	transition: 'background-color 300ms ease',
+	_hover: {
+		bg: 'surfaceAccent.1',
+		'& [data-title]': {
+			textDecoration: 'underline',
+			textDecorationThickness: '1px',
+			textUnderlineOffset: '0.3em',
+		},
+		'& [data-arrow]': { transform: 'translateX(3px)' },
+	},
+	_focusVisible: {
+		outline: '2px solid token(colors.ring)',
+		outlineOffset: '-4px',
+	},
+})
+
+const yearClass = css({
+	textStyle: 'label',
+	color: 'muted',
+	fontVariantNumeric: 'oldstyle-nums',
+})
+
+const textColClass = css({
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '2',
+	minWidth: '0',
+})
+
+const titleClass = css({
+	textStyle: 'heading-4',
+	fontWeight: 'normal',
+	color: 'default',
+	textWrap: 'balance',
+	lineHeight: '1.25',
+})
+
+const excerptClass = css({
+	textStyle: 'small',
+	fontStyle: 'italic',
+	color: 'muted',
+	lineHeight: '1.6',
+	maxWidth: '60ch',
+	lineClamp: '2',
+})
+
+const readClass = css({
+	md: { justifySelf: 'end', alignSelf: 'center' },
 })
 ---
 
 <MainLayout>
-	<h1 class={h1Class}>Hommages</h1>
-	<ul class={listClass}>
-		{
-			hommages.map((el) => (
-				<li>
-					<Link to="/hommages/[slug]" params={{ slug: el.id }} class={linkClass}>
-						{el.data.title}
-					</Link>
-				</li>
-			))
-		}
-	</ul>
+	<section class={sectionClass}>
+		<div class={container()}>
+			<header class={headerClass}>
+				<h1 class={h1Class}>Hommages</h1>
+			</header>
+
+			<div class={listWrapClass}>
+				<ul class={listClass}>
+					{
+						items.map((el) => {
+							const excerpt = el.body ? stripMarkdown(el.body) : ''
+							const hasText = excerpt.length > 0
+							return (
+								<li class={itemClass}>
+									<Link to="/hommages/[slug]" params={{ slug: el.id }} class={cardClass}>
+										<time class={yearClass} datetime={el.data.date.toISOString().slice(0, 10)}>
+											{el.data.date.getFullYear()}
+										</time>
+										<div class={textColClass}>
+											<h2 class={titleClass} data-title>
+												{el.data.title}
+											</h2>
+											{hasText && <p class={excerptClass}>{excerpt.slice(0, 180)}…</p>}
+										</div>
+										<ArrowLabel class={readClass}>
+											{el.data.pdf && !hasText ? 'Télécharger' : 'Lire'}
+										</ArrowLabel>
+									</Link>
+								</li>
+							)
+						})
+					}
+				</ul>
+			</div>
+		</div>
+	</section>
 </MainLayout>
