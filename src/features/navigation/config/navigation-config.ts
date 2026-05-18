@@ -12,11 +12,10 @@ type NavLink =
 
 export const navigationConfig = [
 	{
-		label: 'Écrits',
+		label: 'Publications',
 		children: [
-			{ label: 'Articles', url: '/ecrits/articles' },
-			{ label: 'Publications', url: '/ecrits/publications' },
-			{ label: 'Bibliographie', url: '/ecrits/bibliographie' },
+			{ label: 'Articles', url: '/publications/articles' },
+			{ label: 'Bibliographie', url: '/publications/bibliographie' },
 		],
 	},
 	{
@@ -41,10 +40,9 @@ export const navigationConfig = [
 	},
 	{
 		label: 'Hommages',
-		url: '/hommages',
-	},
-	{
-		label: "Livre d'or",
-		url: '/livre-d-or',
+		children: [
+			{ label: 'Textes', url: '/hommages/textes' },
+			{ label: "Livre d'or", url: '/livre-d-or' },
+		],
 	},
 ] satisfies NavLink[]

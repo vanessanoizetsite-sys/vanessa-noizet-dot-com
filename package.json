@@ -19,6 +19,8 @@
 		"astro-typesafe-routes": "^5.0.0",
 		"focus-trap": "^7.6.6",
 		"open-color": "^1.9.1",
+		"remark-gfm": "^4.0.1",
+		"sharp": "^0.34.5",
 		"typescript": "^5.9.3"
 	},
 	"devDependencies": {

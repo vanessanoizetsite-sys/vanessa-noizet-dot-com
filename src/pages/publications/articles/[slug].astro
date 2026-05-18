@@ -10,10 +10,9 @@ import { css } from 'styled-system/css'
 import { container } from 'styled-system/patterns'
 import { DownloadIcon } from '@lucide/astro'
 
-export const getStaticPaths = getStaticPathsFromCollection('hommages')
+export const getStaticPaths = getStaticPathsFromCollection('articles')
 const post = Astro.props
 const { Content } = await render(post)
-const hasBody = Boolean(post.body && post.body.trim().length > 0)
 
 const wrapperClass = css({
 	maxWidth: '65ch',
@@ -66,8 +65,8 @@ const pdfWrapClass = css({
 		<div class={container()}>
 			<div class={wrapperClass}>
 				<div class={backLinkWrapClass}>
-					<Link to="/hommages" class={backLinkClass}>
-						<ArrowLabel direction="back">Retour aux hommages</ArrowLabel>
+					<Link to="/publications/articles" class={backLinkClass}>
+						<ArrowLabel direction="back">Retour aux articles</ArrowLabel>
 					</Link>
 				</div>
 				<header class={headerClass}>
@@ -86,13 +85,9 @@ const pdfWrapClass = css({
 						)
 					}
 				</header>
-				{
-					hasBody && (
-						<Prose>
-							<Content />
-						</Prose>
-					)
-				}
+				<Prose>
+					<Content />
+				</Prose>
 			</div>
 		</div>
 	</article>

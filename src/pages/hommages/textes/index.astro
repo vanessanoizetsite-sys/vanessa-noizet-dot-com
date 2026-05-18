@@ -6,7 +6,7 @@ import { getCollection } from 'astro:content'
 import { css } from 'styled-system/css'
 import { container } from 'styled-system/patterns'
 
-const items = await getCollection('articles')
+const items = await getCollection('hommages')
 items.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
 
 const stripMarkdown = (s: string) =>
@@ -37,37 +37,36 @@ const h1Class = css({
 	lineHeight: '1',
 })
 
-const gridClass = css({
+const listWrapClass = css({
+	maxWidth: '56rem',
+	marginInline: 'auto',
+})
+
+const listClass = css({
 	listStyle: 'none',
-	display: 'grid',
-	gridTemplateColumns: '1fr',
 	borderTopWidth: '1px',
 	borderColor: 'separator',
-	md: {
-		gridTemplateColumns: 'repeat(2, 1fr)',
-	},
 })
 
 const itemClass = css({
 	display: 'flex',
 	borderBottomWidth: '1px',
 	borderColor: 'separator',
-	md: {
-		'&:nth-child(2n)': {
-			borderLeftWidth: '1px',
-			borderColor: 'separator',
-		},
-	},
 })
 
 const cardClass = css({
-	display: 'flex',
-	flexDirection: 'column',
+	display: 'grid',
+	gridTemplateColumns: '1fr',
 	gap: '3',
+	rowGap: '2',
+	alignItems: 'baseline',
 	p: '6',
-	md: { p: '8' },
+	md: {
+		gridTemplateColumns: '6rem 1fr auto',
+		columnGap: '8',
+		p: '8',
+	},
 	width: 'full',
-	height: 'full',
 	color: 'default',
 	textDecoration: 'none',
 	transition: 'background-color 300ms ease',
@@ -92,6 +91,13 @@ const yearClass = css({
 	fontVariantNumeric: 'oldstyle-nums',
 })
 
+const textColClass = css({
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '2',
+	minWidth: '0',
+})
+
 const titleClass = css({
 	textStyle: 'heading-4',
 	fontWeight: 'normal',
@@ -105,12 +111,12 @@ const excerptClass = css({
 	fontStyle: 'italic',
 	color: 'muted',
 	lineHeight: '1.6',
-	maxWidth: '52ch',
+	maxWidth: '60ch',
 	lineClamp: '2',
 })
 
 const readClass = css({
-	mt: 'auto',
+	md: { justifySelf: 'end', alignSelf: 'center' },
 })
 ---
 
@@ -118,27 +124,37 @@ const readClass = css({
 	<section class={sectionClass}>
 		<div class={container()}>
 			<header class={headerClass}>
-				<h1 class={h1Class}>Articles</h1>
+				<h1 class={h1Class}>Hommages</h1>
 			</header>
 
-			<ul class={gridClass}>
-				{
-					items.map((el) => (
-						<li class={itemClass}>
-							<Link to="/ecrits/articles/[slug]" params={{ slug: el.id }} class={cardClass}>
-								<time class={yearClass} datetime={el.data.date.toISOString().slice(0, 10)}>
-									{el.data.date.getFullYear()}
-								</time>
-								<h2 class={titleClass} data-title>
-									{el.data.title}
-								</h2>
-								{el.body && <p class={excerptClass}>{stripMarkdown(el.body).slice(0, 150)}…</p>}
-								<ArrowLabel class={readClass}>Lire</ArrowLabel>
-							</Link>
-						</li>
-					))
-				}
-			</ul>
+			<div class={listWrapClass}>
+				<ul class={listClass}>
+					{
+						items.map((el) => {
+							const excerpt = el.body ? stripMarkdown(el.body) : ''
+							const hasText = excerpt.length > 0
+							return (
+								<li class={itemClass}>
+									<Link to="/hommages/textes/[slug]" params={{ slug: el.id }} class={cardClass}>
+										<time class={yearClass} datetime={el.data.date.toISOString().slice(0, 10)}>
+											{el.data.date.getFullYear()}
+										</time>
+										<div class={textColClass}>
+											<h2 class={titleClass} data-title>
+												{el.data.title}
+											</h2>
+											{hasText && <p class={excerptClass}>{excerpt.slice(0, 180)}…</p>}
+										</div>
+										<ArrowLabel class={readClass}>
+											{el.data.pdf && !hasText ? 'Télécharger' : 'Lire'}
+										</ArrowLabel>
+									</Link>
+								</li>
+							)
+						})
+					}
+				</ul>
+			</div>
 		</div>
 	</section>
 </MainLayout>

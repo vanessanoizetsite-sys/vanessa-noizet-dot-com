@@ -1,4 +1,4 @@
 ---
-image: ./dessin-09.jpg
+image: ./dessin-12.jpg
 order: 9
 ---

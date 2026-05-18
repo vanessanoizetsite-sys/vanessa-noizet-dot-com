@@ -22,3 +22,7 @@ button {
 .overflow-hidden {
 	overflow: hidden;
 }
+
+#footnote-label {
+	display: none;
+}
