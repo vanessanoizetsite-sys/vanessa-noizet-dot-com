@@ -1,8 +1,8 @@
 ---
-title: '« Spontaneitet » CoBrA en Chaissac, Zielsverwanten'
+title: "«Spontaneit»"
 year: '2021'
 date: 2021-01-01
 category: catalogue
 ---
 
-En néerlandais uniquement. Design Harald Slaterus, éditions Waanders & De Kunst, contributions de Angelika Affentranger-Kirchrath, Vanessa Noizet, Nadia Raison-Chaissac, Gaëlle Rageot-Deshayes. Kunstmuseum Den Haag.
+Dans *Cobra en Chaissac : Zielsverswanten*, cat. expo., KunstMuseum, éditions Waanders & De Kunst, La Haye, 2021, 5 p.

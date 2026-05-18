@@ -1,8 +1,8 @@
 ---
-title: '« De la spontanéité » Cobra-Chaissac'
+title: "«De la spontanéité»"
 year: '2022'
 date: 2022-01-01
 category: catalogue
 ---
 
-Dans *Chaissac & CoBrA sous le signe du serpent* (auteurs : Angelika Affentranger-Kirchrath, Vanessa Noizet, Nadia Raison-Chaissac, Gaëlle Rageot-Deshayes, Michel Ragon, Benoît Decron, Victor Vanoosten), Gallimard / Musée Soulages, Rodez, p. 28-34.
+Dans *Cobra-Chaissac : Sous le signe du serpent*, cat. expo., Gallimard – Musée Soulages, Rodez, 2022, 5 p. (avec des traductions).

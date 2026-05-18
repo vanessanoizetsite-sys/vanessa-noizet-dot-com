@@ -1,8 +1,8 @@
 ---
-title: '« Fred Turner, Le Cercle démocratique : le design multimédia, de la Seconde Guerre mondiale aux années psychédéliques »'
+title: "«Fred Turner, Le Cercle démocratique»"
 year: '2019'
-date: 2019-05-05
+date: 2019-05-01
 category: compte-rendu
 ---
 
-Dans *Critique d'art*, mai 2019.
+*Critique d'art*, n° 50, en ligne.

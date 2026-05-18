@@ -1,5 +1,5 @@
 ---
-title: "«Kiki Smith : entre chien et loup»"
+title: "«Georg Baselitz, Danse gothique : Écrits et entretiens, 1961–2019»"
 year: '2021'
 date: 2021-06-01
 category: compte-rendu

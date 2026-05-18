@@ -1,8 +1,8 @@
 ---
-title: "« Le ''bricolage'' de Gaston Chaissac : sac de nœuds scientifique ou concept efficient ? »"
+title: "«Le “bricolage” de Gaston Chaissac : sac de nœuds scientifique ou concept efficient ?»"
 year: '2017'
 date: 2017-06-08
 category: conference
 ---
 
-Journée d'étude *L'art est éternel et les artistes sont des génies. Les idées reçues en histoire de l'art contemporain, des années 30 à aujourd'hui*, INHA, Paris, 8 juin 2017.
+Journée d'étude «Les idées reçues en histoire de l'art contemporain, des années trente à nos jours», Institut national d'histoire de l'art, Paris, 8 juin 2017.

@@ -1,8 +1,8 @@
 ---
-title: 'Gaston Chaissac : chroniques'
+title: "Gaston Chaissac, chroniques"
 year: '2017'
 date: 2017-01-01
 category: catalogue
 ---
 
-Sous la direction de Gaëlle Rageot-Deshayes. Les Sables d'Olonne, Musée de l'Abbaye Sainte-Croix (Cahiers de l'Abbaye Sainte-Croix).
+Contribution scientifique au catalogue d'exposition (dir. Gaëlle Rageot), Musée de l'abbaye Sainte-Croix, Les Sables d'Olonne : choix des textes critiques, révision de la chronologie et suivi éditorial.

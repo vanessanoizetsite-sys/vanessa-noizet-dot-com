@@ -1,8 +1,8 @@
 ---
-title: "« Pour Estelle, en souvenir d'Anna »"
+title: "«Pour Estelle, en souvenir d'Anna»"
 year: '2019'
-date: 2019-02-21
-category: court-texte
+date: 2019-01-01
+category: catalogue
 ---
 
-À l'occasion de *De Traverse*, catalogue et exposition personnelle éponymes d'Estelle Lagarde, 21 février au 23 mars 2019, MH Gallery, Bruxelles.
+Texte de 10 p. À l'occasion de *De Traverse*, catalogue et exposition personnelle d'Estelle Lagarde, 2019, p. 4–13.

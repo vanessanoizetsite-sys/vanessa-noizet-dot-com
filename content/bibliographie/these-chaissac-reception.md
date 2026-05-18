@@ -1,8 +1,8 @@
 ---
-title: "« L'idée première ensevelie sous les dogmes » : étude de la réception de l'œuvre de Gaston Chaissac, des années trente à nos jours"
-year: '2014'
-date: 2014-09-01
+title: "«L'idée première ensevelie sous les dogmes» : étude de la réception critique de l'œuvre de Gaston Chaissac, des années trente à nos jours"
+year: 'en cours'
+date: 2021-04-01
 category: these
 ---
 
-Thèse de doctorat inachevée. Sous la direction d'Emmanuel Pernoud, professeur d'histoire de l'art contemporain, université Paris I, Panthéon Sorbonne.
+Doctorat en cours au moment du décès. Université Paris I – Panthéon Sorbonne, sous la direction d'Emmanuel Pernoud.

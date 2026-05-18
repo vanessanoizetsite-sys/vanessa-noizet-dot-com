@@ -1,8 +1,8 @@
 ---
-title: "Journées d'études « Art Brut et Matérialité, de l'Imaginaire à l'Œuvre »"
+title: "«Des mots à l'œuvre : lecture d'une correspondance de Gaston Chaissac»"
 year: '2014'
 date: 2014-10-27
 category: conference
 ---
 
-Participation aux journées d'études, université Paris Ouest, Nanterre, 27 et 28 octobre 2014.
+Colloque international «Art brut et matérialité, de l'imaginaire à l'œuvre», Université Paris Ouest-Nanterre La Défense et Carleton University, Nanterre, 27–28 octobre 2014.

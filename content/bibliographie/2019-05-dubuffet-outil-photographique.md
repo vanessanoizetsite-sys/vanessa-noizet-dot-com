@@ -1,8 +1,8 @@
 ---
-title: "« Jean Dubuffet, l'outil photographique »"
+title: "«Sophie Webel, Jean Dubuffet, l'outil photographique»"
 year: '2019'
-date: 2019-05-03
+date: 2019-05-01
 category: compte-rendu
 ---
 
-Dans *Critique d'art*, mai 2019.
+*Critique d'art*, n° 50, en ligne.

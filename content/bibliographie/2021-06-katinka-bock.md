@@ -1,8 +1,8 @@
 ---
-title: '« Katinka Bock, Tumulte à Higienopolis, Paris, Lafayette Anticipations, 2019 »'
+title: "«Katinka Bock, Tumulte à Higienopolis»"
 year: '2021'
 date: 2021-06-01
 category: compte-rendu
 ---
 
-Dans *Critique d'art*, juin 2021.
+*Critique d'art*, Actualité internationale de la littérature critique sur l'art contemporain, 2021, n° 56, en ligne.

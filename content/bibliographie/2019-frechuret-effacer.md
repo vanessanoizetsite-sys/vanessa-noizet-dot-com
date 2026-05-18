@@ -1,8 +1,8 @@
 ---
-title: "« Maurice Fréchuret, Effacer. Paradoxes d'un geste artistique »"
+title: "«Maurice Fréchuret, Effacer. Paradoxes d'un geste artistique»"
 year: '2019'
-date: 2019-01-01
+date: 2019-09-01
 category: compte-rendu
 ---
 
-Dans *Revue de l'art*, Paris, Institut national d'histoire de l'art, n° 203, p. 86.
+*Revue de l'Art*, Paris, Institut national d'histoire de l'art, 2019, n° 203, p. 86.

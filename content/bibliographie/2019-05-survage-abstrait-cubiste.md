@@ -1,8 +1,8 @@
 ---
-title: '« Survage : abstrait ou cubiste ? »'
+title: "«Daniel Abadie, Survage : abstrait ou cubiste ?»"
 year: '2019'
-date: 2019-05-06
+date: 2019-05-01
 category: compte-rendu
 ---
 
-Dans *Critique d'art*, mai 2019.
+*Critique d'art*, n° 50, en ligne.

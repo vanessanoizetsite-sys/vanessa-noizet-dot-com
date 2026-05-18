@@ -114,6 +114,7 @@ export const collections = {
 				'court-texte',
 				'compte-rendu',
 				'conference',
+				'ouvrage',
 			]),
 		}),
 	}),
