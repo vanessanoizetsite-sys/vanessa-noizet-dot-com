@@ -43,6 +43,7 @@ export const navigationConfig = [
 		children: [
 			{ label: 'Textes', url: '/hommages/textes' },
 			{ label: "Livre d'or", url: '/livre-d-or' },
+			{ label: 'Remerciements', url: '/hommages/remerciements' },
 		],
 	},
 ] satisfies NavLink[]

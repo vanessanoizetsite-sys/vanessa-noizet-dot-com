@@ -1,10 +1,12 @@
 ---
 import MainLayout from '#layouts/main-layout.astro'
-import { getCollection } from 'astro:content'
-import { render } from 'astro:content'
+import Prose from '#components/prose.astro'
+import { getCollection, render } from 'astro:content'
 import { css } from 'styled-system/css'
+import { container } from 'styled-system/patterns'
 
 const entries = await getCollection('livredor')
+entries.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
 const renderedEntries = await Promise.all(
 	entries.map(async (entry) => ({
 		...entry,
@@ -12,21 +14,121 @@ const renderedEntries = await Promise.all(
 	}))
 )
 
-const h1Class = css({ textStyle: 'heading-1', fontWeight: 'bold', color: 'default' })
+const sectionClass = css({ py: '10', md: { py: '14' } })
+
+const headerClass = css({
+	textAlign: 'center',
+	mb: '12',
+	md: { mb: '16' },
+})
+
+const h1Class = css({
+	textStyle: 'heading-1',
+	fontWeight: 'normal',
+	fontStyle: 'italic',
+	color: 'default',
+	letterSpacing: '-0.01em',
+	lineHeight: '1',
+})
+
+const wrapClass = css({
+	maxWidth: '52rem',
+	marginInline: 'auto',
+})
+
+const introClass = css({
+	pb: '10',
+	mb: '10',
+	borderBottomWidth: '1px',
+	borderColor: 'separator',
+	md: { pb: '12', mb: '12' },
+})
+
+const introTextClass = css({
+	textStyle: 'body',
+	color: 'default',
+	lineHeight: '1.7',
+	'& a': {
+		color: 'default',
+		textDecorationColor: 'muted',
+		textUnderlineOffset: '0.3ex',
+		_hover: { textDecorationColor: 'currentColor' },
+	},
+})
+
+const entriesClass = css({
+	display: 'flex',
+	flexDirection: 'column',
+})
+
+const articleClass = css({
+	py: '8',
+	borderBottomWidth: '1px',
+	borderColor: 'separator',
+})
+
+const entryHeaderClass = css({
+	display: 'flex',
+	alignItems: 'baseline',
+	justifyContent: 'space-between',
+	gap: '4',
+	mb: '5',
+	flexWrap: 'wrap',
+})
+
+const authorClass = css({
+	textStyle: 'heading-5',
+	fontWeight: 'normal',
+	fontStyle: 'italic',
+	color: 'default',
+})
+
+const dateClass = css({
+	textStyle: 'label',
+	color: 'muted',
+	fontVariantNumeric: 'oldstyle-nums',
+	flexShrink: '0',
+})
 ---
 
 <MainLayout>
-	<h1 class={h1Class}>Livre d'or</h1>
-	<div class={css({ '& > * + *': { mt: '6' } })}>
-		{
-			renderedEntries.map((entry) => (
-				<article class={css({ borderTopWidth: '1px', borderColor: 'border', pt: '4' })}>
-					<h2 class={css({ textStyle: 'heading-4', fontWeight: 'bold', color: 'default' })}>
-						{entry.data.title}
-					</h2>
-					<entry.Content />
-				</article>
-			))
-		}
-	</div>
+	<section class={sectionClass}>
+		<div class={container()}>
+			<header class={headerClass}>
+				<h1 class={h1Class}>Livre d'or</h1>
+			</header>
+
+			<div class={wrapClass}>
+				<div class={introClass}>
+					<p class={introTextClass}>
+						Vous souhaitez rendre hommage à Vanessa ? Écrivez-nous à <a href="mailto:example@mail.com">example@mail.com</a>.
+					</p>
+				</div>
+
+				<div class={entriesClass}>
+					{
+						renderedEntries.map((entry) => (
+							<article class={articleClass}>
+								<header class={entryHeaderClass}>
+									<h2 class={authorClass}>{entry.data.title}</h2>
+									<time
+										class={dateClass}
+										datetime={entry.data.date.toISOString().slice(0, 10)}
+									>
+										{entry.data.date.toLocaleDateString('fr-FR', {
+											year: 'numeric',
+											month: 'long',
+										})}
+									</time>
+								</header>
+								<Prose>
+									<entry.Content />
+								</Prose>
+							</article>
+						))
+					}
+				</div>
+			</div>
+		</div>
+	</section>
 </MainLayout>

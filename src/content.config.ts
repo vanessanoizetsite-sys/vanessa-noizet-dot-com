@@ -139,6 +139,12 @@ export const collections = {
 				order: z.number().optional(),
 			}),
 	}),
+	remerciements: defineCollection({
+		loader: glob({ pattern: '**/*.md', base: 'content/remerciements' }),
+		schema: z.object({
+			title: z.string(),
+		}),
+	}),
 	cv: defineCollection({
 		loader: glob({ pattern: '**/*.md', base: 'content/cv' }),
 		schema: z.object({
