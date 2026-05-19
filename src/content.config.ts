@@ -67,8 +67,8 @@ export const collections = {
 			date: z.date(),
 		}),
 	}),
-	colloques: defineCollection({
-		loader: glob({ pattern: '**/*.md', base: 'content/colloques' }),
+	interventions: defineCollection({
+		loader: glob({ pattern: '**/*.md', base: 'content/interventions' }),
 		schema: z.object({
 			title: z.string(),
 			date: z.date(),

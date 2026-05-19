@@ -56,10 +56,10 @@ graph TD
     E --> E2{{"hommage"}}
     E --> E3["livre-d-or"]
 
-    F --> F1["colloques"]
+    F --> F1["interventions"]
     F --> F2["memoires"]
     F --> F3["projet-de-these"]
-    F1 --> F1b{{"colloque"}}
+    F1 --> F1b{{"intervention"}}
     F2 --> F2b{{"memoire"}}
 ```
 
@@ -242,9 +242,9 @@ Un fichier `*.md` par entrée. Corps Markdown rendu.
 | `title` | str  | oui    | Auteur ou intitulé  |
 | `date`  | date | oui    | Date                |
 
-### `colloques/` — interventions en colloque
+### `interventions/` — interventions (colloques, conférences, etc.)
 
-Un fichier `*.md` par colloque. Corps Markdown rendu.
+Un fichier `*.md` par intervention. Corps Markdown rendu.
 
 | Champ   | Type | Requis | Rôle  |
 | ------- | ---- | ------ | ----- |
@@ -253,7 +253,7 @@ Un fichier `*.md` par colloque. Corps Markdown rendu.
 
 ### `memoires/` — mémoires
 
-Même schéma que `colloques`. Le dossier `content/memoires/` est à créer pour ajouter des entrées.
+Même schéma que `interventions`. Le dossier `content/memoires/` est à créer pour ajouter des entrées.
 
 ### `biographie/` — page Biographie
 

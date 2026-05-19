@@ -21,7 +21,7 @@ export const navigationConfig = [
 	{
 		label: 'Recherche',
 		children: [
-			{ label: 'Colloques', url: '/recherche/colloques' },
+			{ label: 'Interventions', url: '/recherche/interventions' },
 			{ label: 'Mémoires', url: '/recherche/memoires' },
 			{ label: 'Projet de thèse', url: '/recherche/projet-de-these' },
 		],

@@ -1,9 +1,9 @@
 ---
-title: 'Example Colloque Title'
+title: 'Example Intervention Title'
 date: 2024-04-05
 ---
 
-This is placeholder content for a colloque. Replace this with your actual colloque information.
+This is placeholder content for an intervention. Replace this with your actual intervention information.
 
 ## Theme
 

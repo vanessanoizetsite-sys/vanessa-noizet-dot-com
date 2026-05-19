@@ -20,7 +20,7 @@ Panda CSS with custom theme tokens defined in `panda.config.ts`. Generated outpu
 
 ### Content Collections
 
-7 collections (articles, publications, expositions, hommages, colloques, memoires, livredor) all sharing the same schema: `{ title: string, date: date }`. Markdown files in `content/`. Config in `src/content.config.ts`.
+7 collections (articles, publications, expositions, hommages, interventions, memoires, livredor) all sharing the same schema: `{ title: string, date: date }`. Markdown files in `content/`. Config in `src/content.config.ts`.
 
 ### Interactive Components
 
