@@ -19,7 +19,11 @@ const stripMarkdown = (s: string) =>
 
 const sectionClass = css({
 	py: '10',
-	md: { py: '12' },
+	minHeight: 'calc(100dvh - 4rem)',
+	display: 'flex',
+	flexDirection: 'column',
+	justifyContent: 'safe center',
+	md: { py: '12', minHeight: 'calc(100dvh - 6rem)' },
 })
 
 const headerClass = css({
