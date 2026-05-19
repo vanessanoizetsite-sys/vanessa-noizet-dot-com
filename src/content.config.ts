@@ -28,17 +28,28 @@ export const collections = {
 			venue: z.string(),
 			city: z.string().optional(),
 			role: z.string().optional(),
-			pdf: z.string().optional(),
+			pdfs: z
+				.array(
+					z.object({
+						label: z.string(),
+						url: z.string(),
+					})
+				)
+				.optional(),
 			link: z
 				.object({
 					url: z.string(),
 					label: z.string(),
 				})
 				.optional(),
-			cover: z.object({
-				src: z.string(),
-				alt: z.string(),
-			}),
+			cover: z
+				.object({
+					src: z.string(),
+					alt: z.string(),
+					width: z.number().optional(),
+					height: z.number().optional(),
+				})
+				.optional(),
 			images: z
 				.array(
 					z.object({

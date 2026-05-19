@@ -52,6 +52,7 @@ const itemClass = css({
 		},
 		_hover: {
 			'& [data-cover] img': { transform: 'scale(1.03)' },
+			'& [data-poster-year]': { transform: 'translateY(-2px)' },
 			'& [data-title]': {
 				textDecoration: 'underline',
 				textDecorationThickness: '1px',
@@ -75,7 +76,7 @@ const coverClass = css({
 	position: 'relative',
 	overflow: 'hidden',
 	bg: 'surface.2',
-	aspectRatio: '4 / 3',
+	aspectRatio: 'var(--ratio, 4 / 3)',
 	'& img': {
 		width: 'full',
 		height: 'full',
@@ -83,6 +84,62 @@ const coverClass = css({
 		display: 'block',
 		transition: 'transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1)',
 	},
+})
+
+const posterClass = css({
+	position: 'relative',
+	overflow: 'hidden',
+	bg: 'surface.2',
+	aspectRatio: '4 / 3',
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	textAlign: 'center',
+	px: '6',
+	py: '8',
+	transition: 'background 320ms ease',
+	'&::before, &::after': {
+		content: '""',
+		position: 'absolute',
+		left: '6',
+		right: '6',
+		height: '1px',
+		bg: 'separator',
+	},
+	'&::before': { top: '6' },
+	'&::after': { bottom: '6' },
+})
+
+const posterInnerClass = css({
+	display: 'flex',
+	flexDirection: 'column',
+	alignItems: 'center',
+	gap: '4',
+})
+
+const posterYearClass = css({
+	textStyle: 'heading-1',
+	fontStyle: 'italic',
+	fontWeight: 'normal',
+	letterSpacing: '-0.02em',
+	color: 'default',
+	lineHeight: '0.95',
+	transition: 'transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1)',
+})
+
+const posterRuleClass = css({
+	width: '36px',
+	height: '1px',
+	bg: 'borderAccent',
+})
+
+const posterMetaClass = css({
+	textStyle: 'label',
+	color: 'muted',
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '1',
+	maxWidth: '24ch',
 })
 
 const metaClass = css({
@@ -148,9 +205,38 @@ const readClass = css({
 					items.map((el) => (
 						<li class={itemClass}>
 							<Link to="/expositions/[slug]" params={{ slug: el.id }}>
-								<div class={coverClass} data-cover>
-									<img src={el.data.cover.src} alt={el.data.cover.alt} loading="lazy" />
-								</div>
+								{el.data.cover ? (
+									<div
+										class={coverClass}
+										data-cover
+										style={
+											el.data.cover.width && el.data.cover.height
+												? `--ratio: ${el.data.cover.width} / ${el.data.cover.height};`
+												: undefined
+										}
+									>
+										<img
+											src={el.data.cover.src}
+											alt={el.data.cover.alt}
+											loading="lazy"
+											width={el.data.cover.width}
+											height={el.data.cover.height}
+										/>
+									</div>
+								) : (
+									<div class={posterClass} data-cover aria-hidden="true">
+										<div class={posterInnerClass}>
+											<span class={posterYearClass} data-poster-year>
+												{el.data.date.getFullYear()}
+											</span>
+											<span class={posterRuleClass} />
+											<span class={posterMetaClass}>
+												<span>{el.data.venue}</span>
+												{el.data.city && <span>{el.data.city}</span>}
+											</span>
+										</div>
+									</div>
+								)}
 								<div class={metaClass} data-meta>
 									<div class={eyebrowClass}>
 										<time datetime={el.data.date.toISOString().slice(0, 10)}>

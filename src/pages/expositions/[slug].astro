@@ -46,14 +46,76 @@ const coverWrapClass = css({
 	position: 'relative',
 	overflow: 'hidden',
 	bg: 'surface.2',
-	aspectRatio: '4 / 5',
-	md: { aspectRatio: '3 / 4' },
+	aspectRatio: 'var(--ratio, 4 / 5)',
+	maxHeight: '80vh',
+	md: { aspectRatio: 'var(--ratio, 3 / 4)' },
 	'& img': {
 		width: 'full',
 		height: 'full',
 		objectFit: 'cover',
 		display: 'block',
 	},
+})
+
+const posterWrapClass = css({
+	position: 'relative',
+	overflow: 'hidden',
+	bg: 'surface.2',
+	aspectRatio: '4 / 5',
+	md: { aspectRatio: '3 / 4' },
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	textAlign: 'center',
+	px: '8',
+	py: '10',
+	'&::before, &::after': {
+		content: '""',
+		position: 'absolute',
+		left: '8',
+		right: '8',
+		height: '1px',
+		bg: 'separator',
+	},
+	'&::before': { top: '8' },
+	'&::after': { bottom: '8' },
+})
+
+const posterInnerClass = css({
+	display: 'flex',
+	flexDirection: 'column',
+	alignItems: 'center',
+	gap: '6',
+})
+
+const posterEyebrowClass = css({
+	textStyle: 'label',
+	color: 'muted',
+	letterSpacing: '0.08em',
+	textTransform: 'uppercase',
+})
+
+const posterYearClass = css({
+	fontSize: 'clamp(96px, 14vw, 192px)',
+	fontStyle: 'italic',
+	fontWeight: 'normal',
+	letterSpacing: '-0.04em',
+	lineHeight: '0.85',
+	color: 'default',
+})
+
+const posterRuleClass = css({
+	width: '48px',
+	height: '1px',
+	bg: 'borderAccent',
+})
+
+const posterMetaClass = css({
+	textStyle: 'body',
+	color: 'default',
+	fontStyle: 'italic',
+	maxWidth: '28ch',
+	lineHeight: '1.4',
 })
 
 const metaColClass = css({
@@ -114,7 +176,7 @@ const bodyWrapClass = css({
 })
 ---
 
-<MainLayout title={post.data.title} description={`Exposition « ${post.data.title} » — ${post.data.venue}.`} image={post.data.cover.src}>
+<MainLayout title={post.data.title} description={`Exposition « ${post.data.title} » — ${post.data.venue}.`} image={post.data.cover?.src}>
 	<article class={articleClass}>
 		<div class={container()}>
 			<div class={backWrapClass}>
@@ -124,15 +186,45 @@ const bodyWrapClass = css({
 			</div>
 
 			<header class={heroClass}>
-				<div class={coverWrapClass}>
-					<img
-						src={post.data.cover.src}
-						alt={post.data.cover.alt}
-						loading="eager"
-						fetchpriority="high"
-						decoding="async"
-					/>
-				</div>
+				{
+					post.data.cover ? (
+						<div
+							class={coverWrapClass}
+							style={
+								post.data.cover.width && post.data.cover.height
+									? `--ratio: ${post.data.cover.width} / ${post.data.cover.height};`
+									: undefined
+							}
+						>
+							<img
+								src={post.data.cover.src}
+								alt={post.data.cover.alt}
+								loading="eager"
+								fetchpriority="high"
+								decoding="async"
+								width={post.data.cover.width}
+								height={post.data.cover.height}
+							/>
+						</div>
+					) : (
+						<div class={posterWrapClass} aria-hidden="true">
+							<div class={posterInnerClass}>
+								<span class={posterEyebrowClass}>Exposition</span>
+								<span class={posterYearClass}>{post.data.date.getFullYear()}</span>
+								<span class={posterRuleClass} />
+								<span class={posterMetaClass}>
+									{post.data.venue}
+									{post.data.city && (
+										<>
+											<br />
+											{post.data.city}
+										</>
+									)}
+								</span>
+							</div>
+						</div>
+					)
+				}
 				<div class={metaColClass}>
 					<span class={eyebrowClass}>
 						{formatDateRange(post.data.date, post.data.dateEnd)}
@@ -161,14 +253,14 @@ const bodyWrapClass = css({
 					</dl>
 
 					{
-						(post.data.pdf || post.data.link) && (
+						((post.data.pdfs && post.data.pdfs.length > 0) || post.data.link) && (
 							<div class={actionsClass}>
-								{post.data.pdf && (
-									<Button as="a" href={post.data.pdf} target="_blank">
+								{post.data.pdfs?.map((pdf) => (
+									<Button as="a" href={pdf.url} target="_blank">
 										<DownloadIcon size={16} />
-										Dossier de presse (PDF)
+										{pdf.label} (PDF)
 									</Button>
-								)}
+								))}
 								{post.data.link && (
 									<Button as="a" href={post.data.link.url} target="_blank" rel="noopener">
 										<ExternalLinkIcon size={16} />
