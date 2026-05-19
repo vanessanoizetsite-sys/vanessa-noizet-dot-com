@@ -4,7 +4,24 @@ import DesktopNav from '#features/navigation/components/desktop-nav.astro'
 import MobileNav from '#features/navigation/components/mobile-nav.astro'
 import { ClientRouter } from 'astro:transitions'
 import TransitionProgress from '#components/transition-progress.astro'
+import { siteConfig } from '#config/site'
+import { SEO } from 'astro-seo'
 import { css } from 'styled-system/css'
+
+interface Props {
+	title?: string
+	description?: string
+	image?: string
+	noindex?: boolean
+}
+
+const { title, description, image, noindex } = Astro.props
+
+const pageTitle = title ?? siteConfig.defaultTitle
+const fullTitle = title ? siteConfig.titleTemplate.replace('%s', title) : siteConfig.defaultTitle
+const pageDescription = description ?? siteConfig.description
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? siteConfig.url).toString()
+const ogImage = new URL(image ?? '/android-chrome-512x512.png', Astro.site ?? siteConfig.url).toString()
 ---
 
 <html lang="fr">
@@ -18,7 +35,28 @@ import { css } from 'styled-system/css'
 		<link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Vanessa Noizet</title>
+		<SEO
+			title={fullTitle}
+			description={pageDescription}
+			canonical={canonicalURL}
+			noindex={noindex}
+			openGraph={{
+				basic: {
+					title: pageTitle,
+					type: 'website',
+					image: ogImage,
+					url: canonicalURL,
+				},
+				optional: {
+					siteName: siteConfig.name,
+					description: pageDescription,
+					locale: siteConfig.locale,
+				},
+			}}
+			twitter={{
+				card: 'summary_large_image',
+			}}
+		/>
 		<ClientRouter />
 	</head>
 	<body class={css({ textStyle: 'body', fontFamily: 'serif' })}>

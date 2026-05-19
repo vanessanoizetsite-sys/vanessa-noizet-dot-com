@@ -9,7 +9,7 @@ const post = Astro.props
 const { Content } = await render(post)
 ---
 
-<MainLayout>
+<MainLayout title={post.data.title} description={`Intervention « ${post.data.title} » par Vanessa Noizet.`}>
 	<article>
 		<h1 class={css({ textStyle: 'heading-1', fontWeight: 'bold', color: 'default' })}>
 			{post.data.title}

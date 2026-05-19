@@ -1,6 +1,7 @@
 ---
 import MainLayout from '#layouts/main-layout.astro'
 import Prose from '#components/prose.astro'
+import { siteConfig } from '#config/site'
 import { getCollection, render } from 'astro:content'
 import { css } from 'styled-system/css'
 import { container } from 'styled-system/patterns'
@@ -91,7 +92,7 @@ const dateClass = css({
 })
 ---
 
-<MainLayout>
+<MainLayout title="Livre d'or" description="Hommages et messages laissés en mémoire de Vanessa Noizet.">
 	<section class={sectionClass}>
 		<div class={container()}>
 			<header class={headerClass}>
@@ -101,7 +102,7 @@ const dateClass = css({
 			<div class={wrapClass}>
 				<div class={introClass}>
 					<p class={introTextClass}>
-						Vous souhaitez rendre hommage à Vanessa ? Écrivez-nous à <a href="mailto:example@mail.com">example@mail.com</a>.
+						Vous souhaitez rendre hommage à Vanessa ? Écrivez-nous à <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a>.
 					</p>
 				</div>
 

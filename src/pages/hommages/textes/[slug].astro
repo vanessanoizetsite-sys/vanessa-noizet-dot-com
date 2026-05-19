@@ -61,7 +61,7 @@ const pdfWrapClass = css({
 })
 ---
 
-<MainLayout>
+<MainLayout title={post.data.title} description={`Hommage à Vanessa Noizet : « ${post.data.title} ».`}>
 	<article class={css({ py: '10', md: { py: '12' } })}>
 		<div class={container()}>
 			<div class={wrapperClass}>
