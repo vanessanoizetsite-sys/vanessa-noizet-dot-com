@@ -125,7 +125,13 @@ const bodyWrapClass = css({
 
 			<header class={heroClass}>
 				<div class={coverWrapClass}>
-					<img src={post.data.cover.src} alt={post.data.cover.alt} />
+					<img
+						src={post.data.cover.src}
+						alt={post.data.cover.alt}
+						loading="eager"
+						fetchpriority="high"
+						decoding="async"
+					/>
 				</div>
 				<div class={metaColClass}>
 					<span class={eyebrowClass}>

@@ -13,7 +13,7 @@ export default defineConfig({
 				},
 				colors: {
 					default: { value: 'var(--oc-gray-8)' },
-					muted: { value: 'var(--oc-gray-6)' },
+					muted: { value: 'var(--oc-gray-7)' },
 					disabled: { value: 'var(--oc-gray-5)' },
 					surface: {
 						1: { value: 'white' },

@@ -24,3 +24,7 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# unlighthouse reports
+.unlighthouse/
+lighthouse/
