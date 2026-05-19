@@ -193,18 +193,18 @@ const readClass = css({
 })
 ---
 
-<MainLayout title="Expositions" description="Liste des expositions auxquelles Vanessa Noizet a participé.">
+<MainLayout title="Catalogues & expositions" description="Liste des expositions auxquelles Vanessa Noizet a participé.">
 	<section class={sectionClass}>
 		<div class={container()}>
 			<header class={headerClass}>
-				<h1 class={h1Class}>Expositions</h1>
+				<h1 class={h1Class}>Catalogues & expositions</h1>
 			</header>
 
 			<ul class={listClass}>
 				{
 					items.map((el) => (
 						<li class={itemClass}>
-							<Link to="/expositions/[slug]" params={{ slug: el.id }}>
+							<Link to="/catalogues-et-expositions/[slug]" params={{ slug: el.id }}>
 								{el.data.cover ? (
 									<div
 										class={coverClass}

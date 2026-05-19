@@ -27,8 +27,8 @@ export const navigationConfig = [
 		],
 	},
 	{
-		label: 'Expositions',
-		url: '/expositions',
+		label: 'Catalogues & expositions',
+		url: '/catalogues-et-expositions',
 	},
 	{
 		label: 'À propos',
