@@ -2,7 +2,21 @@
 title: Projet de thèse
 ---
 
-_Vanessa Noizet, « Réception de l'œuvre de Gaston Chaissac des années trente à nos jours », thèse de doctorat. Plan du 24 février 2019._
+En 2014, Vanessa Noizet entame sa thèse de doctorat sur la réception de l'œuvre de Gaston Chaissac : *« L'idée première ensevelie sous les dogmes » : étude de la réception critique de l'œuvre de Gaston Chaissac, des années trente à nos jours*, à l'Université Paris I – Panthéon-Sorbonne, sous la direction d'Emmanuel Pernoud, historien de l'art contemporain, professeur émérite.
+
+Ce dernier se rappelle, dans son texte d'hommage à Vanessa :
+
+> Vanessa Noizet brossait une « galaxie Chaissac », tissée de fils à travers l'espace et le temps. Jamais « ermite » — pour reprendre le topos de l'artiste dit brut — ne fut plus relié au monde, lui qui laissa une correspondance estimée à plus de trente-mille lettres.
+>
+> « Le choix de la correspondance est donc éminemment stratégique et ajoute à la complexité du personnage : les missives rendent ainsi la présence de l'artiste tout en dissimulant sa personne physique. En dépit de l'éloignement géographique, la voix de Chaissac est ainsi diffusée, autorisant de fait la correspondance à se substituer à la rencontre. C'est là, très certainement, l'aspect le plus troublant de l'art du créateur : la proximité apparente induite par le travail d'écriture épistolaire est cependant contredite par l'attitude secrète de l'artiste qui voyage très peu hors de Vendée. »
+
+La thèse de Vanessa, à ce jour inachevée et toujours en cours au moment de son décès, ne nous laisse que quelques fragments, dont le plan qu'elle remit à son directeur de thèse en juin 2019. Celui-ci le commente :
+
+> [Ce plan] fait bien saisir la valeur que cette réception prenait à ses yeux pour renouveler l'image de Chaissac, loin des clichés. Lors d'un rendez-vous à l'INHA, elle traduisit graphiquement cette réception en la dessinant sous la forme d'une carte. Je garderai toujours en mémoire l'image de ce croquis étalé sur mon bureau : avec ses points dispersés et reliés par des fils, ce dessin exprimait d'un seul coup d'œil l'univers profondément relationnel dans lequel s'ancraient l'œuvre et la personne de Chaissac.
+
+---
+
+_Plan de la thèse, 24 février 2019._
 
 ## Problématiques
 
