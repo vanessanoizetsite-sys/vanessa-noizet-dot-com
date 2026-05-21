@@ -1,0 +1,31 @@
+---
+import MainLayout from '#layouts/main-layout.astro'
+import Link from 'astro-typesafe-routes/link'
+import { getCollection } from 'astro:content'
+import { css } from 'styled-system/css'
+const interventions = await getCollection('interventions')
+
+const h1Class = css({ textStyle: 'heading-1', fontWeight: 'bold', color: 'default' })
+const listClass = css({ '& > * + *': { mt: '2' } })
+const linkClass = css({
+	textStyle: 'body',
+	color: 'default',
+	textDecoration: 'underline',
+	_hover: { color: 'muted' },
+})
+---
+
+<MainLayout title="Interventions" description="Interventions de Vanessa Noizet : colloques, conférences, communications.">
+	<h1 class={h1Class}>Interventions</h1>
+	<ul class={listClass}>
+		{
+			interventions.map((el) => (
+				<li>
+					<Link to="/recherche/interventions/[slug]" params={{ slug: el.id }} class={linkClass}>
+						{el.data.title}
+					</Link>
+				</li>
+			))
+		}
+	</ul>
+</MainLayout>

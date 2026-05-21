@@ -1,0 +1,162 @@
+---
+import { navigationConfig } from '../config/navigation-config'
+import Hamburger from './hamburger.astro'
+import SplitText from '#components/split-text.astro'
+import { css } from 'styled-system/css'
+
+type Props = {
+	class?: string
+}
+
+const wrapperClass = css({
+	display: 'flex',
+	h: 'full',
+	flexDir: 'column',
+})
+
+const listClass = css({
+	display: 'flex',
+	flexGrow: 1,
+	flexDir: 'column',
+	justifyContent: 'center',
+	px: '6',
+	py: '8',
+	md: { justifyContent: 'flex-start' },
+	'& > * + *': {
+		borderTopWidth: '1px',
+		borderColor: 'black',
+	},
+})
+
+const itemClass = css({
+	display: 'flex',
+	flexDir: 'column',
+	alignItems: 'center',
+	gap: '1',
+	py: '3',
+	minH: '20',
+	sm: { minH: '24' },
+	md: { flexDir: 'row', gap: '8' },
+})
+
+const titleClass = css({
+	textStyle: 'heading-4',
+	color: 'default/90',
+	fontWeight: 'light',
+	fontStyle: 'italic',
+	sm: { textStyle: 'heading-2' },
+})
+
+const childLinkClass = css({
+	display: 'inline-block',
+	animation: 'fadeRight 0.3s ease-out both',
+	sm: { textStyle: 'heading-4' },
+})
+
+const fadeUpClass = css({
+	animation: 'fadeUp 0.3s ease-out both',
+})
+
+const mastheadClass = css({
+	display: 'block',
+	textAlign: 'center',
+	textStyle: 'heading-3',
+	fontStyle: 'italic',
+	fontWeight: 'light',
+	color: 'default',
+	letterSpacing: '0.04em',
+	pt: '8',
+	pb: '4',
+	sm: { textStyle: 'heading-2', pt: '10' },
+})
+---
+
+<Hamburger class={Astro.props.class}>
+	<div class={wrapperClass}>
+		<a href="/" class={mastheadClass}>
+			<SplitText
+				text="Vanessa Noizet"
+				lettersItem={{
+					class: fadeUpClass,
+					style: {
+						animationDelay: 'calc(var(--letter-index) * 30ms)',
+					},
+				}}
+			/>
+		</a>
+		<ul class={listClass}>
+		{
+			navigationConfig.map((el, index1) =>
+				!!el.children ? (
+					<li class={itemClass}>
+						<span class={titleClass}>
+							<SplitText
+								text={el.label}
+								lettersItem={{
+									class: fadeUpClass,
+									style: {
+										animationDelay: `calc(${index1 * 100}ms + var(--letter-index) * 30ms)`,
+									},
+								}}
+							/>
+						</span>
+						<ul
+							class={css({
+								display: 'flex',
+								flexGrow: 1,
+								alignItems: 'center',
+								gap: '4',
+							})}
+						>
+							{el.children.map((item, index2) => (
+								<li>
+									<a
+										href={item.url}
+										class={childLinkClass}
+										style={{
+											animationDelay: `calc(${index1 * 100}ms + ${index2 * 100}ms + 300ms)`,
+										}}
+									>
+										{item.label}
+									</a>
+								</li>
+							))}
+						</ul>
+					</li>
+				) : (
+					<li
+						class={css({
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							py: '3',
+							minH: '20',
+							sm: { minH: '24' },
+							md: { justifyContent: 'flex-start' },
+						})}
+					>
+						<a
+							href={el.url}
+							class={css({
+								textStyle: 'heading-4',
+								display: 'inline-block',
+								sm: { textStyle: 'heading-2' },
+							})}
+						>
+							<SplitText
+								text={el.label}
+								lettersItem={{
+									class: fadeUpClass,
+									style: {
+										animationDelay: `calc(${index1 * 100}ms + var(--letter-index) * 30ms)`,
+									},
+								}}
+							/>
+						</a>
+					</li>
+				)
+			)
+		}
+		</ul>
+	</div>
+</Hamburger>

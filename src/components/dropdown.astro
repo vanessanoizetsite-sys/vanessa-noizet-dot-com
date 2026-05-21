@@ -1,0 +1,116 @@
+---
+import { ChevronDownIcon } from '@lucide/astro'
+import Button from './button.astro'
+import { css } from 'styled-system/css'
+
+export type Props = {
+	title: string
+}
+---
+
+<c-dropdown class={css({ position: 'relative', zIndex: 10 })}>
+	<Button data-dropdown-button aria-expanded="false" aria-haspopup="true">
+		<span>{Astro.props.title}</span>
+		<ChevronDownIcon
+			size={16}
+			class={css({
+				transition: 'transform 0.3s',
+				'[data-open] &': {
+					transform: 'translateY(2px)',
+				},
+			})}
+		/>
+	</Button>
+	<div
+		data-dropdown-content
+		class={css({
+			position: 'absolute',
+			top: '100%',
+			zIndex: 10,
+			mt: '2',
+			w: '40',
+			overflow: 'hidden',
+			borderRadius: 'md',
+			borderWidth: '1px',
+			borderColor: 'separator',
+			bg: 'surface.1',
+			display: 'none',
+			opacity: 0,
+			transform: 'translateY(0.25rem)',
+			transition: 'all 0.5s',
+			transitionBehavior: 'allow-discrete',
+			'[data-open] &': {
+				display: 'block',
+				opacity: 1,
+				transform: 'translateY(0)',
+			},
+			'@starting-style': {
+				'[data-open] &': {
+					opacity: 0,
+					transform: 'translateY(2px)',
+				},
+			},
+		})}
+	>
+		<slot />
+	</div>
+</c-dropdown>
+
+<script>
+	customElements.define(
+		'c-dropdown',
+		class Dropdown extends HTMLElement {
+			#button: HTMLElement | null = null
+			#isOpen = false
+
+			constructor() {
+				super()
+			}
+
+			connectedCallback() {
+				this.#button = this.querySelector('button[data-dropdown-button]')
+				this.#button?.addEventListener('click', this.#handleClick)
+				document.addEventListener('click', this.#handleClickOutside)
+				document.addEventListener('keydown', this.#handleKeydown)
+				document.addEventListener('astro:before-preparation', this.#close)
+			}
+
+			disconnectedCallback() {
+				this.#button?.removeEventListener('click', this.#handleClick)
+				document.removeEventListener('click', this.#handleClickOutside)
+				document.removeEventListener('keydown', this.#handleKeydown)
+				document.removeEventListener('astro:before-preparation', this.#close)
+			}
+
+			#handleClick = () => {
+				if (this.#isOpen) this.#close()
+				else this.#open()
+			}
+
+			#handleClickOutside = (e: Event) => {
+				if (this.#isOpen && !this.contains(e.target as Node)) {
+					this.#close()
+				}
+			}
+
+			#handleKeydown = (e: KeyboardEvent) => {
+				if (this.#isOpen && e.code === 'Escape') {
+					this.#close()
+					this.#button?.focus()
+				}
+			}
+
+			#open = () => {
+				this.#isOpen = true
+				this.toggleAttribute('data-open', this.#isOpen)
+				this.#button?.setAttribute('aria-expanded', 'true')
+			}
+
+			#close = () => {
+				this.#isOpen = false
+				this.toggleAttribute('data-open', this.#isOpen)
+				this.#button?.setAttribute('aria-expanded', 'false')
+			}
+		}
+	)
+</script>

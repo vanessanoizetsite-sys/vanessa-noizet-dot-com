@@ -1,0 +1,183 @@
+---
+import Button from '#components/button.astro'
+import { css, cx } from 'styled-system/css'
+const navId = crypto.randomUUID()
+
+type Props = {
+	class?: string
+}
+
+const topGroupClass = css({
+	translate: '0 0',
+	transition: 'translate 0.3s',
+	'[data-open] &': { translate: '0 -1.25rem' },
+})
+
+const botGroupClass = css({
+	translate: '0 0',
+	transition: 'translate 0.3s',
+	'[data-open] &': { translate: '0 1.25rem' },
+})
+
+const topLeftClass = css({
+	transformOrigin: 'left',
+	rotate: '0deg',
+	transition: 'rotate 0.3s',
+	'[data-open] &': { rotate: '45deg' },
+})
+
+const topRightClass = css({
+	transformOrigin: 'right',
+	rotate: '0deg',
+	transition: 'rotate 0.3s',
+	'[data-open] &': { rotate: '-45deg' },
+})
+
+const botLeftClass = css({
+	transformOrigin: 'left',
+	rotate: '0deg',
+	transition: 'rotate 0.3s',
+	'[data-open] &': { rotate: '-45deg' },
+})
+
+const botRightClass = css({
+	transformOrigin: 'right',
+	rotate: '0deg',
+	transition: 'rotate 0.3s',
+	'[data-open] &': { rotate: '45deg' },
+})
+
+const midLeftClass = css({
+	opacity: 1,
+	translate: '0 0',
+	transition: 'all 0.3s',
+	'[data-open] &': { translate: '-3rem 0', opacity: 0 },
+})
+
+const midRightClass = css({
+	opacity: 1,
+	translate: '0 0',
+	transition: 'all 0.3s',
+	'[data-open] &': { translate: '3rem 0', opacity: 0 },
+})
+
+const navClass = css({
+	position: 'fixed',
+	inset: 0,
+	zIndex: 10,
+	display: 'none',
+	opacity: 0,
+	bg: 'surfaceAccent.1',
+	transition: 'all 0.5s',
+	transitionBehavior: 'allow-discrete',
+	'[data-open] &': {
+		display: 'block',
+		opacity: 1,
+	},
+	'@starting-style': {
+		'[data-open] &': {
+			opacity: 0,
+		},
+	},
+})
+---
+
+<c-hamburger
+	class={cx(css({ zIndex: 20 }), Astro.props.class)}
+	transition:persist
+	transition:name="hamburger"
+>
+	<Button
+		class={css({ position: 'relative', zIndex: 20 })}
+		data-hamburger-button
+		aria-label="Menu de navigation"
+		aria-expanded="false"
+		aria-controls={navId}
+	>
+		<svg
+			viewBox="0 0 100 100"
+			xmlns="http://www.w3.org/2000/svg"
+			stroke="currentColor"
+			class={css({ width: '8', height: '8' })}
+			aria-hidden="true"
+		>
+			<g class={topGroupClass}>
+				<path d="M0 30 h 50" stroke-width="4" class={topLeftClass}></path>
+				<path d="M50 30 h 50" stroke-width="4" class={topRightClass}></path>
+			</g>
+
+			<path d="M0 50 h 50" stroke-width="4" class={midLeftClass}></path>
+			<path d="M50 50 h 50" stroke-width="4" class={midRightClass}></path>
+
+			<g class={botGroupClass}>
+				<path d="M0 70 h 50" stroke-width="4" class={botLeftClass}></path>
+				<path d="M50 70 h 50" stroke-width="4" class={botRightClass}></path>
+			</g>
+		</svg>
+	</Button>
+	<nav id={navId} role="dialog" aria-modal="true" class={navClass}>
+		<slot />
+	</nav>
+
+	<script>
+		import { createFocusTrap, type FocusTrap } from 'focus-trap'
+		customElements.define(
+			'c-hamburger',
+			class Hamburger extends HTMLElement {
+				#button: HTMLElement | null = null
+				#isOpen = false
+				#focusTrap: FocusTrap | null = null
+
+				constructor() {
+					super()
+					this.#isOpen = false
+				}
+
+				connectedCallback() {
+					this.#button = this.querySelector('button[data-hamburger-button]')
+
+					this.#button?.addEventListener('click', this.#handleClick)
+
+					document.addEventListener('astro:before-preparation', this.#close)
+
+					this.#focusTrap = createFocusTrap(this, {
+						escapeDeactivates: false,
+						clickOutsideDeactivates: false,
+					})
+				}
+
+				disconnectedCallback() {
+					this.#button?.removeEventListener('click', this.#handleClick)
+					document.removeEventListener('astro:before-preparation', this.#close)
+				}
+
+				#handleClick = () => {
+					if (this.#isOpen) this.#close()
+					else this.#open()
+				}
+
+				#open = () => {
+					this.#isOpen = true
+					this.toggleAttribute('data-open', this.#isOpen)
+					this.#button?.setAttribute('aria-expanded', 'true')
+					this.#focusTrap?.activate()
+					document.body.addEventListener('keydown', this.#handleKeydown)
+					document.body.classList.toggle('overflow-hidden', true)
+				}
+
+				#close = () => {
+					this.#isOpen = false
+					this.toggleAttribute('data-open', this.#isOpen)
+					this.#button?.setAttribute('aria-expanded', 'false')
+					this.#focusTrap?.deactivate()
+					document.body.removeEventListener('keydown', this.#handleKeydown)
+					document.body.classList.toggle('overflow-hidden', false)
+				}
+
+				#handleKeydown = (e: KeyboardEvent) => {
+					if (e.code === 'Escape') this.#close()
+				}
+			}
+		)
+	</script>
+</c-hamburger>

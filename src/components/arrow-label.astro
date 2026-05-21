@@ -1,0 +1,47 @@
+---
+import { css, cx } from 'styled-system/css'
+
+interface Props {
+	direction?: 'forward' | 'back'
+	class?: string
+}
+
+const { direction = 'forward', class: className } = Astro.props
+
+const labelClass = cx(
+	css({
+		textStyle: 'label',
+		display: 'inline-flex',
+		alignItems: 'center',
+		gap: '2',
+		'& [data-arrow]': {
+			display: 'inline-block',
+			transition: 'transform 220ms ease',
+		},
+		_hover: {
+			'& [data-arrow]': {
+				transform: direction === 'back' ? 'translateX(-3px)' : 'translateX(3px)',
+			},
+		},
+	}),
+	className
+)
+---
+
+<span class={labelClass}>
+	{
+		direction === 'back' && (
+			<span data-arrow aria-hidden="true">
+				←
+			</span>
+		)
+	}
+	<slot />
+	{
+		direction === 'forward' && (
+			<span data-arrow aria-hidden="true">
+				→
+			</span>
+		)
+	}
+</span>

@@ -1,0 +1,168 @@
+---
+import MainLayout from '#layouts/main-layout.astro'
+import { getCollection, render } from 'astro:content'
+import { css } from 'styled-system/css'
+import { container } from 'styled-system/patterns'
+
+type Category =
+	| 'these'
+	| 'memoire'
+	| 'article'
+	| 'catalogue'
+	| 'court-texte'
+	| 'compte-rendu'
+	| 'conference'
+	| 'ouvrage'
+
+const sections: { key: Category; heading: string }[] = [
+	{ key: 'these', heading: 'Recherches universitaires' },
+	{ key: 'memoire', heading: 'Mémoires de recherche' },
+	{ key: 'ouvrage', heading: "Direction d'ouvrage" },
+	{ key: 'article', heading: 'Articles' },
+	{ key: 'catalogue', heading: "Catalogues d'exposition" },
+	{ key: 'court-texte', heading: 'Courts textes sur des artistes et expositions' },
+	{ key: 'compte-rendu', heading: 'Notes et comptes rendus' },
+	{ key: 'conference', heading: 'Conférences et interventions' },
+]
+
+const entries = await getCollection('bibliographie')
+entries.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+
+const rendered = await Promise.all(
+	entries.map(async (entry) => {
+		const { Content } = await render(entry)
+		return { entry, Content }
+	})
+)
+
+const byCategory = (cat: Category) => rendered.filter(({ entry }) => entry.data.category === cat)
+
+const sectionClass = css({ py: '10', md: { py: '14' } })
+
+const headerClass = css({
+	textAlign: 'center',
+	mb: '12',
+	md: { mb: '16' },
+})
+
+const h1Class = css({
+	textStyle: 'heading-1',
+	fontWeight: 'normal',
+	fontStyle: 'italic',
+	color: 'default',
+	letterSpacing: '-0.01em',
+	lineHeight: '1',
+})
+
+const wrapClass = css({
+	maxWidth: '68rem',
+	marginInline: 'auto',
+})
+
+const sectionGroupClass = css({
+	'& + &': {
+		mt: '14',
+		md: { mt: '20' },
+	},
+})
+
+const h2Class = css({
+	textStyle: 'heading-3',
+	fontWeight: 'normal',
+	fontStyle: 'italic',
+	color: 'default',
+	mb: '8',
+	pb: '4',
+	borderBottomWidth: '1px',
+	borderColor: 'separator',
+})
+
+const listClass = css({
+	listStyle: 'none',
+	display: 'flex',
+	flexDirection: 'column',
+})
+
+const itemClass = css({
+	display: 'grid',
+	gridTemplateColumns: '1fr',
+	gap: '2',
+	py: '6',
+	borderBottomWidth: '1px',
+	borderColor: 'separator',
+	'&:last-child': { borderBottomWidth: 0 },
+	md: {
+		gridTemplateColumns: '6rem 1fr',
+		gap: '8',
+		py: '7',
+		alignItems: 'baseline',
+	},
+})
+
+const yearClass = css({
+	textStyle: 'label',
+	color: 'muted',
+	fontVariantNumeric: 'oldstyle-nums',
+})
+
+const contentColClass = css({
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '2',
+	maxWidth: '64ch',
+})
+
+const titleClass = css({
+	textStyle: 'heading-5',
+	fontWeight: 'normal',
+	color: 'default',
+	textWrap: 'balance',
+	lineHeight: '1.35',
+})
+
+const bodyClass = css({
+	textStyle: 'small',
+	color: 'muted',
+	lineHeight: '1.7',
+	'& em': { fontStyle: 'italic', color: 'default' },
+	'& p': { margin: 0 },
+	'& p + p': { mt: '2' },
+})
+---
+
+<MainLayout title="Bibliographie" description="Bibliographie complète de Vanessa Noizet : ouvrages, articles, contributions.">
+	<section class={sectionClass}>
+		<div class={container()}>
+			<header class={headerClass}>
+				<h1 class={h1Class}>Bibliographie</h1>
+			</header>
+
+			<div class={wrapClass}>
+				{
+					sections.map(({ key, heading }) => {
+						const items = byCategory(key)
+						if (items.length === 0) return null
+						return (
+							<section class={sectionGroupClass}>
+								<h2 class={h2Class}>{heading}</h2>
+								<ul class={listClass}>
+									{items.map(({ entry, Content }) => (
+										<li class={itemClass}>
+											<span class={yearClass}>{entry.data.year}</span>
+											<div class={contentColClass}>
+												<h3 class={titleClass}>{entry.data.title}</h3>
+												<div class={bodyClass}>
+													<Content />
+												</div>
+											</div>
+										</li>
+									))}
+								</ul>
+							</section>
+						)
+					})
+				}
+			</div>
+		</div>
+	</section>
+</MainLayout>

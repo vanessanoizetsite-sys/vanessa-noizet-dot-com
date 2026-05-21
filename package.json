@@ -3,23 +3,38 @@
 	"type": "module",
 	"version": "0.0.1",
 	"scripts": {
+		"prepare": "panda codegen",
 		"dev": "astro dev",
 		"build": "astro check && astro build",
 		"preview": "astro preview",
 		"astro": "astro",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"audit:lighthouse": "pnpm build && start-server-and-test preview http://localhost:4321 \"unlighthouse --site http://localhost:4321\"",
+		"audit:lighthouse:ci": "pnpm build && start-server-and-test preview http://localhost:4321 \"unlighthouse-ci --site http://localhost:4321\"",
+		"audit:lighthouse:report": "pnpm build && start-server-and-test preview http://localhost:4321 \"unlighthouse-ci --site http://localhost:4321 --build-static --reporter csvExpanded\""
+	},
+	"imports": {
+		"#*": "./src/*"
 	},
 	"dependencies": {
-		"@tailwindcss/vite": "^4.1.17",
+		"@astrojs/sitemap": "^3.7.2",
+		"@lucide/astro": "^0.554.0",
 		"astro": "^5.16.0",
+		"astro-seo": "^1.1.0",
 		"astro-typesafe-routes": "^5.0.0",
-		"tailwindcss": "^4.1.17",
+		"focus-trap": "^7.6.6",
+		"open-color": "^1.9.1",
+		"remark-gfm": "^4.0.1",
+		"sharp": "^0.34.5",
 		"typescript": "^5.9.3"
 	},
 	"devDependencies": {
 		"@astrojs/check": "^0.9.5",
+		"@pandacss/dev": "^1.9.1",
+		"@types/nprogress": "^0.2.3",
 		"prettier": "^3.6.2",
 		"prettier-plugin-astro": "^0.14.1",
-		"prettier-plugin-tailwindcss": "^0.7.1"
+		"start-server-and-test": "^3.0.5",
+		"unlighthouse": "^0.17.9"
 	}
 }

@@ -1,0 +1,94 @@
+---
+import MainLayout from '#layouts/main-layout.astro'
+import Prose from '#components/prose.astro'
+import Button from '#components/button.astro'
+import ArrowLabel from '#components/arrow-label.astro'
+import { getStaticPathsFromCollection } from '#utils/get-static-paths-from-collection.ts'
+import { render } from 'astro:content'
+import Link from 'astro-typesafe-routes/link'
+import { css } from 'styled-system/css'
+import { container } from 'styled-system/patterns'
+import { DownloadIcon } from '@lucide/astro'
+
+export const getStaticPaths = getStaticPathsFromCollection('articles')
+const post = Astro.props
+const { Content } = await render(post)
+
+const wrapperClass = css({
+	maxWidth: '65ch',
+	marginInline: 'auto',
+})
+
+const backLinkWrapClass = css({
+	mb: '10',
+})
+
+const backLinkClass = css({
+	color: 'muted',
+	textDecoration: 'none',
+	transition: 'color 220ms ease',
+	_hover: { color: 'default' },
+})
+
+const headerClass = css({
+	mb: '10',
+	pb: '8',
+	borderBottomWidth: '1px',
+	borderColor: 'separator',
+	md: { mb: '12' },
+})
+
+const dateClass = css({
+	textStyle: 'label',
+	color: 'muted',
+	fontVariantNumeric: 'oldstyle-nums',
+	display: 'block',
+	mb: '5',
+})
+
+const titleClass = css({
+	textStyle: 'heading-2',
+	fontWeight: 'normal',
+	color: 'default',
+	textWrap: 'balance',
+	lineHeight: '1.15',
+	letterSpacing: '-0.01em',
+})
+
+const pdfWrapClass = css({
+	mt: '6',
+})
+---
+
+<MainLayout title={post.data.title} description={`Article « ${post.data.title} » par Vanessa Noizet.`}>
+	<article class={css({ py: '10', md: { py: '12' } })}>
+		<div class={container()}>
+			<div class={wrapperClass}>
+				<div class={backLinkWrapClass}>
+					<Link to="/publications/articles" class={backLinkClass}>
+						<ArrowLabel direction="back">Retour aux articles</ArrowLabel>
+					</Link>
+				</div>
+				<header class={headerClass}>
+					<time class={dateClass} datetime={post.data.date.toISOString().slice(0, 10)}>
+						{post.data.date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long' })}
+					</time>
+					<h1 class={titleClass}>{post.data.title}</h1>
+					{
+						post.data.pdf && (
+							<div class={pdfWrapClass}>
+								<Button as="a" href={post.data.pdf} target="_blank">
+									<DownloadIcon size={16} />
+									Télécharger le PDF
+								</Button>
+							</div>
+						)
+					}
+				</header>
+				<Prose>
+					<Content />
+				</Prose>
+			</div>
+		</div>
+	</article>
+</MainLayout>

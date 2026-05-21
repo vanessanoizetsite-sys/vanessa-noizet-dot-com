@@ -1,0 +1,266 @@
+---
+import MainLayout from '#layouts/main-layout.astro'
+import ArrowLabel from '#components/arrow-label.astro'
+import Link from 'astro-typesafe-routes/link'
+import { getCollection } from 'astro:content'
+import { css } from 'styled-system/css'
+import { container } from 'styled-system/patterns'
+import { formatDateRange } from '#utils/format-date-range.ts'
+
+const items = await getCollection('expositions')
+items.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+
+const sectionClass = css({
+	py: '10',
+	md: { py: '14' },
+})
+
+const headerClass = css({
+	textAlign: 'center',
+	mb: '10',
+	md: { mb: '16' },
+})
+
+const h1Class = css({
+	textStyle: 'heading-1',
+	fontWeight: 'normal',
+	fontStyle: 'italic',
+	color: 'default',
+	letterSpacing: '-0.01em',
+	lineHeight: '1',
+})
+
+const listClass = css({
+	listStyle: 'none',
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '12',
+	md: { gap: '20' },
+})
+
+const itemClass = css({
+	'& a': {
+		display: 'grid',
+		gridTemplateColumns: '1fr',
+		gap: '5',
+		alignItems: 'center',
+		color: 'default',
+		textDecoration: 'none',
+		md: {
+			gridTemplateColumns: 'minmax(0, 7fr) minmax(0, 5fr)',
+			gap: '12',
+		},
+		_hover: {
+			'& [data-cover] img': { transform: 'scale(1.03)' },
+			'& [data-poster-year]': { transform: 'translateY(-2px)' },
+			'& [data-title]': {
+				textDecoration: 'underline',
+				textDecorationThickness: '1px',
+				textUnderlineOffset: '0.35em',
+			},
+			'& [data-arrow]': { transform: 'translateX(3px)' },
+		},
+		_focusVisible: {
+			outline: '2px solid token(colors.ring)',
+			outlineOffset: '6px',
+		},
+	},
+	'&:nth-child(even) a': {
+		md: { gridTemplateColumns: 'minmax(0, 5fr) minmax(0, 7fr)' },
+		'& [data-cover]': { md: { order: 2 } },
+		'& [data-meta]': { md: { order: 1, pl: '0', pr: '6' } },
+	},
+})
+
+const coverClass = css({
+	position: 'relative',
+	overflow: 'hidden',
+	bg: 'surface.2',
+	aspectRatio: 'var(--ratio, 4 / 3)',
+	'& img': {
+		width: 'full',
+		height: 'full',
+		objectFit: 'cover',
+		display: 'block',
+		transition: 'transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1)',
+	},
+})
+
+const posterClass = css({
+	position: 'relative',
+	overflow: 'hidden',
+	bg: 'surface.2',
+	aspectRatio: '4 / 3',
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	textAlign: 'center',
+	px: '6',
+	py: '8',
+	transition: 'background 320ms ease',
+	'&::before, &::after': {
+		content: '""',
+		position: 'absolute',
+		left: '6',
+		right: '6',
+		height: '1px',
+		bg: 'separator',
+	},
+	'&::before': { top: '6' },
+	'&::after': { bottom: '6' },
+})
+
+const posterInnerClass = css({
+	display: 'flex',
+	flexDirection: 'column',
+	alignItems: 'center',
+	gap: '4',
+})
+
+const posterYearClass = css({
+	textStyle: 'heading-1',
+	fontStyle: 'italic',
+	fontWeight: 'normal',
+	letterSpacing: '-0.02em',
+	color: 'default',
+	lineHeight: '0.95',
+	transition: 'transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1)',
+})
+
+const posterRuleClass = css({
+	width: '36px',
+	height: '1px',
+	bg: 'borderAccent',
+})
+
+const posterMetaClass = css({
+	textStyle: 'label',
+	color: 'muted',
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '1',
+	maxWidth: '24ch',
+})
+
+const metaClass = css({
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '3',
+	md: { pl: '6' },
+})
+
+const eyebrowClass = css({
+	textStyle: 'label',
+	color: 'muted',
+	display: 'flex',
+	alignItems: 'baseline',
+	gap: '3',
+	flexWrap: 'wrap',
+})
+
+const eyebrowDotClass = css({
+	display: 'inline-block',
+	width: '4px',
+	height: '4px',
+	bg: 'borderAccent',
+	borderRadius: 'full',
+	transform: 'translateY(-2px)',
+})
+
+const titleClass = css({
+	textStyle: 'heading-2',
+	fontWeight: 'normal',
+	fontStyle: 'italic',
+	color: 'default',
+	letterSpacing: '-0.005em',
+	textWrap: 'balance',
+	lineHeight: '1.1',
+})
+
+const venueClass = css({
+	textStyle: 'body',
+	color: 'default',
+})
+
+const roleClass = css({
+	textStyle: 'small',
+	color: 'muted',
+	fontStyle: 'italic',
+})
+
+const readClass = css({
+	mt: '2',
+})
+---
+
+<MainLayout title="Catalogues & expositions" description="Liste des expositions auxquelles Vanessa Noizet a participé.">
+	<section class={sectionClass}>
+		<div class={container()}>
+			<header class={headerClass}>
+				<h1 class={h1Class}>Catalogues & expositions</h1>
+			</header>
+
+			<ul class={listClass}>
+				{
+					items.map((el) => (
+						<li class={itemClass}>
+							<Link to="/catalogues-et-expositions/[slug]" params={{ slug: el.id }}>
+								{el.data.cover ? (
+									<div
+										class={coverClass}
+										data-cover
+										style={
+											el.data.cover.width && el.data.cover.height
+												? `--ratio: ${el.data.cover.width} / ${el.data.cover.height};`
+												: undefined
+										}
+									>
+										<img
+											src={el.data.cover.src}
+											alt={el.data.cover.alt}
+											loading="lazy"
+											width={el.data.cover.width}
+											height={el.data.cover.height}
+										/>
+									</div>
+								) : (
+									<div class={posterClass} data-cover aria-hidden="true">
+										<div class={posterInnerClass}>
+											<span class={posterYearClass} data-poster-year>
+												{el.data.date.getFullYear()}
+											</span>
+											<span class={posterRuleClass} />
+											<span class={posterMetaClass}>
+												<span>{el.data.venue}</span>
+												{el.data.city && <span>{el.data.city}</span>}
+											</span>
+										</div>
+									</div>
+								)}
+								<div class={metaClass} data-meta>
+									<div class={eyebrowClass}>
+										<time datetime={el.data.date.toISOString().slice(0, 10)}>
+											{formatDateRange(el.data.date, el.data.dateEnd)}
+										</time>
+										{el.data.city && (
+											<>
+												<span class={eyebrowDotClass} aria-hidden="true" />
+												<span>{el.data.city}</span>
+											</>
+										)}
+									</div>
+									<h2 class={titleClass} data-title>
+										{el.data.title}
+									</h2>
+									<p class={venueClass}>{el.data.venue}</p>
+									{el.data.role && <p class={roleClass}>{el.data.role}</p>}
+									<ArrowLabel class={readClass}>Voir l'exposition</ArrowLabel>
+								</div>
+							</Link>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+</MainLayout>

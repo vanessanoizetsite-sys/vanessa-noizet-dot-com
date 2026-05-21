@@ -1,0 +1,148 @@
+---
+import MainLayout from '#layouts/main-layout.astro'
+import ArrowLabel from '#components/arrow-label.astro'
+import Link from 'astro-typesafe-routes/link'
+import { getCollection } from 'astro:content'
+import { css } from 'styled-system/css'
+import { container } from 'styled-system/patterns'
+
+const items = await getCollection('articles')
+items.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+
+const stripMarkdown = (s: string) =>
+	s
+		.replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+		.replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+		.replace(/[#*_>`~]/g, ' ')
+		.replace(/\s+/g, ' ')
+		.trim()
+
+const sectionClass = css({
+	py: '10',
+	minHeight: 'calc(100dvh - 4rem)',
+	display: 'flex',
+	flexDirection: 'column',
+	justifyContent: 'safe center',
+	md: { py: '12', minHeight: 'calc(100dvh - 6rem)' },
+})
+
+const headerClass = css({
+	textAlign: 'center',
+	mb: '8',
+	md: { mb: '10' },
+})
+
+const h1Class = css({
+	textStyle: 'heading-1',
+	fontWeight: 'normal',
+	fontStyle: 'italic',
+	color: 'default',
+	letterSpacing: '-0.01em',
+	lineHeight: '1',
+})
+
+const gridClass = css({
+	listStyle: 'none',
+	display: 'grid',
+	gridTemplateColumns: '1fr',
+	borderTopWidth: '1px',
+	borderColor: 'separator',
+	md: {
+		gridTemplateColumns: 'repeat(2, 1fr)',
+	},
+})
+
+const itemClass = css({
+	display: 'flex',
+	borderBottomWidth: '1px',
+	borderColor: 'separator',
+	md: {
+		'&:nth-child(2n)': {
+			borderLeftWidth: '1px',
+			borderColor: 'separator',
+		},
+	},
+})
+
+const cardClass = css({
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '3',
+	p: '6',
+	md: { p: '8' },
+	width: 'full',
+	height: 'full',
+	color: 'default',
+	textDecoration: 'none',
+	transition: 'background-color 300ms ease',
+	_hover: {
+		bg: 'surfaceAccent.1',
+		'& [data-title]': {
+			textDecoration: 'underline',
+			textDecorationThickness: '1px',
+			textUnderlineOffset: '0.3em',
+		},
+		'& [data-arrow]': { transform: 'translateX(3px)' },
+	},
+	_focusVisible: {
+		outline: '2px solid token(colors.ring)',
+		outlineOffset: '-4px',
+	},
+})
+
+const yearClass = css({
+	textStyle: 'label',
+	color: 'muted',
+	fontVariantNumeric: 'oldstyle-nums',
+})
+
+const titleClass = css({
+	textStyle: 'heading-4',
+	fontWeight: 'normal',
+	color: 'default',
+	textWrap: 'balance',
+	lineHeight: '1.25',
+})
+
+const excerptClass = css({
+	textStyle: 'small',
+	fontStyle: 'italic',
+	color: 'muted',
+	lineHeight: '1.6',
+	maxWidth: '52ch',
+	lineClamp: '2',
+})
+
+const readClass = css({
+	mt: 'auto',
+})
+---
+
+<MainLayout title="Articles" description="Articles publiés par Vanessa Noizet.">
+	<section class={sectionClass}>
+		<div class={container()}>
+			<header class={headerClass}>
+				<h1 class={h1Class}>Articles</h1>
+			</header>
+
+			<ul class={gridClass}>
+				{
+					items.map((el) => (
+						<li class={itemClass}>
+							<Link to="/publications/articles/[slug]" params={{ slug: el.id }} class={cardClass}>
+								<time class={yearClass} datetime={el.data.date.toISOString().slice(0, 10)}>
+									{el.data.date.getFullYear()}
+								</time>
+								<h2 class={titleClass} data-title>
+									{el.data.title}
+								</h2>
+								{el.body && <p class={excerptClass}>{stripMarkdown(el.body).slice(0, 150)}…</p>}
+								<ArrowLabel class={readClass}>Lire</ArrowLabel>
+							</Link>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+</MainLayout>

@@ -1,0 +1,44 @@
+---
+import { css, cx } from 'styled-system/css'
+import type { HTMLTag, Polymorphic } from 'astro/types'
+
+export type Props<T extends HTMLTag = 'button'> = Polymorphic<{ as: T }>
+
+const { class: className, as: Tag = 'button', ...props } = Astro.props
+
+const buttonClasses = cx(
+	css({
+		textStyle: 'body',
+		display: 'inline-flex',
+		px: '2.5',
+		py: '1',
+		flexShrink: 0,
+		alignItems: 'center',
+		justifyContent: 'center',
+		gap: '2',
+		borderRadius: 'md',
+		whiteSpace: 'nowrap',
+		transition: 'all',
+		outline: 'none',
+		_hover: { bg: 'surfaceAccent.1' },
+		_focusVisible: {
+			ringColor: 'ring',
+			ringWidth: '3px',
+			ringOffset: '0',
+		},
+		_disabled: {
+			pointerEvents: 'none',
+			color: 'disabled',
+		},
+		'& svg': {
+			pointerEvents: 'none',
+			flexShrink: 0,
+		},
+	}),
+	className
+)
+---
+
+<Tag class={buttonClasses} {...props}>
+	<slot />
+</Tag>

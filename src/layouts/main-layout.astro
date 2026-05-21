@@ -1,16 +1,92 @@
 ---
 import '../style.css'
+import DesktopNav from '#features/navigation/components/desktop-nav.astro'
+import MobileNav from '#features/navigation/components/mobile-nav.astro'
+import { ClientRouter } from 'astro:transitions'
+import TransitionProgress from '#components/transition-progress.astro'
+import { siteConfig } from '#config/site'
+import { SEO } from 'astro-seo'
+import { css } from 'styled-system/css'
+
+interface Props {
+	title?: string
+	description?: string
+	image?: string
+	noindex?: boolean
+}
+
+const { title, description, image, noindex } = Astro.props
+
+const pageTitle = title ?? siteConfig.defaultTitle
+const fullTitle = title ? siteConfig.titleTemplate.replace('%s', title) : siteConfig.defaultTitle
+const pageDescription = description ?? siteConfig.description
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? siteConfig.url).toString()
+const ogImage = new URL(image ?? '/android-chrome-512x512.png', Astro.site ?? siteConfig.url).toString()
 ---
 
 <html lang="fr">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+		<link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
+		<link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Vanessa Noizet</title>
+		<SEO
+			title={fullTitle}
+			description={pageDescription}
+			canonical={canonicalURL}
+			noindex={noindex}
+			openGraph={{
+				basic: {
+					title: pageTitle,
+					type: 'website',
+					image: ogImage,
+					url: canonicalURL,
+				},
+				optional: {
+					siteName: siteConfig.name,
+					description: pageDescription,
+					locale: siteConfig.locale,
+				},
+			}}
+			twitter={{
+				card: 'summary_large_image',
+			}}
+		/>
+		<ClientRouter />
 	</head>
-	<body>
-		<slot />
+	<body class={css({ textStyle: 'body', fontFamily: 'serif' })}>
+		<TransitionProgress />
+		<header class={css({ md: { bg: 'surface.1', position: 'sticky', top: '0', zIndex: 10 } })}>
+			<a
+				href="/"
+				class={css({
+					display: 'block',
+					textAlign: 'center',
+					textStyle: 'heading-4',
+					fontStyle: 'italic',
+					fontWeight: 'light',
+					color: 'default',
+					letterSpacing: '0.04em',
+					px: '16',
+					py: '4',
+					md: { display: 'none' },
+				})}
+			>
+				Vanessa Noizet
+			</a>
+			<DesktopNav class={css({ display: 'none', md: { display: 'block' } })} />
+			<MobileNav
+				class={css({ position: 'fixed', top: '3', right: '4', md: { display: 'none' } })}
+			/>
+		</header>
+
+		<main>
+			<slot />
+		</main>
 	</body>
 </html>

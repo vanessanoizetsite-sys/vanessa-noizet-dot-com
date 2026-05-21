@@ -1,0 +1,98 @@
+---
+import { css, cx } from 'styled-system/css'
+
+interface Props {
+	class?: string
+}
+
+const { class: className } = Astro.props
+
+const proseClass = cx(
+	css({
+		maxWidth: '65ch',
+		lineHeight: '1.7',
+
+		'& > * + *': {
+			marginBlockStart: 'var(--flow-space, 1em)',
+		},
+
+		'& :is(h2, h3, h4, h5, h6)': {
+			'--flow-space': '1.5em',
+			textWrap: 'balance',
+			fontWeight: 'bold',
+		},
+
+		'& :is(h2, h3, h4, h5, h6) + *': {
+			'--flow-space': '0.5em',
+		},
+
+		'& h2': { textStyle: 'heading-2' },
+		'& h3': { textStyle: 'heading-3' },
+		'& h4': { textStyle: 'heading-4' },
+		'& h5': { textStyle: 'heading-5' },
+		'& h6': { textStyle: 'heading-6' },
+
+		'& blockquote': {
+			borderInlineStart: '1px solid',
+			borderColor: 'border',
+			paddingInlineStart: '1.5em',
+			marginInline: '0',
+			fontStyle: 'italic',
+			color: 'default',
+			textStyle: 'heading-6',
+		},
+
+		'& :is(ul, ol)': {
+			paddingInlineStart: '0',
+			listStyle: 'none',
+		},
+
+		'& :is(ul, ol) > li': {
+			position: 'relative',
+			paddingInlineStart: '2em',
+		},
+
+		'& ul > li::before': {
+			content: '"—"',
+			position: 'absolute',
+			insetInlineStart: '0',
+			color: 'muted',
+		},
+
+		'& ol': {
+			counterReset: 'prose-list',
+		},
+
+		'& ol > li': {
+			counterIncrement: 'prose-list',
+		},
+
+		'& ol > li::before': {
+			content: 'counter(prose-list) "."',
+			position: 'absolute',
+			insetInlineStart: '0',
+			color: 'muted',
+			fontVariantNumeric: 'oldstyle-nums',
+		},
+
+		'& li + li': {
+			marginBlockStart: '0.4em',
+		},
+
+		'& a': {
+			color: 'currentColor',
+			textDecorationColor: 'muted',
+			textUnderlineOffset: '0.3ex',
+		},
+
+		'& a:hover': {
+			textDecorationColor: 'currentColor',
+		},
+	}),
+	className
+)
+---
+
+<div class={proseClass}>
+	<slot />
+</div>

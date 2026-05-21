@@ -1,15 +1,138 @@
 ---
-import MainLayout from '../layouts/main-layout.astro'
+import { siteConfig } from '#config/site.ts'
+import MainLayout from '#layouts/main-layout.astro'
+import { Image } from 'astro:assets'
+import { getEntry, render } from 'astro:content'
+import { css } from 'styled-system/css'
+
+const entry = await getEntry('home', 'index')
+if (!entry) throw new Error('Missing content/home/index.md')
+const { image: portrait, imageAlt, intro } = entry.data
+const { Content } = await render(entry)
+
+const sectionClass = css({
+	position: 'relative',
+	maxWidth: '7xl',
+	mx: 'auto',
+	px: '5',
+	py: { base: '6', md: '20' },
+	md: { px: '10' },
+})
+
+const gridClass = css({
+	display: 'grid',
+	gridTemplateColumns: '1fr',
+	gap: { base: '8', md: '16' },
+	alignItems: 'start',
+	md: { gridTemplateColumns: '5fr 6fr', gap: '20' },
+	lg: { gridTemplateColumns: '1fr 1fr', gap: '24' },
+})
+
+const figureClass = css({
+	position: 'relative',
+	m: 0,
+	mx: 'auto',
+	maxWidth: { base: '22rem', md: 'none' },
+	width: 'full',
+	pr: { base: '2', md: '0' },
+	pb: { base: '2', md: '0' },
+	animation: 'fadeUp 0.9s ease-out both',
+	md: { position: 'sticky', top: '32' },
+})
+
+const imageFrameClass = css({
+	position: 'relative',
+	aspectRatio: '4 / 5',
+	overflow: 'hidden',
+	bg: 'surface.2',
+	_before: {
+		content: '""',
+		position: 'absolute',
+		inset: '0',
+		border: '1px solid',
+		borderColor: 'separator',
+		zIndex: 2,
+		pointerEvents: 'none',
+	},
+	_after: {
+		content: '""',
+		position: 'absolute',
+		inset: '0',
+		translate: '6px 6px',
+		border: '1px solid',
+		borderColor: 'borderAccent',
+		zIndex: -1,
+		md: { translate: '12px 12px' },
+	},
+})
+
+const imageClass = css({
+	width: 'full',
+	height: 'full',
+	objectFit: 'cover',
+	objectPosition: 'center top',
+	display: 'block',
+	transition: 'transform 0.8s ease',
+	_hover: { transform: 'scale(1.02)' },
+})
+
+const textColClass = css({
+	display: 'flex',
+	flexDir: 'column',
+	gap: { base: '5', md: '6' },
+})
+
+const introClass = css({
+	textStyle: 'heading-4',
+	fontStyle: 'italic',
+	fontWeight: 'light',
+	lineHeight: '1.4',
+	color: 'default',
+	letterSpacing: '0.01em',
+	animation: 'fadeUp 0.8s ease-out both',
+	animationDelay: '0.2s',
+	md: { textStyle: 'heading-3', lineHeight: '1.35' },
+})
+
+const bodyClass = css({
+	display: 'flex',
+	flexDir: 'column',
+	gap: '4',
+	color: 'default/90',
+	animation: 'fadeUp 0.8s ease-out both',
+	animationDelay: '0.35s',
+})
 ---
 
 <MainLayout>
-	<main class="mx-auto grid min-h-svh max-w-prose place-content-center text-base">
-		<div class="space-y-4">
-			<p>
-				Site en cours de création dédié à la mémoire de la Chercheuse en Histoire de l'Art Vanessa
-				Noizet.
-			</p>
-			<p class="text-center">RDV au printemps 2026</p>
+	<section class={sectionClass}>
+		<div class={gridClass}>
+			<figure class={figureClass}>
+				<div class={imageFrameClass}>
+					<Image
+						src={portrait}
+						alt={imageAlt}
+						class={imageClass}
+						widths={[400, 600, 900, 1200]}
+						sizes="(min-width: 1024px) 36rem, (min-width: 768px) 42vw, 100vw"
+						loading="eager"
+					/>
+				</div>
+			</figure>
+
+			<div class={textColClass}>
+				<p class={introClass}>{intro}</p>
+
+				<div class={bodyClass}>
+					<Content />
+
+					<p>
+						Si vous souhaitez contacter les proche de Vanessa, vous pouvez écrire à <a
+							href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a
+						>.
+					</p>
+				</div>
+			</div>
 		</div>
-	</main>
+	</section>
 </MainLayout>

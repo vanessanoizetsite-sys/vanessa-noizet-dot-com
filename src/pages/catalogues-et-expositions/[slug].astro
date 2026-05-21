@@ -1,0 +1,289 @@
+---
+import MainLayout from '#layouts/main-layout.astro'
+import Prose from '#components/prose.astro'
+import Button from '#components/button.astro'
+import ArrowLabel from '#components/arrow-label.astro'
+import Gallery from '#components/gallery.astro'
+import { getStaticPathsFromCollection } from '#utils/get-static-paths-from-collection.ts'
+import { formatDateRange } from '#utils/format-date-range.ts'
+import { render } from 'astro:content'
+import Link from 'astro-typesafe-routes/link'
+import { css } from 'styled-system/css'
+import { container } from 'styled-system/patterns'
+import { DownloadIcon, ExternalLinkIcon } from '@lucide/astro'
+
+export const getStaticPaths = getStaticPathsFromCollection('expositions')
+const post = Astro.props
+const { Content } = await render(post)
+const hasBody = Boolean(post.body && post.body.trim().length > 0)
+const images = post.data.images ?? []
+
+const articleClass = css({ py: '8', md: { py: '12' } })
+
+const backWrapClass = css({ mb: '8' })
+
+const backLinkClass = css({
+	color: 'muted',
+	textDecoration: 'none',
+	transition: 'color 220ms ease',
+	_hover: { color: 'default' },
+})
+
+const heroClass = css({
+	display: 'grid',
+	gridTemplateColumns: '1fr',
+	gap: '8',
+	mb: '10',
+	md: {
+		gridTemplateColumns: 'minmax(0, 5fr) minmax(0, 4fr)',
+		gap: '12',
+		alignItems: 'end',
+		mb: '16',
+	},
+})
+
+const coverWrapClass = css({
+	position: 'relative',
+	overflow: 'hidden',
+	bg: 'surface.2',
+	aspectRatio: 'var(--ratio, 4 / 5)',
+	maxHeight: '80vh',
+	md: { aspectRatio: 'var(--ratio, 3 / 4)' },
+	'& img': {
+		width: 'full',
+		height: 'full',
+		objectFit: 'cover',
+		display: 'block',
+	},
+})
+
+const posterWrapClass = css({
+	position: 'relative',
+	overflow: 'hidden',
+	bg: 'surface.2',
+	aspectRatio: '4 / 5',
+	md: { aspectRatio: '3 / 4' },
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	textAlign: 'center',
+	px: '8',
+	py: '10',
+	'&::before, &::after': {
+		content: '""',
+		position: 'absolute',
+		left: '8',
+		right: '8',
+		height: '1px',
+		bg: 'separator',
+	},
+	'&::before': { top: '8' },
+	'&::after': { bottom: '8' },
+})
+
+const posterInnerClass = css({
+	display: 'flex',
+	flexDirection: 'column',
+	alignItems: 'center',
+	gap: '6',
+})
+
+const posterEyebrowClass = css({
+	textStyle: 'label',
+	color: 'muted',
+	letterSpacing: '0.08em',
+	textTransform: 'uppercase',
+})
+
+const posterYearClass = css({
+	fontSize: 'clamp(96px, 14vw, 192px)',
+	fontStyle: 'italic',
+	fontWeight: 'normal',
+	letterSpacing: '-0.04em',
+	lineHeight: '0.85',
+	color: 'default',
+})
+
+const posterRuleClass = css({
+	width: '48px',
+	height: '1px',
+	bg: 'borderAccent',
+})
+
+const posterMetaClass = css({
+	textStyle: 'body',
+	color: 'default',
+	fontStyle: 'italic',
+	maxWidth: '28ch',
+	lineHeight: '1.4',
+})
+
+const metaColClass = css({
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '6',
+})
+
+const eyebrowClass = css({
+	textStyle: 'label',
+	color: 'muted',
+})
+
+const titleClass = css({
+	textStyle: 'heading-1',
+	fontWeight: 'normal',
+	fontStyle: 'italic',
+	color: 'default',
+	textWrap: 'balance',
+	lineHeight: '1.05',
+	letterSpacing: '-0.015em',
+})
+
+const dlClass = css({
+	display: 'grid',
+	gridTemplateColumns: 'auto 1fr',
+	columnGap: '6',
+	rowGap: '3',
+	borderTopWidth: '1px',
+	borderBottomWidth: '1px',
+	borderColor: 'separator',
+	py: '5',
+})
+
+const dtClass = css({
+	textStyle: 'label',
+	color: 'muted',
+	alignSelf: 'baseline',
+})
+
+const ddClass = css({
+	textStyle: 'body',
+	color: 'default',
+	margin: 0,
+})
+
+const actionsClass = css({
+	display: 'flex',
+	flexWrap: 'wrap',
+	gap: '3',
+})
+
+const bodyWrapClass = css({
+	maxWidth: '68ch',
+	marginInline: 'auto',
+	mb: '14',
+	md: { mb: '20' },
+})
+---
+
+<MainLayout title={post.data.title} description={`Exposition « ${post.data.title} » — ${post.data.venue}.`} image={post.data.cover?.src}>
+	<article class={articleClass}>
+		<div class={container()}>
+			<div class={backWrapClass}>
+				<Link to="/catalogues-et-expositions" class={backLinkClass}>
+					<ArrowLabel direction="back">Retour aux catalogues & expositions</ArrowLabel>
+				</Link>
+			</div>
+
+			<header class={heroClass}>
+				{
+					post.data.cover ? (
+						<div
+							class={coverWrapClass}
+							style={
+								post.data.cover.width && post.data.cover.height
+									? `--ratio: ${post.data.cover.width} / ${post.data.cover.height};`
+									: undefined
+							}
+						>
+							<img
+								src={post.data.cover.src}
+								alt={post.data.cover.alt}
+								loading="eager"
+								fetchpriority="high"
+								decoding="async"
+								width={post.data.cover.width}
+								height={post.data.cover.height}
+							/>
+						</div>
+					) : (
+						<div class={posterWrapClass} aria-hidden="true">
+							<div class={posterInnerClass}>
+								<span class={posterEyebrowClass}>Exposition</span>
+								<span class={posterYearClass}>{post.data.date.getFullYear()}</span>
+								<span class={posterRuleClass} />
+								<span class={posterMetaClass}>
+									{post.data.venue}
+									{post.data.city && (
+										<>
+											<br />
+											{post.data.city}
+										</>
+									)}
+								</span>
+							</div>
+						</div>
+					)
+				}
+				<div class={metaColClass}>
+					<span class={eyebrowClass}>
+						{formatDateRange(post.data.date, post.data.dateEnd)}
+					</span>
+					<h1 class={titleClass}>{post.data.title}</h1>
+
+					<dl class={dlClass}>
+						<dt class={dtClass}>Lieu</dt>
+						<dd class={ddClass}>{post.data.venue}</dd>
+						{
+							post.data.city && (
+								<>
+									<dt class={dtClass}>Ville</dt>
+									<dd class={ddClass}>{post.data.city}</dd>
+								</>
+							)
+						}
+						{
+							post.data.role && (
+								<>
+									<dt class={dtClass}>Rôle</dt>
+									<dd class={ddClass}>{post.data.role}</dd>
+								</>
+							)
+						}
+					</dl>
+
+					{
+						((post.data.pdfs && post.data.pdfs.length > 0) || post.data.link) && (
+							<div class={actionsClass}>
+								{post.data.pdfs?.map((pdf) => (
+									<Button as="a" href={pdf.url} target="_blank">
+										<DownloadIcon size={16} />
+										{pdf.label} (PDF)
+									</Button>
+								))}
+								{post.data.link && (
+									<Button as="a" href={post.data.link.url} target="_blank" rel="noopener">
+										<ExternalLinkIcon size={16} />
+										{post.data.link.label}
+									</Button>
+								)}
+							</div>
+						)
+					}
+				</div>
+			</header>
+
+			{
+				hasBody && (
+					<div class={bodyWrapClass}>
+						<Prose>
+							<Content />
+						</Prose>
+					</div>
+				)
+			}
+
+			<Gallery images={images} heading="Galerie" variant="rows" rowSize={2} />
+		</div>
+	</article>
+</MainLayout>

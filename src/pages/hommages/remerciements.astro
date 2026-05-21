@@ -1,0 +1,54 @@
+---
+import MainLayout from '#layouts/main-layout.astro'
+import Prose from '#components/prose.astro'
+import { getEntry, render } from 'astro:content'
+import { css } from 'styled-system/css'
+import { container } from 'styled-system/patterns'
+
+const entry = await getEntry('remerciements', 'index')
+if (!entry) throw new Error('remerciements/index.md introuvable')
+const { Content } = await render(entry)
+
+const sectionClass = css({ py: '10', md: { py: '14' } })
+
+const headerClass = css({
+	textAlign: 'center',
+	mb: '12',
+	md: { mb: '16' },
+})
+
+const h1Class = css({
+	textStyle: 'heading-1',
+	fontWeight: 'normal',
+	fontStyle: 'italic',
+	color: 'default',
+	letterSpacing: '-0.01em',
+	lineHeight: '1',
+})
+
+const proseWrapClass = css({
+	maxWidth: '60ch',
+	marginInline: 'auto',
+	'& hr': {
+		borderColor: 'separator',
+		my: '10',
+		md: { my: '12' },
+	},
+})
+---
+
+<MainLayout title="Remerciements" description="Remerciements aux personnes ayant contribué à cet hommage.">
+	<section class={sectionClass}>
+		<div class={container()}>
+			<header class={headerClass}>
+				<h1 class={h1Class}>{entry.data.title}</h1>
+			</header>
+
+			<div class={proseWrapClass}>
+				<Prose>
+					<Content />
+				</Prose>
+			</div>
+		</div>
+	</section>
+</MainLayout>

@@ -1,1 +1,28 @@
-@import 'tailwindcss';
+@layer reset, base, tokens, recipes, utilities;
+
+@import 'open-color/open-color.css';
+
+/* @link https://utopia.fyi/type/calculator?c=360,14,1.125,1240,16,1.2,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+
+:root {
+	--text-fl--2: clamp(0.6914rem, 0.6901rem + 0.0056vw, 0.6944rem);
+	--text-fl--1: clamp(0.7778rem, 0.7551rem + 0.101vw, 0.8333rem);
+	--text-fl-0: clamp(0.875rem, 0.8239rem + 0.2273vw, 1rem);
+	--text-fl-1: clamp(0.9844rem, 0.8962rem + 0.392vw, 1.2rem);
+	--text-fl-2: clamp(1.1074rem, 0.9714rem + 0.6047vw, 1.44rem);
+	--text-fl-3: clamp(1.2458rem, 1.0486rem + 0.8766vw, 1.728rem);
+	--text-fl-4: clamp(1.4016rem, 1.1267rem + 1.2219vw, 2.0736rem);
+	--text-fl-5: clamp(1.5768rem, 1.2039rem + 1.6573vw, 2.4883rem);
+}
+
+button {
+	cursor: pointer;
+}
+
+.overflow-hidden {
+	overflow: hidden;
+}
+
+#footnote-label {
+	display: none;
+}

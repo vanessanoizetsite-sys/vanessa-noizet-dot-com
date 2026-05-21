@@ -1,0 +1,83 @@
+---
+import { navigationConfig } from '../config/navigation-config'
+import Dropdown from '#components/dropdown.astro'
+import Button from '#components/button.astro'
+import { css, cx } from 'styled-system/css'
+
+type Props = {
+	class?: string
+}
+---
+
+<nav
+	class={cx(
+		css({ bg: 'surface.1', position: 'relative', zIndex: 10, py: '4', pt: '6', pb: '4' }),
+		Astro.props.class
+	)}
+>
+	<a
+		href="/"
+		class={css({
+			display: 'block',
+			width: 'fit-content',
+			mx: 'auto',
+			textAlign: 'center',
+			textStyle: 'heading-3',
+			fontStyle: 'italic',
+			fontWeight: 'light',
+			color: 'default',
+			letterSpacing: '0.04em',
+			pb: '4',
+			position: 'relative',
+			_after: {
+				content: '""',
+				position: 'absolute',
+				left: '50%',
+				bottom: '2',
+				width: '0',
+				height: '1px',
+				bg: 'currentColor',
+				translate: '-50% 0',
+				transition: 'width 0.3s ease',
+			},
+			_hover: { _after: { width: '60%' } },
+		})}
+	>
+		Vanessa Noizet
+	</a>
+	<ul class={css({ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1' })}>
+		{
+			navigationConfig.map((el) =>
+				!!el.children ? (
+					<li>
+						<Dropdown title={el.label}>
+							<ul>
+								{el.children.map((children) => (
+									<li>
+										<a
+											href={children.url}
+											class={css({
+												display: 'block',
+												px: '4',
+												py: '2',
+												_hover: { bg: 'surfaceAccent.1' },
+											})}
+										>
+											{children.label}
+										</a>
+									</li>
+								))}
+							</ul>
+						</Dropdown>
+					</li>
+				) : (
+					<li>
+						<Button as="a" href={el.url}>
+							{el.label}
+						</Button>
+					</li>
+				)
+			)
+		}
+	</ul>
+</nav>

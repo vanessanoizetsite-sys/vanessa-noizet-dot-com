@@ -1,0 +1,134 @@
+---
+import MainLayout from '#layouts/main-layout.astro'
+import Link from 'astro-typesafe-routes/link'
+import { css } from 'styled-system/css'
+
+const sectionTitle = css({ textStyle: 'heading-3', color: 'default', fontWeight: 'bold' })
+---
+
+<MainLayout title="Theme" noindex>
+	<div class={css({ '& > * + *': { mt: '12' }, p: '8' })}>
+		<section class={css({ '& > * + *': { mt: '6' } })}>
+			<h2 class={sectionTitle}>Typography Scale</h2>
+			<div class={css({ '& > * + *': { mt: '4' } })}>
+				<div>
+					<h1 class={css({ textStyle: 'heading-1', color: 'default', fontWeight: 'bold' })}>
+						Heading 1
+					</h1>
+					<code class={css({ textStyle: 'caption', color: 'muted' })}>text-heading-1</code>
+				</div>
+				<div>
+					<h2 class={css({ textStyle: 'heading-2', color: 'default', fontWeight: 'bold' })}>
+						Heading 2
+					</h2>
+					<code class={css({ textStyle: 'caption', color: 'muted' })}>text-heading-2</code>
+				</div>
+				<div>
+					<h3 class={css({ textStyle: 'heading-3', color: 'default', fontWeight: 'bold' })}>
+						Heading 3
+					</h3>
+					<code class={css({ textStyle: 'caption', color: 'muted' })}>text-heading-3</code>
+				</div>
+				<div>
+					<h4 class={css({ textStyle: 'heading-4', color: 'default', fontWeight: 'bold' })}>
+						Heading 4
+					</h4>
+					<code class={css({ textStyle: 'caption', color: 'muted' })}>text-heading-4</code>
+				</div>
+				<div>
+					<h5 class={css({ textStyle: 'heading-5', color: 'default', fontWeight: 'bold' })}>
+						Heading 5
+					</h5>
+					<code class={css({ textStyle: 'caption', color: 'muted' })}>text-heading-5</code>
+				</div>
+				<div>
+					<h6 class={css({ textStyle: 'heading-6', color: 'default', fontWeight: 'bold' })}>
+						Heading 6
+					</h6>
+					<code class={css({ textStyle: 'caption', color: 'muted' })}>text-heading-6</code>
+				</div>
+			</div>
+		</section>
+
+		<section class={css({ '& > * + *': { mt: '4' } })}>
+			<h2 class={sectionTitle}>Body Text</h2>
+			<div class={css({ '& > * + *': { mt: '3' } })}>
+				<p class={css({ textStyle: 'body', color: 'default' })}>
+					This is body text using <code>text-body</code>. Lorem ipsum dolor sit amet, consectetur
+					adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+				</p>
+				<p class={css({ textStyle: 'small', color: 'default' })}>
+					This is small text using <code>text-small</code>. Perfect for additional information or
+					metadata.
+				</p>
+				<p class={css({ textStyle: 'caption', color: 'default' })}>
+					This is caption text using <code>text-caption</code>. Useful for image captions,
+					footnotes, or legal text.
+				</p>
+			</div>
+		</section>
+
+		<section class={css({ '& > * + *': { mt: '4' } })}>
+			<h2 class={sectionTitle}>Text Colors</h2>
+			<div class={css({ '& > * + *': { mt: '2' } })}>
+				<p class={css({ textStyle: 'body', color: 'default' })}>Default text color (Gray 8)</p>
+				<p class={css({ textStyle: 'body', color: 'muted' })}>Muted text color (Gray 6)</p>
+				<p class={css({ textStyle: 'body', color: 'disabled' })}>Disabled text color (Gray 5)</p>
+			</div>
+		</section>
+
+		<section class={css({ '& > * + *': { mt: '4' } })}>
+			<h2 class={sectionTitle}>Interactive Elements</h2>
+			<div class={css({ display: 'flex', gap: '4' })}>
+				<Link
+					to="/publications/articles"
+					class={css({
+						textStyle: 'body',
+						color: 'default',
+						_hover: { color: 'muted' },
+						textDecoration: 'underline',
+					})}
+				>
+					Articles
+				</Link>
+				<button
+					class={css({
+						textStyle: 'body',
+						borderWidth: '1px',
+						borderColor: 'border',
+						bg: 'surface.2',
+						_hover: { bg: 'surface.3' },
+						borderRadius: 'md',
+						px: '4',
+						py: '2',
+					})}
+				>
+					Button
+				</button>
+			</div>
+		</section>
+
+		<section class={css({ '& > * + *': { mt: '4' } })}>
+			<h2 class={sectionTitle}>Surfaces</h2>
+			<div class={css({ '& > * + *': { mt: '2' } })}>
+				<div class={css({ bg: 'surface.2', p: '4' })}>
+					<code>bg-surface-2</code> - Main background (Gray 0)
+				</div>
+				<div class={css({ bg: 'surface.3', p: '4' })}>
+					<code>bg-surface-3</code> - Secondary background (Gray 1)
+				</div>
+				<div class={css({ bg: 'surfaceAccent.1', p: '4' })}>
+					<code>bg-surfaceAccent-1</code> - Accent state (Orange 0)
+				</div>
+			</div>
+		</section>
+
+		<section class={css({ '& > * + *': { mt: '4' } })}>
+			<h2 class={sectionTitle}>Borders</h2>
+			<hr class={css({ borderColor: 'separator' })} />
+			<div class={css({ borderWidth: '1px', borderColor: 'border', p: '4' })}>
+				Box with <code>border-border</code> (Gray 7)
+			</div>
+		</section>
+	</div>
+</MainLayout>

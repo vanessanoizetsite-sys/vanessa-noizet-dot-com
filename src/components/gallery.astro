@@ -1,0 +1,466 @@
+---
+import { css } from 'styled-system/css'
+
+export interface GalleryImage {
+	src: string
+	alt: string
+	caption?: string
+	width?: number
+	height?: number
+}
+
+interface Props {
+	images: GalleryImage[]
+	heading?: string
+	variant?: 'mosaic' | 'masonry' | 'rows'
+	rowSize?: number
+}
+
+const { images, heading, variant = 'mosaic', rowSize = 2 } = Astro.props
+
+const rows: GalleryImage[][] = []
+if (variant === 'rows') {
+	for (let i = 0; i < images.length; i += rowSize) {
+		rows.push(images.slice(i, i + rowSize))
+	}
+}
+
+const spanPattern = [4, 2, 3, 3, 2, 4, 3, 3, 6, 2, 4]
+
+const headingClass = css({
+	textStyle: 'label',
+	color: 'muted',
+	mb: '6',
+	display: 'flex',
+	alignItems: 'baseline',
+	gap: '3',
+	'&::after': {
+		content: '""',
+		flex: '1',
+		height: '1px',
+		bg: 'separator',
+	},
+})
+
+const gridClass = css({
+	display: 'grid',
+	gridTemplateColumns: 'repeat(6, 1fr)',
+	gap: '4',
+	md: { gap: '6' },
+})
+
+const masonryClass = css({
+	columnCount: 1,
+	columnGap: '1rem',
+	sm: { columnCount: 2 },
+	md: { columnCount: 3, columnGap: '1.5rem' },
+})
+
+const figureClass = css({
+	margin: 0,
+	gridColumn: 'span 6',
+	'&[data-span="3"]': { md: { gridColumn: 'span 3' } },
+	'&[data-span="4"]': { md: { gridColumn: 'span 4' } },
+	'&[data-span="2"]': { md: { gridColumn: 'span 2' } },
+})
+
+const masonryFigureClass = css({
+	margin: 0,
+	mb: '4',
+	md: { mb: '6' },
+	breakInside: 'avoid',
+	display: 'block',
+})
+
+const itemClass = css({
+	display: 'block',
+	width: '100%',
+	border: 0,
+	padding: 0,
+	background: 'none',
+	cursor: 'zoom-in',
+	overflow: 'hidden',
+	bg: 'surface.2',
+	'& img': {
+		display: 'block',
+		width: '100%',
+		height: '100%',
+		objectFit: 'cover',
+		transition: 'transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1)',
+	},
+	_hover: { '& img': { transform: 'scale(1.04)' } },
+	_focusVisible: {
+		outline: '2px solid token(colors.ring)',
+		outlineOffset: '4px',
+	},
+})
+
+const rowsWrapClass = css({
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '4',
+	md: { gap: '6' },
+})
+
+const rowClass = css({
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '4',
+	md: { flexDirection: 'row', gap: '6', alignItems: 'stretch' },
+})
+
+const rowFigureClass = css({
+	margin: 0,
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '2',
+	flexBasis: 'auto',
+	md: { flexBasis: '0', flexGrow: 'var(--ratio)' },
+})
+
+const rowItemClass = css({
+	display: 'block',
+	width: '100%',
+	border: 0,
+	padding: 0,
+	background: 'none',
+	cursor: 'zoom-in',
+	overflow: 'hidden',
+	bg: 'surface.1',
+	aspectRatio: 'var(--ratio)',
+	'& img': {
+		display: 'block',
+		width: '100%',
+		height: '100%',
+		objectFit: 'cover',
+		transition: 'opacity 300ms ease',
+	},
+	_hover: { '& img': { opacity: 0.85 } },
+	_focusVisible: {
+		outline: '2px solid token(colors.ring)',
+		outlineOffset: '4px',
+	},
+})
+
+const masonryItemClass = css({
+	display: 'block',
+	width: '100%',
+	border: 0,
+	padding: 0,
+	background: 'none',
+	cursor: 'zoom-in',
+	overflow: 'hidden',
+	bg: 'surface.1',
+	'& img': {
+		display: 'block',
+		width: '100%',
+		height: 'auto',
+		transition: 'opacity 300ms ease',
+	},
+	_hover: { '& img': { opacity: 0.85 } },
+	_focusVisible: {
+		outline: '2px solid token(colors.ring)',
+		outlineOffset: '4px',
+	},
+})
+
+const figcaptionClass = css({
+	textStyle: 'caption',
+	color: 'muted',
+	mt: '2',
+	fontStyle: 'italic',
+	lineHeight: '1.5',
+})
+
+const lightboxClass = css({
+	position: 'fixed',
+	inset: 0,
+	bg: 'rgba(20, 20, 22, 0.94)',
+	display: 'none',
+	alignItems: 'center',
+	justifyContent: 'center',
+	zIndex: 100,
+	padding: '4',
+	'&[data-open="true"]': { display: 'flex' },
+})
+
+const lightboxFrameClass = css({
+	position: 'relative',
+	maxWidth: 'min(1200px, 100%)',
+	maxHeight: '100%',
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '4',
+})
+
+const lightboxImgClass = css({
+	maxWidth: '100%',
+	maxHeight: 'calc(100vh - 8rem)',
+	objectFit: 'contain',
+	display: 'block',
+	marginInline: 'auto',
+})
+
+const lightboxCaptionClass = css({
+	textStyle: 'small',
+	color: 'surface.1',
+	textAlign: 'center',
+	fontStyle: 'italic',
+	maxWidth: '60ch',
+	marginInline: 'auto',
+	opacity: 0.85,
+})
+
+const navBtnClass = css({
+	position: 'absolute',
+	top: '50%',
+	transform: 'translateY(-50%)',
+	width: '48px',
+	height: '48px',
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	color: 'surface.1',
+	bg: 'rgba(0,0,0,0.3)',
+	border: '1px solid rgba(255,255,255,0.2)',
+	borderRadius: 'full',
+	cursor: 'pointer',
+	fontSize: '20px',
+	_hover: { bg: 'rgba(0,0,0,0.6)' },
+})
+
+const closeBtnClass = css({
+	position: 'absolute',
+	top: '4',
+	right: '4',
+	width: '40px',
+	height: '40px',
+	color: 'surface.1',
+	bg: 'transparent',
+	border: '1px solid rgba(255,255,255,0.3)',
+	borderRadius: 'full',
+	cursor: 'pointer',
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	fontSize: '18px',
+	_hover: { bg: 'rgba(255,255,255,0.1)' },
+})
+
+const counterClass = css({
+	position: 'absolute',
+	top: '4',
+	left: '4',
+	textStyle: 'label',
+	color: 'surface.1',
+	opacity: 0.7,
+})
+---
+
+{
+	images.length > 0 && (
+		<c-gallery>
+			<section>
+				{heading && (
+					<h2 class={headingClass}>
+						<span>{heading}</span>
+					</h2>
+				)}
+				{variant === 'rows' ? (
+					<div class={rowsWrapClass}>
+						{rows.map((row, rIdx) => (
+							<div class={rowClass}>
+								{row.map((img, cIdx) => {
+									const i = rIdx * rowSize + cIdx
+									const ratio =
+										img.width && img.height ? img.width / img.height : 1
+									return (
+										<figure
+											class={rowFigureClass}
+											style={`--ratio: ${ratio};`}
+										>
+											<button
+												type="button"
+												class={rowItemClass}
+												style={`--ratio: ${ratio};`}
+												data-gallery-item
+												data-index={String(i)}
+												aria-label={`Agrandir ${img.alt}`}
+											>
+												<img src={img.src} alt={img.alt} loading="lazy" />
+											</button>
+											{img.caption && <figcaption class={figcaptionClass}>{img.caption}</figcaption>}
+										</figure>
+									)
+								})}
+							</div>
+						))}
+					</div>
+				) : variant === 'masonry' ? (
+					<div class={masonryClass}>
+						{images.map((img, i) => (
+							<figure class={masonryFigureClass}>
+								<button
+									type="button"
+									class={masonryItemClass}
+									data-gallery-item
+									data-index={String(i)}
+									aria-label={`Agrandir ${img.alt}`}
+								>
+									<img src={img.src} alt={img.alt} loading="lazy" />
+								</button>
+								{img.caption && <figcaption class={figcaptionClass}>{img.caption}</figcaption>}
+							</figure>
+						))}
+					</div>
+				) : (
+					<div class={gridClass}>
+						{images.map((img, i) => (
+							<figure class={figureClass} data-span={String(spanPattern[i % spanPattern.length])}>
+								<button
+									type="button"
+									class={itemClass}
+									data-gallery-item
+									data-index={String(i)}
+									aria-label={`Agrandir ${img.alt}`}
+								>
+									<img src={img.src} alt={img.alt} loading="lazy" />
+								</button>
+								{img.caption && <figcaption class={figcaptionClass}>{img.caption}</figcaption>}
+							</figure>
+						))}
+					</div>
+				)}
+			</section>
+
+			<div
+				class={lightboxClass}
+				data-lightbox
+				role="dialog"
+				aria-modal="true"
+				aria-label="Galerie"
+			>
+				<button type="button" class={closeBtnClass} data-lightbox-close aria-label="Fermer">
+					✕
+				</button>
+				<span class={counterClass} data-lightbox-counter />
+				<button
+					type="button"
+					class={navBtnClass}
+					style="left: 1rem;"
+					data-lightbox-prev
+					aria-label="Précédente"
+				>
+					←
+				</button>
+				<div class={lightboxFrameClass}>
+					<img class={lightboxImgClass} data-lightbox-img alt="" />
+					<p class={lightboxCaptionClass} data-lightbox-caption />
+				</div>
+				<button
+					type="button"
+					class={navBtnClass}
+					style="right: 1rem;"
+					data-lightbox-next
+					aria-label="Suivante"
+				>
+					→
+				</button>
+			</div>
+
+			<script type="application/json" data-gallery-images set:html={JSON.stringify(images)} />
+		</c-gallery>
+	)
+}
+
+<script>
+	class CGallery extends HTMLElement {
+		private images: { src: string; alt: string; caption?: string }[] = []
+		private current = 0
+		private lastFocused: Element | null = null
+		private lightbox!: HTMLElement
+		private imgEl!: HTMLImageElement
+		private captionEl!: HTMLElement
+		private counterEl!: HTMLElement
+		private closeBtn!: HTMLButtonElement
+		private onKey = (e: KeyboardEvent) => {
+			if (this.lightbox.getAttribute('data-open') !== 'true') return
+			if (e.key === 'Escape') this.close()
+			else if (e.key === 'ArrowRight') this.next()
+			else if (e.key === 'ArrowLeft') this.prev()
+		}
+
+		connectedCallback() {
+			const data = this.querySelector('[data-gallery-images]')
+			if (!data) return
+			this.images = JSON.parse(data.textContent || '[]')
+			this.lightbox = this.querySelector('[data-lightbox]') as HTMLElement
+			this.imgEl = this.lightbox.querySelector('[data-lightbox-img]') as HTMLImageElement
+			this.captionEl = this.lightbox.querySelector('[data-lightbox-caption]') as HTMLElement
+			this.counterEl = this.lightbox.querySelector('[data-lightbox-counter]') as HTMLElement
+			const prevBtn = this.lightbox.querySelector('[data-lightbox-prev]') as HTMLButtonElement
+			const nextBtn = this.lightbox.querySelector('[data-lightbox-next]') as HTMLButtonElement
+			this.closeBtn = this.lightbox.querySelector('[data-lightbox-close]') as HTMLButtonElement
+
+			this.querySelectorAll('[data-gallery-item]').forEach((el) => {
+				el.addEventListener('click', () => {
+					const i = Number((el as HTMLElement).dataset.index)
+					this.open(i)
+				})
+			})
+			nextBtn.addEventListener('click', () => this.next())
+			prevBtn.addEventListener('click', () => this.prev())
+			this.closeBtn.addEventListener('click', () => this.close())
+			this.lightbox.addEventListener('click', (e) => {
+				if (e.target === this.lightbox) this.close()
+			})
+			document.addEventListener('keydown', this.onKey)
+			document.addEventListener('astro:before-preparation', this.onNavigate)
+		}
+
+		disconnectedCallback() {
+			document.removeEventListener('keydown', this.onKey)
+			document.removeEventListener('astro:before-preparation', this.onNavigate)
+			document.body.style.overflow = ''
+		}
+
+		private onNavigate = () => this.close()
+
+		private render() {
+			const img = this.images[this.current]
+			this.imgEl.src = img.src
+			this.imgEl.alt = img.alt
+			this.captionEl.textContent = img.caption || ''
+			this.counterEl.textContent = `${String(this.current + 1).padStart(2, '0')} / ${String(this.images.length).padStart(2, '0')}`
+		}
+
+		private open(i: number) {
+			this.current = i
+			this.lastFocused = document.activeElement
+			this.render()
+			this.lightbox.setAttribute('data-open', 'true')
+			document.body.style.overflow = 'hidden'
+			this.closeBtn.focus()
+		}
+
+		private close() {
+			this.lightbox.setAttribute('data-open', 'false')
+			document.body.style.overflow = ''
+			if (this.lastFocused instanceof HTMLElement) this.lastFocused.focus()
+		}
+
+		private next() {
+			this.current = (this.current + 1) % this.images.length
+			this.render()
+		}
+
+		private prev() {
+			this.current = (this.current - 1 + this.images.length) % this.images.length
+			this.render()
+		}
+	}
+
+	if (!customElements.get('c-gallery')) {
+		customElements.define('c-gallery', CGallery)
+	}
+</script>
