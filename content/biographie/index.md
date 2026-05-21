@@ -4,7 +4,7 @@ birthPlace: Vannes
 deathDate: 2021-04-19
 deathPlace: Paris
 lead: |
-  Vanessa Noizet, née le 22 mai 1986 à Vannes et décédée le 19 avril 2021 à Paris, est une historienne de l'art française. Ses travaux s'intéressent à la réception critique de l'œuvre de Gaston Chaissac, objet de sa thèse inachevée intitulée « *L'idée première ensevelie sous les dogmes* : réception de l'œuvre de Gaston Chaissac des années trente à nos jours », sous la direction d'Emmanuel Pernoud à l'université Paris I, Panthéon Sorbonne.
+  Vanessa Noizet, née le 22 mai 1986 à Vannes et décède le 21 avril 2021 à Paris, est une historienne de l'art française. Ses travaux s'intéressent à la réception critique de l'œuvre de Gaston Chaissac, objet de sa thèse inachevée intitulée « *L'idée première ensevelie sous les dogmes* : réception de l'œuvre de Gaston Chaissac des années trente à nos jours », sous la direction d'Emmanuel Pernoud à l'université Paris I, Panthéon Sorbonne.
 enseignements:
   - years: 'Premier trimestre 2019'
     body: "Université Paris IV Sorbonne. Chargée de travaux dirigés (analyse de l'image)."
@@ -35,4 +35,4 @@ En 2014, elle entame une thèse doctorale à l'université Paris I, Panthéon So
 
 Les travaux de Vanessa Noizet s'inscrivent dans les champs de l'art brut et de l'art naïf, dont elle interroge les contours. Elle est spécialiste de Gaston Chaissac dont elle analyse la réception critique (thèse de doctorat non soutenue).
 
-Sa découverte de Chaissac s'est faite par le prisme d'Anatole Jakovsky, objet de ses mémoires de recherche soutenus à l'université Paris IV Sorbonne sous la direction d'Arnauld Pierre : *Anatole Jakovsky (1907, 1983) : la trajectoire d'un critique d'art au vingtième siècle* (M1), puis *« Cher collègue » : étude de la correspondance échangée entre Gaston Chaissac et Anatole Jakovsky (1948 à 1964)* (M2).
+Sa découverte de Chaissac s'est faite par le prisme d'Anatole Jakovsky, objet de ses mémoires de recherche soutenus à l'université Paris IV Sorbonne sous la direction d'Arnauld Pierre : _Anatole Jakovsky (1907, 1983) : la trajectoire d'un critique d'art au vingtième siècle_ (M1), puis _« Cher collègue » : étude de la correspondance échangée entre Gaston Chaissac et Anatole Jakovsky (1948 à 1964)_ (M2).

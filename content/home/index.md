@@ -12,7 +12,7 @@ Parmi ses projets de publications, la vaste correspondance entre Gaston Chaissac
 
 Tout au long de son parcours universitaire, en tant que chercheuse et chargée de cours, et professionnel, comme médiatrice culturelle, commissaire d'exposition ou encore archiviste, Vanessa n'a eu de cesse d'allier l'exigence et l'originalité de la pensée.
 
-Les proches de Vanessa, sa famille, ses ami.es souhaitent à travers ce site rassembler et diffuser ses différents travaux afin de nourrir la recherche actuelle en Histoire de l'art. Un livre d'or est également disponible à toute personne souhaitant laisser un mot.
+Les proches de Vanessa, sa famille, ses ami.es souhaitent à travers ce site rassembler et diffuser ses différents travaux afin de nourrir la recherche actuelle en Histoire de l'art. Un livre d'or est également disponible à toute personne souhaitant laisser un message.
 
 Sa douce présence, son humour, sa gentillesse et la puissance de son esprit manquent terriblement.
 
