@@ -11,6 +11,11 @@ pdfs:
 link:
   url: 'https://fondationantoinedegalbert.org/produit/mathieu-briand-et-in-libertalia-ego/'
   label: 'Acheter l’ouvrage'
+cover:
+  src: '/expositions/mathieu-briand-libertalia/visuel-expo.jpg'
+  alt: 'Affiche de l’exposition Et in libertalia ego de Mathieu Briand à la maison rouge : plage tropicale bordée de palmiers, mer et île à l’horizon.'
+  width: 1600
+  height: 2268
 ---
 
 Exposition organisée à La maison rouge, Fondation Antoine de Galbert, du 19 février au 10 mai 2015. Voir la fiche d’archive sur [archives.lamaisonrouge.org](https://archives.lamaisonrouge.org/fr/expositions-archives-detail/activites/mathieu-briand-in-libertalia-ego/).

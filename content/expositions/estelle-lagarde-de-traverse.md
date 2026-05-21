@@ -8,6 +8,11 @@ role: 'Texte « Pour Estelle, en souvenir d’Anna » publié à l’occasion de
 pdfs:
   - label: 'Texte « Pour Estelle, en souvenir d’Anna »'
     url: '/pdfs/estelle-lagarde-de-traverse.pdf'
+cover:
+  src: '/expositions/estelle-lagarde-de-traverse/invitation.png'
+  alt: 'Carton d’invitation de l’exposition Estelle Lagarde, De traverse, à la Mathilde Hatzenberger Gallery : deux photographies en haut, informations pratiques en bas.'
+  width: 1200
+  height: 1649
 ---
 
 Exposition personnelle d’Estelle Lagarde, organisée à la Mathilde Hatzenberger Gallery, rue Léon Lepage, Bruxelles, du 23 février au 23 mars 2019.

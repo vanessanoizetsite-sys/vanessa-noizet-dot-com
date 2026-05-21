@@ -10,6 +10,11 @@ pdfs:
     url: '/pdfs/du-nombril-au-cosmos-territoires.pdf'
   - label: 'Dossier de presse'
     url: 'https://abcd-artbrut.net/wordpress/wp-content/uploads/2015/09/DOSSIER-DE-PRESSE-du-nombril-au-cosmos.pdf'
+cover:
+  src: '/expositions/du-nombril-au-cosmos/couverture-catalogue.jpg'
+  alt: 'Couverture du catalogue Du nombril au cosmos : titre bleu en français et néerlandais, motif géométrique bleu et blanc évoquant une trame de points.'
+  width: 1200
+  height: 1666
 ---
 
 Exposition organisée à l’Art et marges musée, rue Haute 312-314 Hoogstraat, Bruxelles, du 25 septembre 2015 au 24 janvier 2016. Commissariat : Tatiana Veress et Vanessa Noizet.
