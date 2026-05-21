@@ -164,6 +164,12 @@ export const collections = {
 			title: z.string(),
 		}),
 	}),
+	these: defineCollection({
+		loader: glob({ pattern: '**/*.md', base: 'content/these' }),
+		schema: z.object({
+			title: z.string(),
+		}),
+	}),
 	cv: defineCollection({
 		loader: glob({ pattern: '**/*.md', base: 'content/cv' }),
 		schema: z.object({

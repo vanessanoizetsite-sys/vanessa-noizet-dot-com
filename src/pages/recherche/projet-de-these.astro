@@ -1,11 +1,52 @@
 ---
 import MainLayout from '#layouts/main-layout.astro'
+import Prose from '#components/prose.astro'
+import { getEntry, render } from 'astro:content'
 import { css } from 'styled-system/css'
+import { container } from 'styled-system/patterns'
+
+const entry = await getEntry('these', 'index')
+if (!entry) throw new Error('these/index.md introuvable')
+const { Content } = await render(entry)
+
+const sectionClass = css({ py: '10', md: { py: '14' } })
+
+const headerClass = css({
+	textAlign: 'center',
+	mb: '12',
+	md: { mb: '16' },
+})
+
+const h1Class = css({
+	textStyle: 'heading-1',
+	fontWeight: 'normal',
+	fontStyle: 'italic',
+	color: 'default',
+	letterSpacing: '-0.01em',
+	lineHeight: '1',
+})
+
+const proseWrapClass = css({
+	maxWidth: '64ch',
+	marginInline: 'auto',
+})
 ---
 
-<MainLayout title="Projet de thèse" description="Présentation du projet de thèse de Vanessa Noizet.">
-	<h1 class={css({ textStyle: 'heading-1', fontWeight: 'bold', color: 'default' })}>
-		Projet de thèse
-	</h1>
-	<p class={css({ textStyle: 'body', color: 'default' })}>Contenu à venir...</p>
+<MainLayout
+	title="Projet de thèse"
+	description="Plan de la thèse de doctorat de Vanessa Noizet sur la réception de l'œuvre de Gaston Chaissac."
+>
+	<section class={sectionClass}>
+		<div class={container()}>
+			<header class={headerClass}>
+				<h1 class={h1Class}>{entry.data.title}</h1>
+			</header>
+
+			<div class={proseWrapClass}>
+				<Prose>
+					<Content />
+				</Prose>
+			</div>
+		</div>
+	</section>
 </MainLayout>
