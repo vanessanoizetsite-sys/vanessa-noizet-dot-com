@@ -109,6 +109,14 @@ export const collections = {
 		schema: z.object({
 			title: z.string(),
 			date: z.date(),
+			pdfs: z
+				.array(
+					z.object({
+						label: z.string(),
+						url: z.string(),
+					})
+				)
+				.optional(),
 		}),
 	}),
 	bibliographie: defineCollection({

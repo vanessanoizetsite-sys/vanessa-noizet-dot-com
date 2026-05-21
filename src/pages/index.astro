@@ -1,4 +1,5 @@
 ---
+import { siteConfig } from '#config/site.ts'
 import MainLayout from '#layouts/main-layout.astro'
 import { Image } from 'astro:assets'
 import { getEntry, render } from 'astro:content'
@@ -124,6 +125,12 @@ const bodyClass = css({
 
 				<div class={bodyClass}>
 					<Content />
+
+					<p>
+						Si vous souhaitez contacter les proche de Vanessa, vous pouvez écrire à <a
+							href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a
+						>.
+					</p>
 				</div>
 			</div>
 		</div>

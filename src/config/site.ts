@@ -4,7 +4,7 @@ export const siteConfig = {
 	defaultTitle: 'Vanessa Noizet',
 	titleTemplate: '%s — Vanessa Noizet',
 	description:
-		"Site dédié à Vanessa Noizet : biographie, recherches, publications, expositions, hommages.",
+		'Site dédié à Vanessa Noizet : biographie, recherches, publications, expositions, hommages.',
 	locale: 'fr_FR',
-	contactEmail: 'example@mail.com',
+	contactEmail: 'vanessa.noizet.site@gmail.com',
 } as const
