@@ -1,0 +1,75 @@
+---
+import MainLayout from '#layouts/main-layout.astro'
+import Gallery, { type GalleryImage } from '#components/gallery.astro'
+import { getImage } from 'astro:assets'
+import { css } from 'styled-system/css'
+import { container } from 'styled-system/patterns'
+
+const files = import.meta.glob<{ default: ImageMetadata }>(
+	'../../assets/a-propos/galerie/*.jpg',
+	{ eager: true }
+)
+
+const alts: Record<string, string> = {
+	'galerie-01.jpg': 'Reflet d’une silhouette dans une boule à facettes.',
+	'galerie-02.jpg':
+		'Vanessa Noizet gantée dans les réserves d’archives, entre les rayonnages de boîtes.',
+	'galerie-03.jpg': 'Portrait de Vanessa Noizet souriante.',
+	'galerie-04.jpg': 'Portrait de Vanessa Noizet.',
+	'galerie-05.jpg':
+		'Vanessa Noizet présentant un document près d’une vitrine lors d’une exposition.',
+	'galerie-06.jpg': 'Portrait de trois quarts de Vanessa Noizet.',
+	'galerie-07.jpg': 'Portrait de Vanessa Noizet portant des lunettes.',
+	'galerie-08.jpg': 'Vanessa Noizet lors d’une conférence, assise face à un ordinateur portable.',
+	'galerie-09.jpg': 'Montage d’une exposition : accrochage d’œuvres encadrées.',
+}
+
+const images: GalleryImage[] = await Promise.all(
+	Object.entries(files)
+		.sort(([a], [b]) => a.localeCompare(b))
+		.map(async ([path, mod]) => {
+			const src = mod.default
+			const name = path.split('/').pop() ?? ''
+			const optimized = await getImage({
+				src,
+				format: 'webp',
+				width: Math.min(src.width, 1600),
+			})
+			return {
+				src: optimized.src,
+				alt: alts[name] ?? 'Photographie de Vanessa Noizet.',
+				width: src.width,
+				height: src.height,
+			}
+		})
+)
+
+const sectionClass = css({ py: '10', md: { py: '14' } })
+
+const headerClass = css({
+	textAlign: 'center',
+	mb: '12',
+	md: { mb: '16' },
+})
+
+const h1Class = css({
+	textStyle: 'heading-1',
+	fontWeight: 'normal',
+	fontStyle: 'italic',
+	color: 'default',
+	letterSpacing: '-0.01em',
+	lineHeight: '1',
+})
+---
+
+<MainLayout title="Galerie" description="Galerie de photographies de Vanessa Noizet.">
+	<section class={sectionClass}>
+		<div class={container()}>
+			<header class={headerClass}>
+				<h1 class={h1Class}>Galerie</h1>
+			</header>
+
+			<Gallery images={images} variant="masonry" />
+		</div>
+	</section>
+</MainLayout>

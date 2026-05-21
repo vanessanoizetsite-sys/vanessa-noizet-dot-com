@@ -36,6 +36,7 @@ export const navigationConfig = [
 			{ label: 'Biographie', url: '/a-propos/biographie' },
 			{ label: 'Cv', url: '/a-propos/cv' },
 			{ label: 'Dessins', url: '/a-propos/dessins' },
+			{ label: 'Galerie', url: '/a-propos/galerie' },
 		],
 	},
 	{
