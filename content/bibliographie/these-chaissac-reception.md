@@ -1,6 +1,6 @@
 ---
 title: "«L'idée première ensevelie sous les dogmes» : étude de la réception critique de l'œuvre de Gaston Chaissac, des années trente à nos jours"
-year: 'en cours'
+year: 'inachevée'
 date: 2021-04-01
 category: these
 ---
