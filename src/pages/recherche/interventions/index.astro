@@ -1,31 +1,171 @@
 ---
 import MainLayout from '#layouts/main-layout.astro'
+import ArrowLabel from '#components/arrow-label.astro'
 import Link from 'astro-typesafe-routes/link'
 import { getCollection } from 'astro:content'
 import { css } from 'styled-system/css'
-const interventions = await getCollection('interventions')
+import { container } from 'styled-system/patterns'
 
-const h1Class = css({ textStyle: 'heading-1', fontWeight: 'bold', color: 'default' })
-const listClass = css({ '& > * + *': { mt: '2' } })
-const linkClass = css({
+const items = await getCollection('interventions')
+items.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+
+const formatLongDate = (d: Date) =>
+	d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
+
+const sectionClass = css({
+	py: '10',
+	md: { py: '14' },
+})
+
+const headerClass = css({
+	textAlign: 'center',
+	mb: '10',
+	md: { mb: '16' },
+})
+
+const h1Class = css({
+	textStyle: 'heading-1',
+	fontWeight: 'normal',
+	fontStyle: 'italic',
+	color: 'default',
+	letterSpacing: '-0.01em',
+	lineHeight: '1',
+})
+
+const listClass = css({
+	listStyle: 'none',
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '10',
+	md: { gap: '14' },
+})
+
+const itemClass = css({
+	'& a': {
+		display: 'grid',
+		gridTemplateColumns: '1fr',
+		gap: '5',
+		alignItems: 'center',
+		color: 'default',
+		textDecoration: 'none',
+		md: {
+			gridTemplateColumns: 'minmax(0, 4fr) minmax(0, 6fr)',
+			gap: '10',
+		},
+		_hover: {
+			'& [data-cover] img': { transform: 'scale(1.03)' },
+			'& [data-title]': {
+				textDecoration: 'underline',
+				textDecorationThickness: '1px',
+				textUnderlineOffset: '0.35em',
+			},
+		},
+		_focusVisible: {
+			outline: '2px solid token(colors.ring)',
+			outlineOffset: '6px',
+		},
+	},
+})
+
+const coverClass = css({
+	position: 'relative',
+	overflow: 'hidden',
+	bg: 'surface.2',
+	aspectRatio: 'var(--ratio, 4 / 3)',
+	'& img': {
+		width: 'full',
+		height: 'full',
+		objectFit: 'cover',
+		display: 'block',
+		transition: 'transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1)',
+	},
+})
+
+const metaClass = css({
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '3',
+})
+
+const eyebrowClass = css({
+	textStyle: 'label',
+	color: 'muted',
+})
+
+const titleClass = css({
+	textStyle: 'heading-2',
+	fontWeight: 'normal',
+	fontStyle: 'italic',
+	color: 'default',
+	letterSpacing: '-0.005em',
+	textWrap: 'balance',
+	lineHeight: '1.1',
+})
+
+const eventClass = css({
 	textStyle: 'body',
 	color: 'default',
-	textDecoration: 'underline',
-	_hover: { color: 'muted' },
+})
+
+const venueClass = css({
+	textStyle: 'small',
+	color: 'muted',
+	fontStyle: 'italic',
 })
 ---
 
-<MainLayout title="Interventions" description="Interventions de Vanessa Noizet : colloques, conférences, communications.">
-	<h1 class={h1Class}>Interventions</h1>
-	<ul class={listClass}>
-		{
-			interventions.map((el) => (
-				<li>
-					<Link to="/recherche/interventions/[slug]" params={{ slug: el.id }} class={linkClass}>
-						{el.data.title}
-					</Link>
-				</li>
-			))
-		}
-	</ul>
+<MainLayout
+	title="Interventions"
+	description="Interventions de Vanessa Noizet : colloques, conférences, communications."
+>
+	<section class={sectionClass}>
+		<div class={container()}>
+			<header class={headerClass}>
+				<h1 class={h1Class}>Interventions</h1>
+			</header>
+
+			<ul class={listClass}>
+				{
+					items.map((el) => (
+						<li class={itemClass}>
+							<Link to="/recherche/interventions/[slug]" params={{ slug: el.id }}>
+								{el.data.cover && (
+									<div
+										class={coverClass}
+										data-cover
+										style={
+											el.data.cover.width && el.data.cover.height
+												? `--ratio: ${el.data.cover.width} / ${el.data.cover.height};`
+												: undefined
+										}
+									>
+										<img
+											src={el.data.cover.src}
+											alt={el.data.cover.alt}
+											loading="lazy"
+											width={el.data.cover.width}
+											height={el.data.cover.height}
+										/>
+									</div>
+								)}
+								<div class={metaClass}>
+									<span class={eyebrowClass}>{formatLongDate(el.data.date)}</span>
+									<h2 class={titleClass} data-title>
+										{el.data.title}
+									</h2>
+									{el.data.event && <p class={eventClass}>{el.data.event}</p>}
+									{(el.data.venue || el.data.city) && (
+										<p class={venueClass}>
+											{[el.data.venue, el.data.city].filter(Boolean).join(', ')}
+										</p>
+									)}
+									<ArrowLabel>Voir l'intervention</ArrowLabel>
+								</div>
+							</Link>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
 </MainLayout>

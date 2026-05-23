@@ -83,6 +83,26 @@ export const collections = {
 		schema: z.object({
 			title: z.string(),
 			date: z.date(),
+			event: z.string().optional(),
+			venue: z.string().optional(),
+			city: z.string().optional(),
+			organizer: z.string().optional(),
+			pdfs: z
+				.array(
+					z.object({
+						label: z.string(),
+						url: z.string(),
+					})
+				)
+				.optional(),
+			cover: z
+				.object({
+					src: z.string(),
+					alt: z.string(),
+					width: z.number().optional(),
+					height: z.number().optional(),
+				})
+				.optional(),
 		}),
 	}),
 	publications: defineCollection({
