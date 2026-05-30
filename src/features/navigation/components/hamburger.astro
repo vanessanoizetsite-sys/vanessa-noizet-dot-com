@@ -7,58 +7,29 @@ type Props = {
 	class?: string
 }
 
-const topGroupClass = css({
+// Clipped window showing one line; the track holds both words stacked and
+// slides up by one line on toggle (odometer roll) for continuous motion.
+const labelClass = css({
+	display: 'block',
+	overflow: 'hidden',
+	height: '1.5em', // one line of the `label` textStyle (lineHeight 1.5)
+	textStyle: 'label',
+	pl: '0.3em', // optical centering for the trailing letter-spacing
+})
+
+const trackClass = css({
+	display: 'flex',
+	flexDirection: 'column',
 	translate: '0 0',
-	transition: 'translate 0.3s',
-	'[data-open] &': { translate: '0 -1.25rem' },
+	transition: 'translate 0.45s cubic-bezier(0.76, 0, 0.24, 1)',
+	'[data-open] &': { translate: '0 -1.5em' },
 })
 
-const botGroupClass = css({
-	translate: '0 0',
-	transition: 'translate 0.3s',
-	'[data-open] &': { translate: '0 1.25rem' },
-})
-
-const topLeftClass = css({
-	transformOrigin: 'left',
-	rotate: '0deg',
-	transition: 'rotate 0.3s',
-	'[data-open] &': { rotate: '45deg' },
-})
-
-const topRightClass = css({
-	transformOrigin: 'right',
-	rotate: '0deg',
-	transition: 'rotate 0.3s',
-	'[data-open] &': { rotate: '-45deg' },
-})
-
-const botLeftClass = css({
-	transformOrigin: 'left',
-	rotate: '0deg',
-	transition: 'rotate 0.3s',
-	'[data-open] &': { rotate: '-45deg' },
-})
-
-const botRightClass = css({
-	transformOrigin: 'right',
-	rotate: '0deg',
-	transition: 'rotate 0.3s',
-	'[data-open] &': { rotate: '45deg' },
-})
-
-const midLeftClass = css({
-	opacity: 1,
-	translate: '0 0',
-	transition: 'all 0.3s',
-	'[data-open] &': { translate: '-3rem 0', opacity: 0 },
-})
-
-const midRightClass = css({
-	opacity: 1,
-	translate: '0 0',
-	transition: 'all 0.3s',
-	'[data-open] &': { translate: '3rem 0', opacity: 0 },
+const wordClass = css({
+	display: 'block',
+	height: '1.5em',
+	lineHeight: '1.5',
+	flexShrink: 0,
 })
 
 const navClass = css({
@@ -88,32 +59,18 @@ const navClass = css({
 	transition:name="hamburger"
 >
 	<Button
-		class={css({ position: 'relative', zIndex: 20 })}
+		class={css({ position: 'relative', zIndex: 20, _hover: { bg: 'transparent' } })}
 		data-hamburger-button
-		aria-label="Menu de navigation"
 		aria-expanded="false"
 		aria-controls={navId}
 	>
-		<svg
-			viewBox="0 0 100 100"
-			xmlns="http://www.w3.org/2000/svg"
-			stroke="currentColor"
-			class={css({ width: '8', height: '8' })}
-			aria-hidden="true"
-		>
-			<g class={topGroupClass}>
-				<path d="M0 30 h 50" stroke-width="4" class={topLeftClass}></path>
-				<path d="M50 30 h 50" stroke-width="4" class={topRightClass}></path>
-			</g>
-
-			<path d="M0 50 h 50" stroke-width="4" class={midLeftClass}></path>
-			<path d="M50 50 h 50" stroke-width="4" class={midRightClass}></path>
-
-			<g class={botGroupClass}>
-				<path d="M0 70 h 50" stroke-width="4" class={botLeftClass}></path>
-				<path d="M50 70 h 50" stroke-width="4" class={botRightClass}></path>
-			</g>
-		</svg>
+		<span class={labelClass} aria-hidden="true">
+			<span class={trackClass}>
+				<span class={wordClass}>Menu</span>
+				<span class={wordClass}>Fermer</span>
+			</span>
+		</span>
+		<span class={css({ srOnly: true })} data-hamburger-label>Ouvrir le menu</span>
 	</Button>
 	<nav id={navId} role="dialog" aria-modal="true" class={navClass}>
 		<slot />
@@ -125,6 +82,7 @@ const navClass = css({
 			'c-hamburger',
 			class Hamburger extends HTMLElement {
 				#button: HTMLElement | null = null
+				#label: HTMLElement | null = null
 				#isOpen = false
 				#focusTrap: FocusTrap | null = null
 
@@ -135,6 +93,7 @@ const navClass = css({
 
 				connectedCallback() {
 					this.#button = this.querySelector('button[data-hamburger-button]')
+					this.#label = this.querySelector('[data-hamburger-label]')
 
 					this.#button?.addEventListener('click', this.#handleClick)
 
@@ -160,6 +119,7 @@ const navClass = css({
 					this.#isOpen = true
 					this.toggleAttribute('data-open', this.#isOpen)
 					this.#button?.setAttribute('aria-expanded', 'true')
+					if (this.#label) this.#label.textContent = 'Fermer le menu'
 					this.#focusTrap?.activate()
 					document.body.addEventListener('keydown', this.#handleKeydown)
 					document.body.classList.toggle('overflow-hidden', true)
@@ -169,6 +129,7 @@ const navClass = css({
 					this.#isOpen = false
 					this.toggleAttribute('data-open', this.#isOpen)
 					this.#button?.setAttribute('aria-expanded', 'false')
+					if (this.#label) this.#label.textContent = 'Ouvrir le menu'
 					this.#focusTrap?.deactivate()
 					document.body.removeEventListener('keydown', this.#handleKeydown)
 					document.body.classList.toggle('overflow-hidden', false)
