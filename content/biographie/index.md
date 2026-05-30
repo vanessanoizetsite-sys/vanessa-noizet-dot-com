@@ -4,7 +4,7 @@ birthPlace: Vannes
 deathDate: 2021-04-19
 deathPlace: Paris
 lead: |
-  Vanessa Noizet, née le 22 mai 1986 à Vannes et décède le 21 avril 2021 à Paris, est une historienne de l'art française. Ses travaux s'intéressent à la réception critique de l'œuvre de Gaston Chaissac, objet de sa thèse inachevée intitulée « *L'idée première ensevelie sous les dogmes* : réception de l'œuvre de Gaston Chaissac des années trente à nos jours », sous la direction d'Emmanuel Pernoud à l'université Paris I, Panthéon Sorbonne.
+  Vanessa Noizet, née le 22 mai 1986 à Vannes et décédée le 21 avril 2021 à Paris, est une historienne de l'art française. Ses travaux s'intéressent à la réception critique de l'œuvre de Gaston Chaissac, objet de sa thèse inachevée intitulée « *L'idée première ensevelie sous les dogmes* : réception de l'œuvre de Gaston Chaissac des années trente à nos jours », sous la direction d'Emmanuel Pernoud à l'université Paris I, Panthéon Sorbonne.
 enseignements:
   - years: 'Premier trimestre 2019'
     body: "Université Paris IV Sorbonne. Chargée de travaux dirigés (analyse de l'image)."

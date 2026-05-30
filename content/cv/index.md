@@ -41,7 +41,7 @@ sections:
       - years: '2011'
         body: "Mathilde Hatzenberger Gallery, Bruxelles. Bénévolat, suivi et mise en place de l'exposition «NinEleven»."
       - years: 'Fév.–mai 2011'
-        body: 'Galerie Baudouin Lebon, Paris. Stage : suivi et mise en place des expositions, accueil et renseignement des visiteurs.'
+        body: 'Galerie Baudoin Lebon, Paris. Stage : suivi et mise en place des expositions, accueil et renseignement des visiteurs.'
   - heading: Enseignement
     entries:
       - years: '2019'
@@ -63,7 +63,7 @@ sections:
       - years: '2017'
         body: "«Gaston Chaissac, peintre naïf ? Les relations Jakovsky–Chaissac au prisme de la correspondance et des textes critiques», Amis du Musée de l'Abbaye Sainte-Croix, Les Sables d'Olonne, 9 novembre 2017 (sur invitation de Gaëlle Rageot-Deshayes)."
       - years: '2017'
-        body: "«Le \"bricolage\" de Gaston Chaissac : sac de nœuds scientifique ou concept efficient ?», journée d'étude «Les idées reçues en histoire de l'art contemporain, des années trente à nos jours», Institut national d'histoire de l'art, Paris, 8 juin 2017."
+        body: '«Le "bricolage" de Gaston Chaissac : sac de nœuds scientifique ou concept efficient ?», journée d''étude «Les idées reçues en histoire de l''art contemporain, des années trente à nos jours», Institut national d''histoire de l''art, Paris, 8 juin 2017.'
       - years: '2017'
         body: "«Autour d'une Tête archaïque de 1947 : Gaston Chaissac en ses masques», colloque «Dubuffet versus la culture», Université Rennes 2, 6 avril 2017."
       - years: '2016'
@@ -75,7 +75,7 @@ sections:
   - heading: Médiation culturelle
     entries:
       - years: '2012–2018'
-        body: "Chargée de médiation et de visites guidées tout public au Parc culturel de Rentilly-Michel Chartier / FRAC Île-de-France, au Salon de Montrouge, à la Maison rouge, à la Ferme du Buisson."
+        body: 'Chargée de médiation et de visites guidées tout public au Parc culturel de Rentilly-Michel Chartier / FRAC Île-de-France, au Salon de Montrouge, à la Maison rouge, à la Ferme du Buisson.'
       - years: '2014–2017'
         body: "Médiations ponctuelles au Musée d'art moderne de la ville de Paris (programme «Regards ? Et si nous parlions d'art ?»), Nuit Blanche 2015, Fiac hors les murs 2014 (en partenariat avec l'École du Louvre)."
   - heading: Publications — direction, contributions et articles
@@ -83,15 +83,15 @@ sections:
       - years: 'À paraître'
         body: "Direction d'ouvrage. Gaston Chaissac – Anatole Jakovsky : correspondance (1948–1964), édition établie, annotée et présentée par Benoît Decron, Nadia Raison et Vanessa Noizet."
       - years: '2022'
-        body: "«De la spontanéité», in Cobra-Chaissac : Sous le signe du serpent, cat. expo., Gallimard – Musée Soulages, Rodez."
+        body: '«De la spontanéité», in Cobra-Chaissac : Sous le signe du serpent, cat. expo., Gallimard – Musée Soulages, Rodez.'
       - years: '2021'
-        body: "«Spontaneit», in Cobra en Chaissac : Zielsverswanten, cat. expo., KunstMuseum, Waanders & De Kunst, La Haye."
+        body: '«Spontaneit», in Cobra en Chaissac : Zielsverswanten, cat. expo., KunstMuseum, Waanders & De Kunst, La Haye.'
       - years: '2019'
         body: "«À propos des articles de Pierre Vaisse et de Dario Gamboni…», revue Histoire de l'art, APAHAU et Somogy, n° 83."
       - years: '2019'
         body: "«Pour Estelle, en souvenir d'Anna», texte in De Traverse, catalogue et exposition personnelle d'Estelle Lagarde, p. 4–13."
       - years: '2018'
-        body: "«Les Espaces imaginaires. Fragments pour Paolo Boni», in Hommage à Paolo Boni (1925–2017), cat. expo., AVO, Paris, p. 23–29 (avec traductions anglaise et italienne)."
+        body: '«Les Espaces imaginaires. Fragments pour Paolo Boni», in Hommage à Paolo Boni (1925–2017), cat. expo., AVO, Paris, p. 23–29 (avec traductions anglaise et italienne).'
       - years: '2017'
         body: "«L'Art Brut en ses marges : l'exemple de Gaston Chaissac», Actualités et enjeux critiques de l'Art Brut, actes du colloque international, Lausanne, Antipodes, p. 71–84."
       - years: '2017'
@@ -103,7 +103,7 @@ sections:
       - years: '2015'
         body: "«Du Sahara au Mexique en passant par les sous-sols : correspondances et imaginaires autour de Gaston Chaissac», revue Histoire de l'art, APAHAU et Somogy, n° 76, p. 31–40."
       - years: '2015'
-        body: "«Territoires» et notice «Benoît Pype», in Du nombril au cosmos, autour de la collection abcd / Bruno Decharme, cat. expo., art)&(marges musée, Bruxelles."
+        body: '«Territoires» et notice «Benoît Pype», in Du nombril au cosmos, autour de la collection abcd / Bruno Decharme, cat. expo., art)&(marges musée, Bruxelles.'
       - years: '2015'
         body: "«L'écho, l'éclair et le voile – au sujet de l'œuvre de Vanessa Fanuele», in Echoes, cat. expo., MH Gallery Editions, Bruxelles."
       - years: '2014'
@@ -125,7 +125,7 @@ sections:
       - years: '2011'
         body: "Mémoire de Master 1 : «Anatole Jakovsky (1907–1983) : la trajectoire d'un critique d'art au vingtième siècle», 3 volumes, 561 p. Disponible sur le site de la Bibliothèque Kandinsky, MNAM."
       - years: '2015'
-        body: "Traductions anglais-français, in Mathieu Briand, Et In Libertalia Ego, la maison rouge et The Museum of Old and New Art, Hobart."
+        body: 'Traductions anglais-français, in Mathieu Briand, Et In Libertalia Ego, la maison rouge et The Museum of Old and New Art, Hobart.'
       - years: '2015'
         body: "Traductions de notices d'artistes et de galerie, in Also Known as Africa, First Floor Gallery, Harare."
   - heading: Bourses

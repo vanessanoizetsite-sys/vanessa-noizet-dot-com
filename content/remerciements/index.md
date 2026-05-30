@@ -4,7 +4,7 @@ title: Remerciements
 
 Marie sa sœur, Alexandre son frère et Christiane sa maman remercient profondément :
 
-Leur famille : Marie, Mazlum et Sienna, Alexandre et Nicole, Sylvie et Marcellin, Jacqueline et Michel, Thérèse, Marc, Isabelle et Cyril, Manon et Paul, Roseline et Jean-Louis, Jean-Yves et Isabelle, Régine, Jenifer et Fabien, Annabel, Théo, Yohan,.
+Leur famille : Marie, Mazlum et Sienna, Alexandre et Nicole, Sylvie et Marcellin, Jacqueline et Michel, Thérèse, Marc, Isabelle et Cyril, Manon et Paul, Roseline et Jean-Louis, Jean-Yves et Isabelle, Régine, Jenifer et Fabien, Annabel, Axelle, Théo, Yohan,.
 
 Leurs ami(e)s : Patricia et Christophe, Anne et Frédéric, Christine et Stéphane, Édouard et Patricia, Camélia, Vincent et Marine —
 
